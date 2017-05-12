@@ -2,6 +2,7 @@
 layout: post
 title: To be
 subtitle: ... or not to be?
+layout: minimal
 ---
 
 To be, or not to be--that is the question:
