@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Test markdown
-subtitle: Each post also has a subtitle
+title: Threat Hunting Adventures 1 
+subtitle: Detecting Suspicious LSASS Access for Credentials Dump
 ---
 
 Using Sysmon Events Only
