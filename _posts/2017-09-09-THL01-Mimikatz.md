@@ -2,7 +2,6 @@
 layout: post
 title: Threat Hunting Adventures 1 
 subtitle: Detecting Suspicious LSASS Access for Credentials Dump
-published: true
 ---
 
 Using Sysmon Events Only
