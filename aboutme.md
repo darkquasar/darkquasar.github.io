@@ -5,7 +5,7 @@ subtitle: Reasons why being me is a tedious(ly) awesome experience
 ---
 
 Threat Hunter, Incident Responder, Gray/Blue Teamer, Senior SOC Analyst, Digital Forensics researcher, CTF enthusiast. 
-I study adversarial tactics in lab and real-world scenarios to create detection stacks that allow companies to efficiently detect intrusion activities. As an expert threat hunter, I develop hunting plans and methodologies, continuously updating my database of intrusion vectors as well as TTPs used by APTs along the kill chain
+I study adversarial tactics in lab and real-world scenarios to create detection stacks that allow companies to efficiently detect intrusion activities. As a threat hunter, I develop hunting plans and methodologies, continuously updating my database of intrusion vectors as well as TTPs used by APTs along the kill chain
 
 
 ### WhatElse?
