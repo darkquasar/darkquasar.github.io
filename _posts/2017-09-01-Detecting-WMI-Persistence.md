@@ -1,3 +1,9 @@
+---
+layout: post
+title: Threat Hunting Adventures 0 
+subtitle: Detecting WMI Persistence
+---
+
 Threat Hunting: Detecting WMI Persistence
 =========================
 
