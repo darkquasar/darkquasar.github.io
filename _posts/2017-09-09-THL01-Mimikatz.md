@@ -88,7 +88,7 @@ We can see all the modules that are imported by Mimikatz in order to be able to 
 
 Next in the line we find a Sysmon Event 11 "File Create" which points to the creation of a pre-fetch record for Mimikatz created by SVCHOST which is hosting Windows' prefetch service: 
 
-[ToTH1-06](../img/THL001-Mimikatz/Mimi-06.PNG)
+![ToTH1-06](../img/THL001-Mimikatz/Mimi-06.PNG)
 
 We then observe Sysmon's Event ID 8 which corresponds to "Create Remote Thread", curiously enough, it's WmiPrvSE the one starting a remote threat on Mimikatz, we never thought Mimikatz itself was going the be the victim instead of the victimator!
 
@@ -99,16 +99,16 @@ After this, we observe a sequence similar to the one described in the previous S
 
 ## Hunting with Sysmon and Windows Events
 
-This hunt gets even more interesting when we start observing an interleave of Windows Security Events alonside the Sysmon ones
+This hunt gets even more interesting when we start observing Windows Security and Sysmon Events intertwined together
 ```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | stats count by EventCode, _time | sort _time
 ```
 
 ![ToTH1-08](../img/THL001-Mimikatz/Mimi-08.PNG)
 
-Here we notice that Events **4663** (*An attempt was made to access an object*), **4656** (*A handle to an Object was requested*), **4703** (*Token Right Adjusted*) and **4673** (*Sensitive Privilege Use*) are showing up. Their presence makes sense, due to the operations that Mimikatz has to go through in order to access lsass process' memory. As you can see, it's starting to look quite hard for such a program to hide from event traces. Of course, Mimikatz could also be loaded from memory in a fileless scenario, and event log tracing could be disabled with tools like Invoke-Phant0m, however, as we will see, these techniques can also leave traces. If the right audit policy is configured in your environment, even tools that interfere with and wipe Windows Event Logs need to load first and acquire a few OS privileges before doing evil right? And if you have a centralized logging system like a SIEM (again, as long as your log forwarding policy is properly configured) you will always have a trace of events that could have even been wiped out of the source host. 
+Here we notice that Events **4663** (*An attempt was made to access an object*), **4656** (*A handle to an Object was requested*), **4703** (*Token Right Adjusted*) and **4673** (*Sensitive Privilege Use*) are showing up. Their presence makes sense, due to the operations that Mimikatz has to go through in order to access lsass process' memory. As you can see, it's starting to look quite hard for such a program to hide from event traces. Of course, Mimikatz could also be loaded from memory in a fileless scenario, and event log tracing could be disabled with tools like [Invoke-Phant0m](https://github.com/hlldz/Invoke-Phant0m), however, as we'll see, *these techniques can also leave traces*. If the right audit policy is configured in your environment, even tools that interfere with and wipe Windows Event Logs *need to load first* and acquire a few OS privileges before doing evil right? And if you have a centralized logging system like a SIEM (again, as long as your log forwarding policy is properly configured) you will always have a trace of events even when they could have even been wiped out of the source host. 
 
-So if we actually break this down to the sequence of traces left behind by a Mimikatz file execution we have this: 
+So if we actually break this down to the sequence of traces left behind by a Mimikatz file execution under the new scenario we have this: 
 
 | EventCode | _time                        | Comment                                                                                                                                        | 
 |-----------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------| 
@@ -124,7 +124,7 @@ So if we actually break this down to the sequence of traces left behind by a Mim
 
 
 # Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
-We will leverage this known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
+For this next lab test, we will leverage the known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
 
 ## Hunting with Sysmon and Windows Events
 
@@ -151,4 +151,10 @@ Which can be broken down into:
 | 09/07/2017 12:00:25 AM | EventCode 4690 (An attempt was made to duplicate a handle to an object) - Source Process ID matches that of Powershell and the Target Process ID is System (0x4)                                                                                                                                                           | 
 | 09/07/2017 12:00:35 AM | EventCode 4673 (Sensitive Privilege Use) - lsass seems to invoke LsaRegisterLogonProcess() Service from the NT Local Security Authority Server. This happens 10s after Invoke-Mimikatz.                                                                                                                                    | 
 
- 
+During our lab tests using Windows Event 4656 for detection of Mimikatz activity proved to be most efficient. A Splunk query similar to this: 
+```Markdown
+EventCode=4656 OR EventCode=4663 | eval HandleReq=case(EventCode=4656 AND Object_Name LIKE "%lsass.exe" AND Access_Mask=="0x143A", Process_ID) | where (HandleReq=Process_ID)
+```
+would constitute a great alert candidate.
+
+In the next article, we will continue to explore other artifacts left behind by Mimikatz's execution in memory as well as what type of events are generated by tools like Inject-LogonCredentials
