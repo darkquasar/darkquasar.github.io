@@ -82,6 +82,8 @@ We then observe Sysmon's Event ID 8 which corresponds to "Create Remote Thread",
 
 After this, we observe a sequence similar to the one described in the previous Sysmon Event ID 10, where Mimikatz is accessed by a few processes and finally accesses lsass (same Access Mask [0x1010] and Call Trace).
 
+
+
 Using Sysmon and Windows Events
 ================================
 This hunt gets even more interesting when we start observing an interleave of Windows Security Events alonside the Sysmon ones
