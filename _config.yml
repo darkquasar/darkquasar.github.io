@@ -88,7 +88,7 @@ url-pretty: "eideon.com"  # eg. "deanattali.com/beautiful-jekyll"
 disqus: "eideon"
 
 # Fill in your Google Analytics ID to track your website using GA
-#google_analytics: ""
+google_analytics: "UA-106202121-1"
 
 # Google Tag Manager ID
 #gtm: ""
