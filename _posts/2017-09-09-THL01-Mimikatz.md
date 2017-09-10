@@ -12,7 +12,7 @@ Using Splunk (free version, I will also add snips for ELK), we observe that when
 ![ToTH1-00](../img/THL001-Mimikatz/Mimi-00.PNG)
 
 If we reduce those events to their unique instances and sort them by time we get the following sequence:
-```markdown
+```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | dedup EventCode
 ```
 
@@ -33,7 +33,7 @@ First Sysmon "Process Create" (EventCode 1):
 Not much to see here, hashes and "CMD.EXE" as ParentImage are the only interesting markers, but an intruder could easily modify 1byte in the Mimikatz code to render hash detection useless, and "CMD.EXE" may not always be the parent of the process. 
 
 Next is a series of EventCode 10, which equates to "Process Accessed"
-```html
+```Apache
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
 ```
 
