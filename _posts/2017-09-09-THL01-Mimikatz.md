@@ -33,7 +33,9 @@ First Sysmon "Process Create" (EventCode 1):
 Not much to see here, hashes and "CMD.EXE" as ParentImage are the only interesting markers, but an intruder could easily modify 1byte in the Mimikatz code to render hash detection useless, and "CMD.EXE" may not always be the parent of the process. 
 
 Next is a series of EventCode 10, which equates to "Process Accessed"
-> Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
+```html
+Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
+```
 
 ![ToTH1-04](../img/THL001-Mimikatz/Mimi-04.PNG)
 
@@ -58,7 +60,9 @@ CallTrace: C:\Windows\SYSTEM32\ntdll.dll+a5314|C:\Windows\System32\KERNELBASE.dl
 ```
 
 The next interesting Event is EventCode 7 or Sysmon's "Image Loaded":
-> Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
+```python
+Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
+```
 
 ![ToTH1-05](../img/THL001-Mimikatz/Mimi-05.PNG)
 
