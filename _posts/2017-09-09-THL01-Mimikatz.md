@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tales of a Threat Hunter 1 
-subtitle: Detecting Mimikatz & other Suspicious LSASS Access
+subtitle: Detecting Mimikatz & other Suspicious LSASS Access - Part 1
 comments: true
 ---
 
