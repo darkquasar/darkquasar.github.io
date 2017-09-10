@@ -2,6 +2,7 @@
 layout: post
 title: Tales of a Threat Hunter 1 
 subtitle: Detecting Mimikatz & other Suspicious LSASS Access
+comments: true
 ---
 
 # Chasing down PowershellMafia
