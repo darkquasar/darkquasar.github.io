@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Threat Hunting Adventures 1 
-subtitle: Detecting Suspicious LSASS Access for Credentials Dump
+title: Tales of a Threat Hunter 1 
+subtitle: Detecting Mimikatz & other Suspicious LSASS Access
 ---
 
 Using Sysmon Events Only
