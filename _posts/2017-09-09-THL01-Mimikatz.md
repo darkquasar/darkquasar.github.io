@@ -11,6 +11,7 @@ Finally, the goal is to run other credential dumping tools and attempt to identi
 # Threat Profile
 For the purposes of starting a classification of the threats that will be explored in these series, let's begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
 
+|                     |                                                                    | 
 |---------------------|--------------------------------------------------------------------| 
 | **Category**        | Exfiltration                                                       | 
 | **Type**            | lsass process injection/manipulation/read                          | 
@@ -20,10 +21,13 @@ For the purposes of starting a classification of the threats that will be explor
 | **Hunting Method**  |  Grouping                                                          | 
 
 
+# Mimikatz as a standalone executable
 
-# Using Sysmon Events Only
+## Hunting with Sysmon Events Only
 
-Using Splunk (free version, I will also add snips for ELK), we observe that when running Mimikatz as a standalone executable we have 84 events in total within a timewindow of 3s: 
+To begin these series, we will use Splunk (the free version, I will also add some snips for ELK later) due to its powerful query language and ease of use, to cut the time from logging to identification.
+
+First thing we observe is that, when running Mimikatz as a standalone executable, we have ~84 events in total within a timewindow of 3s (*this is relevant in the sense that your IOC or Correlation Rule shouldn't be looking for signs beyond the 5s window*): 
 
 ![ToTH1-00](../img/THL001-Mimikatz/Mimi-00.PNG)
 
@@ -38,24 +42,22 @@ If we look at the EventCode field which holds the value of the Windows Security 
 
 ![ToTH1-02](../img/THL001-Mimikatz/Mimi-02.PNG)
 
-Why is this important? Well because with all this info we will be able to craft a detection artifact based on a time-ordered sequence of events, on the one side, and an unordered BOOLEAN logic on the other.
+With all this info we should be able to craft a detection artifact based on a time-ordered sequence of events, on the one side, and an unordered BOOLEAN logic on the other. So let's delve into the sequence of generated events to determine if we can extract a valid pattern for our detection artifact. 
 
-So let's delve into the sequence of generated events to determine if we can extract a valid pattern for our detection artifact. 
-
-First Sysmon "Process Create" (EventCode 1): 
+First, Sysmon "Process Create" (EventCode 1): 
 
 ![ToTH1-03](../img/THL001-Mimikatz/Mimi-03.PNG)
 
-Not much to see here, hashes and "CMD.EXE" as ParentImage are the only interesting markers, but an intruder could easily modify 1byte in the Mimikatz code to render hash detection useless, and "CMD.EXE" may not always be the parent of the process. 
+Not much to see here, hashes and "cmd.exe" as ParentImage are the only interesting markers, but an intruder could easily modify 1byte in the Mimikatz code to render hash detection useless, and "cmd.exe" may not always be the parent of the process. 
 
-Next is a series of EventCode 10, which equates to "Process Accessed"
+Next is a series of EventCode 10, which equates to Sysmon's "Process Accessed"
 ```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
 ```
 
 ![ToTH1-04](../img/THL001-Mimikatz/Mimi-04.PNG)
 
-Interestingly enough, we can see here that Mimikatz accessing lsass.exe happens after a series of events where the Mimikatz process itself is accessed by other processes like cmd, conhost, csrss, taskmgr, and lsass itself! followed by wmiprvse. The first three we can discard, as they are generated due to the fact we are launching Mimikatz from the commandline. However, an interesting pattern may be that immediately before Mimikatz reads from lsass' memory, lsass itself reads from Mimikatz's one. 
+Interestingly enough, we can see here that Mimikatz accessing lsass.exe happens after a series of events where the Mimikatz process itself is accessed by other processes like cmd, conhost, csrss, taskmgr, and lsass itself (!) followed by wmiprvse. The first three we can discard, as they are generated due to the fact we are launching Mimikatz from the commandline. However, an interesting pattern to look for may be that, immediately before Mimikatz reads from lsass' memory, lsass itself reads from Mimikatz's one. 
 
 The interesting info about lsass accessing Mimikatz can be seen here: 
 
@@ -86,7 +88,7 @@ We can see all the modules that are imported by Mimikatz in order to be able to 
 
 Next in the line we find a Sysmon Event 11 "File Create" which points to the creation of a pre-fetch record for Mimikatz created by SVCHOST which is hosting Windows' prefetch service: 
 
-![ToTH1-06](../img/THL001-Mimikatz/Mimi-06.PNG)
+[ToTH1-06](../img/THL001-Mimikatz/Mimi-06.PNG)
 
 We then observe Sysmon's Event ID 8 which corresponds to "Create Remote Thread", curiously enough, it's WmiPrvSE the one starting a remote threat on Mimikatz, we never thought Mimikatz itself was going the be the victim instead of the victimator!
 
@@ -95,8 +97,7 @@ We then observe Sysmon's Event ID 8 which corresponds to "Create Remote Thread",
 After this, we observe a sequence similar to the one described in the previous Sysmon Event ID 10, where Mimikatz is accessed by a few processes and finally accesses lsass (same Access Mask [0x1010] and Call Trace).
 
 
-
-# Using Sysmon and Windows Events
+## Hunting with Sysmon and Windows Events
 
 This hunt gets even more interesting when we start observing an interleave of Windows Security Events alonside the Sysmon ones
 ```Markdown
@@ -123,8 +124,9 @@ So if we actually break this down to the sequence of traces left behind by a Mim
 
 
 # Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
-
 We will leverage this known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
+
+## Hunting with Sysmon and Windows Events
 
 If we run the following search, limiting ourselves to the bare minimum progression of unique Events: 
 ```Markdown
