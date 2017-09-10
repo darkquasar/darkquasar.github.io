@@ -138,6 +138,8 @@ EventCode=10 | where (GrantedAccess="0x1010" AND TargetImage LIKE "%lsass.exe")
 ```
 should get you pretty close to pinpointing some weird lsass.exe access ;)
 
+However you could combine this marker along with the preceeding or following Windows Events to create a more robust detection for your SIEM solution via **event correlation**.
+
 # Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
 For this next lab test, we will leverage the known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
 
