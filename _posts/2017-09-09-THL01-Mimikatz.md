@@ -39,7 +39,7 @@ To begin these series, we will use Splunk (the free version, I will also add som
 
 First thing we observe is that, when running Mimikatz as a standalone executable, we have ~84 events in total within a timewindow of 3s (*this is relevant in the sense that your IOC or Correlation Rule shouldn't be looking for signs beyond the 5s window*): 
 
-![ToTH1-00](https://github.com/darkquasar/darkquasar.github.io/blob/master/img/THL001-Mimikatz/Mimi-00.PNG)
+![ToTH1-00](../img/THL001-Mimikatz/Mimi-00.PNG)
 
 If we reduce those events to their unique instances and sort them by time we get the following sequence:
 ```Markdown
