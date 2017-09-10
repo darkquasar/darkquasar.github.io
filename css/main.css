@@ -29,7 +29,7 @@ a:focus {
   color: #0085a1;
 }
 blockquote {
-  color: #ffffff;
+  color: #808080;
   font-style: italic;
 }
 blockquote p:first-child {
@@ -649,7 +649,8 @@ pre code {
   white-space: pre;
 }
 pre.highlight, .highlight > pre, td.code pre {
-  background: #404040;
+  background: #FAFAFA;
+  background-image: linear-gradient(#F9F9F9 50%, #FDFDFD 50%);
   background-repeat: repeat;
   background-size: 3em 3em;
   background-position: 0px 10px;
@@ -659,7 +660,7 @@ code table, code table td, code table th, code table tbody, code table tr,
 td.gutter pre {
   padding: 0;
   border: none;
-  background-color: #404040;
+  background-color: #fff;
 }
 .highlight > pre {
   padding: 0;
