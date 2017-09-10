@@ -4,6 +4,10 @@ title: Tales of a Threat Hunter 1
 subtitle: Detecting Mimikatz & other Suspicious LSASS Access
 ---
 
+In the first of my tales we will analyze the behaviour of tools that need to read from Lsass.exe process' memory in order to steal valuable credential information. For this, we will begin with Mimikatz, as it's quite renowned and we all like [gentilkiwi](https://github.com/gentilkiwi/mimikatz/wiki)! We will investigate Mimikatz' behaviour whilst running as a standalone executable and whilst running from memory (fileless scenario). 
+After a sweep of the artifacts that are observable using standard Windows/Sysmon logs, we will detonate Mimikatz and analize its memory traces using Volatility to evaluate if we can find any markers that will allow us to create other Yara/SIEM rules.
+Finally, the goal is to run other credential dumping tools and attempt to identify any commonalities that could provide for a more abstract IOC. 
+
 Using Sysmon Events Only
 ========================
 
