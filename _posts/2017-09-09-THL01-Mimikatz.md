@@ -9,13 +9,13 @@ After a sweep of the artifacts that are observable using standard Windows/Sysmon
 Finally, the goal is to run other credential dumping tools and attempt to identify any commonalities that could provide for a more abstract IOC. 
 
 # Threat Profile
-For the purposes of starting a classification of the threats we will explore in these series, we will begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
+For the purposes of starting a classification of the threats that will be explored in these series, let's begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
 
-|                 |                                                                    | 
-|-----------------|--------------------------------------------------------------------| 
+|                     |                                                                    | 
+|---------------------|--------------------------------------------------------------------| 
 | **Category**        | Exfiltration                                                       | 
 | **Type**            | lsass process injection/manipulation/read                          | 
-| **Execution Types | in-memory (fileless) or standalone executable                      | 
+| **Execution Types** | in-memory (fileless) or standalone executable                      | 
 | **Detection Ratio** | 80%                                                                | 
 | **PoC Tools**       |  Mimikatz / Inject-LogonCredentials / Invoke-ReflectivePEInjection | 
 | **Hunting Method**  |  Grouping                                                          | 
