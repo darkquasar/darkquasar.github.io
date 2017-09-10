@@ -8,8 +8,19 @@ In the first of my tales we will analyze the behaviour of tools that need to rea
 After a sweep of the artifacts that are observable using standard Windows/Sysmon logs, we will detonate Mimikatz and analize its memory traces using Volatility to evaluate if we can find any markers that will allow us to create other Yara/SIEM rules.
 Finally, the goal is to run other credential dumping tools and attempt to identify any commonalities that could provide for a more abstract IOC. 
 
-Using Sysmon Events Only
-========================
+# Threat Profile
+For the purposes of starting a classification of the threats we will explore in these series, we will begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
+
+| Category        | Exfiltration                                  |                          |                               | 
+|-----------------|-----------------------------------------------|--------------------------|-------------------------------| 
+| Type            | lsass process injection/manipulation/read     |                          |                               | 
+| Execution Types | in-memory (fileless) or standalone executable |                          |                               | 
+| Detection Ratio | 80%                                           |                          |                               | 
+| PoC Tools       |  Mimikatz                                     |  Inject-LogonCredentials |  Invoke-ReflectivePEInjection | 
+| Hunting Method  |  Grouping                                     |                          |                               | 
+
+
+# Using Sysmon Events Only
 
 Using Splunk (free version, I will also add snips for ELK), we observe that when running Mimikatz as a standalone executable we have 84 events in total within a timewindow of 3s: 
 
@@ -84,8 +95,8 @@ After this, we observe a sequence similar to the one described in the previous S
 
 
 
-Using Sysmon and Windows Events
-================================
+# Using Sysmon and Windows Events
+
 This hunt gets even more interesting when we start observing an interleave of Windows Security Events alonside the Sysmon ones
 ```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | stats count by EventCode, _time | sort _time
@@ -110,8 +121,7 @@ So if we actually break this down to the sequence of traces left behind by a Mim
 | 11        | 2017-09-04T16:52:42.000-0700 | Sysmon File Created: Image: svchost.exe / TargetFileName: C:\Windows\Prefetch\MIMIKATZ.EXE-CE8DB7C6.pf                                         | 
 
 
-Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
-===================================================================
+# Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
 
 We will leverage this known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
 
