@@ -95,17 +95,6 @@ Here we notice that Events **4663** (*An attempt was made to access an object*),
 
 So if we actually break this down to the sequence of traces left behind by a Mimikatz file execution we have this: 
 
-EventCode,_time,Comment
-1,2017-09-04T16:52:32.000-0700,Sysmon Process Create: Mimikatz started
-4673,2017-09-04T16:52:32.000-0700,Sensitive Privilege Use (Failure): SeTcbPrivilege requested by mimikatz.exe
-4688,2017-09-04T16:52:32.000-0700,A new Process has been created (we knew this via Sysmon already)
-7,2017-09-04T16:52:32.000-0700,Sysmon Image Loaded: A few events where Mimikatz loads all its required modules
-4703,2017-09-04T16:52:35.000-0700,Token Right Adjusted: Enabled Privileges: SeDebugPrivilege / Process Name: mimikatz.exe
-10,2017-09-04T16:52:41.000-0700,Sysmon Process Accessed: Source Image: mimikatz.exe / Target Image: lsass.exe / GrantedAcces: 0x1010 / CallTrace: multiple markers (see above)
-4656,2017-09-04T16:52:41.000-0700,A handle to an object was requested: Process Name: mimikatz.exe / Accesses: Read from process memory / Acess Mask: 0x1010
-4663,2017-09-04T16:52:41.000-0700,An attempt was made to access an object: Process Name: mimikatz.exe / Access Mask: 0x10
-11,2017-09-04T16:52:42.000-0700,Sysmon File Created: Image: svchost.exe / TargetFileName: C:\Windows\Prefetch\MIMIKATZ.EXE-CE8DB7C6.pf
-
 | EventCode | _time                        | Comment                                                                                                                                        | 
 |-----------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------| 
 | 1         | 2017-09-04T16:52:32.000-0700 | Sysmon Process Create: Mimikatz started                                                                                                        | 
