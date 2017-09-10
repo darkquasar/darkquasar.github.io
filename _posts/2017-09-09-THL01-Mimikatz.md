@@ -9,7 +9,7 @@ Using Sysmon Events Only
 
 Using Splunk (free version, I will also add snips for ELK), we observe that when running Mimikatz as a standalone executable we have 84 events in total within a timewindow of 3s: 
 
-![ToTH1-01](../../img/THL001-Mimikatz/Mimi-01.PNG "Something")
+![ToTH1-01](../img/THL001-Mimikatz/Mimi-01.PNG "Something")
 
 [Mimi-00.png]
 
