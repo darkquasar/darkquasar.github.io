@@ -33,7 +33,7 @@ First Sysmon "Process Create" (EventCode 1):
 Not much to see here, hashes and "CMD.EXE" as ParentImage are the only interesting markers, but an intruder could easily modify 1byte in the Mimikatz code to render hash detection useless, and "CMD.EXE" may not always be the parent of the process. 
 
 Next is a series of EventCode 10, which equates to "Process Accessed"
-```Apache
+```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
 ```
 
@@ -60,7 +60,7 @@ CallTrace: C:\Windows\SYSTEM32\ntdll.dll+a5314|C:\Windows\System32\KERNELBASE.dl
 ```
 
 The next interesting Event is EventCode 7 or Sysmon's "Image Loaded":
-```python
+```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
 ```
 
@@ -81,11 +81,13 @@ After this, we observe a sequence similar to the one described in the previous S
 Using Sysmon and Windows Events
 ================================
 This hunt gets even more interesting when we start observing an interleave of Windows Security Events alonside the Sysmon ones
+```Markdown
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | stats count by EventCode, _time | sort _time
+```
 
 ![ToTH1-08](../img/THL001-Mimikatz/Mimi-08.PNG)
 
-Here we notice that Events 4663 (An attempt was made to access an object), 4656 (A handle to an Object was requested), 4703 (Token Right Adjusted) and 4673 (Sensitive Privilege Use) are showing up. Their presence makes sense, due to the operations that Mimikatz has to go through in order to access lsass process' memory. As you can see, it's starting to look quite hard for such a program to hide from event traces. Of course, Mimikatz could also be loaded from memory in a fileless scenario, and event log tracing could be disabled with tools like Invoke-Phant0m, however, as we will see, these techniques can also leave traces. If the right audit policy is configured in your environment, even tools that interfere with and wipe Windows Event Logs need to load first and acquire a few OS privileges before doing evil right? And if you have a centralized logging system like a SIEM (again, as long as your log forwarding policy is properly configured) you will always have a trace of events that could have even been wiped out of the source host. 
+Here we notice that Events **4663** (*An attempt was made to access an object*), **4656** (*A handle to an Object was requested*), **4703** (*Token Right Adjusted*) and **4673** (*Sensitive Privilege Use*) are showing up. Their presence makes sense, due to the operations that Mimikatz has to go through in order to access lsass process' memory. As you can see, it's starting to look quite hard for such a program to hide from event traces. Of course, Mimikatz could also be loaded from memory in a fileless scenario, and event log tracing could be disabled with tools like Invoke-Phant0m, however, as we will see, these techniques can also leave traces. If the right audit policy is configured in your environment, even tools that interfere with and wipe Windows Event Logs need to load first and acquire a few OS privileges before doing evil right? And if you have a centralized logging system like a SIEM (again, as long as your log forwarding policy is properly configured) you will always have a trace of events that could have even been wiped out of the source host. 
 
 So if we actually break this down to the sequence of traces left behind by a Mimikatz file execution we have this: 
 
@@ -100,19 +102,28 @@ EventCode,_time,Comment
 4663,2017-09-04T16:52:41.000-0700,An attempt was made to access an object: Process Name: mimikatz.exe / Access Mask: 0x10
 11,2017-09-04T16:52:42.000-0700,Sysmon File Created: Image: svchost.exe / TargetFileName: C:\Windows\Prefetch\MIMIKATZ.EXE-CE8DB7C6.pf
 
+| EventCode | _time                        | Comment                                                                                                                                        | 
+|-----------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------| 
+| 1         | 2017-09-04T16:52:32.000-0700 | Sysmon Process Create: Mimikatz started                                                                                                        | 
+| 4673      | 2017-09-04T16:52:32.000-0700 | Sensitive Privilege Use (Failure): SeTcbPrivilege requested by mimikatz.exe                                                                    | 
+| 4688      | 2017-09-04T16:52:32.000-0700 | A new Process has been created (we knew this via Sysmon already)                                                                               | 
+| 7         | 2017-09-04T16:52:32.000-0700 | Sysmon Image Loaded: A few events where Mimikatz loads all its required modules                                                                | 
+| 4703      | 2017-09-04T16:52:35.000-0700 | Token Right Adjusted: Enabled Privileges: SeDebugPrivilege / Process Name: mimikatz.exe                                                        | 
+| 10        | 2017-09-04T16:52:41.000-0700 | Sysmon Process Accessed: Source Image: mimikatz.exe / Target Image: lsass.exe / GrantedAcces: 0x1010 / CallTrace: multiple markers (see above) | 
+| 4656      | 2017-09-04T16:52:41.000-0700 | A handle to an object was requested: Process Name: mimikatz.exe / Accesses: Read from process memory / Acess Mask: 0x1010                      | 
+| 4663      | 2017-09-04T16:52:41.000-0700 | An attempt was made to access an object: Process Name: mimikatz.exe / Access Mask: 0x10                                                        | 
+| 11        | 2017-09-04T16:52:42.000-0700 | Sysmon File Created: Image: svchost.exe / TargetFileName: C:\Windows\Prefetch\MIMIKATZ.EXE-CE8DB7C6.pf                                         | 
+
 
 Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
 ===================================================================
-The script is run at around 12:00:25. 
 
-https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
-
-run a search for *
-from 06/09/2017 23:00:00.000 
-to 07/09/2017 00:01:08.001
+We will leverage this known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
 
 If we run the following search, limiting ourselves to the bare minimum progression of unique Events: 
+```Markdown
 powershell OR lsass | dedup TaskCategory | stats count by _time, EventCode | chart count by EventCode
+```
 
 We get the following picture: 
 
