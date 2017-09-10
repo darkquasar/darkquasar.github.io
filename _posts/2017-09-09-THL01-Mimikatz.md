@@ -131,6 +131,12 @@ So if we actually break this down to the sequence of traces left behind by a Mim
 | 4663      | 2017-09-04T16:52:41.000-0700 | An attempt was made to access an object: Process Name: mimikatz.exe / Access Mask: 0x10                                                        | 
 | 11        | 2017-09-04T16:52:42.000-0700 | Sysmon File Created: Image: svchost.exe / TargetFileName: C:\Windows\Prefetch\MIMIKATZ.EXE-CE8DB7C6.pf                                         | 
 
+## Detection Artifact I
+During our lab tests using Sysmon Event 10 (Process Accessed) proved to be most efficient. A Splunk query similar to this: 
+```Markdown
+EventCode=10 | where (GrantedAccess="0x1010" AND TargetImage LIKE "%lsass.exe")
+```
+should get you pretty close to pinpointing some weird lsass.exe access ;)
 
 # Running Mimikatz from memory using Invoke-Mimikatz from PowerSploit
 For this next lab test, we will leverage the known [PowerSploit module](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1) to load Mimikatz in memory without touching disk. The script was run at around 12:00:25. 
