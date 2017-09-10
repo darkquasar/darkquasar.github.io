@@ -11,7 +11,6 @@ Finally, the goal is to run other credential dumping tools and attempt to identi
 # Threat Profile
 For the purposes of starting a classification of the threats that will be explored in these series, let's begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
 
-|                     |                                                                    | 
 |---------------------|--------------------------------------------------------------------| 
 | **Category**        | Exfiltration                                                       | 
 | **Type**            | lsass process injection/manipulation/read                          | 
