@@ -12,7 +12,9 @@ Using Splunk (free version, I will also add snips for ELK), we observe that when
 ![ToTH1-00](../img/THL001-Mimikatz/Mimi-00.PNG)
 
 If we reduce those events to their unique instances and sort them by time we get the following sequence:
-> Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | dedup EventCode
+```markdown
+Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689" | dedup EventCode
+```
 
 ![ToTH1-01](../img/THL001-Mimikatz/Mimi-01.PNG)
 
