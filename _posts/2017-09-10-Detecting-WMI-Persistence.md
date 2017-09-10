@@ -2,6 +2,7 @@
 layout: post
 title: Tales of a Threat Hunter 2
 subtitle: Detecting WMI Persistence
+published: false
 ---
 
 What is WMI?
