@@ -11,13 +11,13 @@ Finally, the goal is to run other credential dumping tools and attempt to identi
 # Threat Profile
 For the purposes of starting a classification of the threats we will explore in these series, we will begin with a rough categorization scheme that will evolve into a more complete threat ontology framework. 
 
-| Category        | Exfiltration                                  |                          |                               | 
-|-----------------|-----------------------------------------------|--------------------------|-------------------------------| 
-| Type            | lsass process injection/manipulation/read     |                          |                               | 
-| Execution Types | in-memory (fileless) or standalone executable |                          |                               | 
-| Detection Ratio | 80%                                           |                          |                               | 
-| PoC Tools       |  Mimikatz                                     |  Inject-LogonCredentials |  Invoke-ReflectivePEInjection | 
-| Hunting Method  |  Grouping                                     |                          |                               | 
+| Category        | Exfiltration                                                       | 
+|-----------------|--------------------------------------------------------------------| 
+| Type            | lsass process injection/manipulation/read                          | 
+| Execution Types | in-memory (fileless) or standalone executable                      | 
+| Detection Ratio | 80%                                                                | 
+| PoC Tools       |  Mimikatz / Inject-LogonCredentials / Invoke-ReflectivePEInjection | 
+| Hunting Method  |  Grouping                                                          | 
 
 
 # Using Sysmon Events Only
