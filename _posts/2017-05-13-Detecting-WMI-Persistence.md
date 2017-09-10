@@ -1,4 +1,10 @@
-Threat Hunting: Detecting WMI Persistence
+---
+layout: post
+title: Tales of a Threat Hunter 2
+subtitle: Detecting WMI Persistence
+---
+
+What is WMI?
 =========================
 
 WMI is Microsoft's implementation of WBEM (Web Based Enterprise Management) which is based on
