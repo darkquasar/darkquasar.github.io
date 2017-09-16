@@ -5,6 +5,7 @@ subtitle: Detecting Mimikatz & other Suspicious LSASS Access - Part 1
 tags: [threat hunting, hunting, mimikatz, siem, ioc, credential dump, splunk, elk, darkquasar, volatility]
 comments: true
 ---
+{:toc}
 
 # Chasing down PowershellMafia
 In the first of my tales we will analyze the behaviour of tools that need to read from Lsass.exe process' memory in order to steal valuable credential information. For this, we will begin with Mimikatz, as it's quite renowned and we all like [gentilkiwi](https://github.com/gentilkiwi/mimikatz/wiki)! We will investigate Mimikatz' behaviour whilst running as a standalone executable and whilst running from memory (fileless scenario).
