@@ -9,6 +9,7 @@ published: false
 # A few Links
 - http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/
 - https://twitter.com/mattifestation/status/899646620148539397
+- https://gist.github.com/mattifestation/e55843eef6c263608206 (Template)
 - 
 
 # What is WMI?
