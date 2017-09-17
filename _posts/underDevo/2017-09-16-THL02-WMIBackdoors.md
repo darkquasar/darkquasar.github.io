@@ -6,9 +6,13 @@ tags: [threat hunting, hunting, wmi, windows management instrumentation, backdoo
 comments: true
 published: false
 ---
+# A few Links
+- http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/
+- https://twitter.com/mattifestation/status/899646620148539397
+- 
 
-What is WMI?
-=========================
+# What is WMI?
+
  
 WMI is Microsoft's implementation of WBEM (Web Based Enterprise Management) which is based on [CIM](http://www.dmtf.org/standards/cim) and allows for the remote management of multiple system components in Windows environments. WMI is used on a daily basis by sysadmins across large domains due to its flexibility and scalability. Easy to deploy, scripts that leverage WMI can be seen everywhere. Unfortunately, as with everything that is widely deployed, has "remote" capabilities and runs on "windows": the dark force is strong around it [(just for fun: MS17-010)](https://technet.microsoft.com/en-us/library/security/ms17-010.aspx).
  
