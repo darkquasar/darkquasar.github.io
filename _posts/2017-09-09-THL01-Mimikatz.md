@@ -4,7 +4,6 @@ title: Tales of a Threat Hunter 1
 subtitle: Detecting Mimikatz & other Suspicious LSASS Access - Part 1
 tags: [threat hunting, hunting, mimikatz, siem, ioc, credential dump, splunk, elk, darkquasar, volatility]
 comments: true
-published: false
 ---
 * TOC
 {:toc}
