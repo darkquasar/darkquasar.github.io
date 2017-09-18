@@ -6,6 +6,9 @@ tags: [threat hunting, hunting, wmi, windows management instrumentation, backdoo
 comments: true
 published: false
 ---
+* TOC
+{:toc}
+
 # A few Links
 - http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/
 - https://twitter.com/mattifestation/status/899646620148539397
@@ -38,29 +41,12 @@ Let's use two scripts that allow us to easily create a malicious persistence wit
 We tweaked some of the parameters in the script to make sure the timer event launches every minute and that no cleanup is performed at the end. After launching it, we can inspect the newly created Event Consumers/Filters/Bindings as follows: 
 
 **EventFilter**
-```Powershell
+{% highlight powershell%}
 Get-WmiObject -Namespace root\subscription -Class __EventFilter
-```
+{% endhighlight %}
+
 Result: 
 ```Powershell
-__GENUS          : 2
-__CLASS          : __EventFilter
-__SUPERCLASS     : __IndicationRelated
-__DYNASTY        : __SystemClass
-__RELPATH        : __EventFilter.Name="SCM Event Log Filter"
-__PROPERTY_COUNT : 6
-__DERIVATION     : {__IndicationRelated, __SystemClass}
-__SERVER         : W10B1
-__NAMESPACE      : ROOT\subscription
-__PATH           : \\W10B1\ROOT\subscription:__EventFilter.Name="SCM Event Log Filter"
-CreatorSID       : {1, 2, 0, 0...}
-EventAccess      : 
-EventNamespace   : root\cimv2
-Name             : SCM Event Log Filter
-Query            : select * from MSFT_SCMEventLogEvent
-QueryLanguage    : WQL
-PSComputerName   : W10B1
-
 __GENUS          : 2
 __CLASS          : __EventFilter
 __SUPERCLASS     : __IndicationRelated
@@ -75,7 +61,7 @@ CreatorSID       : {1, 5, 0, 0...}
 EventAccess      : 
 EventNamespace   : root/cimv2
 Name             : TimerTrigger
-Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'
+**Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'**
 QueryLanguage    : WQL
 PSComputerName   : W10B1
 ```
@@ -86,6 +72,7 @@ Get-WmiObject -Namespace root\subscription -Class __EventConsumer
 ```
 Result: 
 [snip]
+```Powershell
 __GENUS               : 2
 __CLASS               : CommandLineEventConsumer
 __SUPERCLASS          : __EventConsumer
@@ -96,13 +83,25 @@ __DERIVATION          : {__EventConsumer, __IndicationRelated, __SystemClass}
 __SERVER              : W10B1
 __NAMESPACE           : ROOT\subscription
 __PATH                : \\W10B1\ROOT\subscription:CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
-CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey 
-                        -Name PayloadValue).PayloadValue)))"
+**CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"**
+```
 [snip]
 
-**EventFilter**
+**FilterToConsumerBinding**
 ```Powershell
 Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding
 ```
+Result: 
+[snip]
+```Powershell
+__NAMESPACE             : ROOT\subscription
+**__PATH                  : \\W10B1\ROOT\subscription:__FilterToConsumerBinding.Consumer="CommandLineEventConsumer.Name=\"ExecuteEvilPowerShell\"",Filter="__EventFilter.Name=\"TimerTrigger\""**
+**Consumer                : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"**
+CreatorSID              : {1, 5, 0, 0...}
+DeliverSynchronously    : False
+DeliveryQoS             : 
+**Filter                  : __EventFilter.Name="TimerTrigger"**
+```
 
+As we can observe, this persistence is based off a Timer *intrinsic* Event type. 
 
