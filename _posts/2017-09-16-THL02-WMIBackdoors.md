@@ -36,9 +36,10 @@ Let's use two scripts that allow us to easily create a malicious persistence wit
 We tweaked some of the parameters in the script to make sure the timer event launches every minute and that no cleanup is performed at the end. After launching it, we can inspect the newly created Event Consumers/Filters/Bindings as follows: 
 
 **EventFilter**
-```powershell
-Get-WmiObject -Namespace root\subscription -Class __EventFilter
-```
+{% highlight powershell linenos %}
+Get-WmiObject -Namespace root\subscription -Class \_\_EventFilter
+{% endhighlight %}
+
 **EventConsumer**
 ```Powershell
 Get-WmiObject -Namespace root\subscription -Class __EventConsumer
