@@ -40,12 +40,12 @@ Let's use two scripts that allow us to easily create a malicious persistence wit
 We tweaked some of the parameters in the script to make sure the timer event launches every minute and that no cleanup is performed at the end. After launching it, we can inspect the newly created Event Consumers/Filters/Bindings as follows: 
 
 **EventFilter**
-{% highlight powershell% }
+{% highlight powershell %}
 Get-WmiObject -Namespace root\subscription -Class __EventFilter
 {% endhighlight %}
 
 Result: 
-{% highlight powershell% }
+{% highlight powershell %}
 __GENUS          : 2
 __CLASS          : __EventFilter
 __SUPERCLASS     : __IndicationRelated
@@ -66,13 +66,13 @@ PSComputerName   : W10B1
 {% endhighlight %}
 
 **EventConsumer**
-{% highlight powershell% }
+{% highlight powershell %}
 Get-WmiObject -Namespace root\subscription -Class __EventConsumer
 {% endhighlight %}
 
 Result: 
 [snip]
-{% highlight powershell% }
+{% highlight powershell %}
 __GENUS               : 2
 __CLASS               : CommandLineEventConsumer
 __SUPERCLASS          : __EventConsumer
@@ -88,13 +88,13 @@ __PATH                : \\W10B1\ROOT\subscription:CommandLineEventConsumer.Name=
 [snip]
 
 **FilterToConsumerBinding**
-{% highlight powershell% }
+{% highlight powershell %}
 Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding
 {% endhighlight %}
 
 Result: 
-[snip]
-{% highlight powershell% }
+
+{% highlight powershell %}
 __NAMESPACE             : ROOT\subscription
 **__PATH                  : \\W10B1\ROOT\subscription:__FilterToConsumerBinding.Consumer="CommandLineEventConsumer.Name=\"ExecuteEvilPowerShell\"",Filter="__EventFilter.Name=\"TimerTrigger\""**
 **Consumer                : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"**
@@ -103,6 +103,6 @@ DeliverSynchronously    : False
 DeliveryQoS             : 
 **Filter                  : __EventFilter.Name="TimerTrigger"**
 {% endhighlight %}
-[snip]
+
 
 As we can observe, this persistence is based off a Timer *intrinsic* Event type. 
