@@ -203,21 +203,24 @@ In the next article, we shall continue to explore other artifacts left behind by
 
 # Changes to your Sysmon Config
 Add the following to your sysmon config file to be able to detect this type of lsass access: 
+
 {% highlight xml %}
-	<!--SYSMON EVENT ID 10 : INTER-PROCESS ACCESS-->
-		<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
-		<ProcessAccess onmatch="include">
-		<!--COMMENT:	Monitor for processes accessing other process' memory. This can be valuable, but can cause a huge number of events.-->
-		<TargetImage condition="contains">lsass.exe</TargetImage>
-		</ProcessAccess>
-		<ProcessAccess onmatch="exclude">
-		<SourceImage condition="end with">wmiprvse.exe</SourceImage>
-		<SourceImage condition="end with">GoogleUpdate.exe</SourceImage>
-		<SourceImage condition="end with">LTSVC.exe</SourceImage>
-  <SourceImage condition="end with">taskmgr.exe</SourceImage>
-  <SourceImage condition="end with">VBoxService.exe</SourceImage>
-  <SourceImage condition="end with">vmtoolsd.exe</SourceImage>
+<!--SYSMON EVENT ID 10 : INTER-PROCESS ACCESS-->
+<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
+<ProcessAccess onmatch="include">
+	<TargetImage condition="contains">lsass.exe</TargetImage>
+</ProcessAccess>
+<ProcessAccess onmatch="exclude">
+	<SourceImage condition="end with">wmiprvse.exe</SourceImage>
+	<SourceImage condition="end with">GoogleUpdate.exe</SourceImage>
+	<SourceImage condition="end with">LTSVC.exe</SourceImage>
+	<SourceImage condition="end with">taskmgr.exe</SourceImage>
+	<SourceImage condition="end with">VBoxService.exe</SourceImage>
+	<SourceImage condition="end with">vmtoolsd.exe</SourceImage>
+</ProcessAccess>
 {% endhighlight %}
+
 ## Updates
 13/09/2017 | added details about test OS & powershell expression used for in-memory execution. Added Detection Artifact III
+
 18/09/2017 | added sysmon config snip
