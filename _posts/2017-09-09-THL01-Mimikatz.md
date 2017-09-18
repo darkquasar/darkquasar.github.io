@@ -98,9 +98,9 @@ CallTrace: C:\Windows\SYSTEM32\ntdll.dll+a5314|C:\Windows\System32\KERNELBASE.dl
 ```
 
 The next interesting Event is EventCode 7 or Sysmon's "Image Loaded":
-```Markdown
+{% highlight markdown %}
 Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | stats count by  _time, SourceImage, TargetImage, GrantedAccess 
-```
+{% endhighlight %}
 
 ![ToTH1-05](../img/THL001-Mimikatz/Mimi-05.PNG)
 
