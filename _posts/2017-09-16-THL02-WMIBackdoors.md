@@ -61,7 +61,7 @@ CreatorSID       : {1, 5, 0, 0...}
 EventAccess      : 
 EventNamespace   : root/cimv2
 Name             : TimerTrigger
-**Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'**
+Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'
 QueryLanguage    : WQL
 PSComputerName   : W10B1
 {% endhighlight %}
@@ -72,8 +72,8 @@ Get-WmiObject -Namespace root\subscription -Class __EventConsumer
 {% endhighlight %}
 
 Result: 
-[snip]
 {% highlight powershell %}
+[snip]
 __GENUS               : 2
 __CLASS               : CommandLineEventConsumer
 __SUPERCLASS          : __EventConsumer
@@ -84,9 +84,10 @@ __DERIVATION          : {__EventConsumer, __IndicationRelated, __SystemClass}
 __SERVER              : W10B1
 __NAMESPACE           : ROOT\subscription
 __PATH                : \\W10B1\ROOT\subscription:CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
-**CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"**
-{% endhighlight %}
+CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"
 [snip]
+{% endhighlight %}
+
 
 **FilterToConsumerBinding**
 {% highlight powershell %}
@@ -96,14 +97,41 @@ Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding
 Result: 
 
 {% highlight powershell %}
+[snip]
 __NAMESPACE             : ROOT\subscription
-**__PATH                  : \\W10B1\ROOT\subscription:__FilterToConsumerBinding.Consumer="CommandLineEventConsumer.Name=\"ExecuteEvilPowerShell\"",Filter="__EventFilter.Name=\"TimerTrigger\""**
-**Consumer                : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"**
+__PATH                  : \\W10B1\ROOT\subscription:__FilterToConsumerBinding.Consumer="CommandLineEventConsumer.Name=\"ExecuteEvilPowerShell\"",Filter="__EventFilter.Name=\"TimerTrigger\""
+Consumer                : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
 CreatorSID              : {1, 5, 0, 0...}
 DeliverSynchronously    : False
 DeliveryQoS             : 
-**Filter                  : __EventFilter.Name="TimerTrigger"**
+Filter                  : __EventFilter.Name="TimerTrigger"
+[snip]
 {% endhighlight %}
 
 
-As we can observe, this persistence is based off a Timer *intrinsic* Event type. 
+As we can observe, this persistence is based off a Timer *intrinsic* Event type. If you launched it and head to C:\ you will see the *payload\_result.txt* file as per the script: 
+
+{% highlight powershell %}
+$TimerArgs = @{
+    IntervalBetweenEvents = ([UInt32] 6000) # 6000 ms == 1 min
+    SkipIfPassed = $False
+    TimerId = $TimerName
+}
+{% endhighlight %}
+
+
+=======================================================================================================
+
+
+Notes
+- EventCode 600, "Provider LifeCycle", Message "Provider Registry Started", shows the powershell payload under "HostApplication"
+- Sysmon Event 4, "Registry Object added or deleted" shows the creation of "HKLM\SOFTWARE\PayloadKey" by Image "C:\Windows\system32\wbem\wmiprvse.exe"
+- Sysmon Event 4, "Registry Value Set" shows a BASE64 payload (include here the IOC to detect such B64 payloads as Artifact I)
+
+
+Detection Artefacts: 
+- Artifact 1: B64 payload in registry
+- Artifact 2: wbemcons.dll called when WmiPrvse.exe invokes a CommandLineEventConsumer event
+- Artifact 3: EventCode 600
+- Artifact 4: 
+
