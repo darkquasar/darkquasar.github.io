@@ -138,7 +138,7 @@ PSProvider   : Microsoft.PowerShell.Core\Registry
 {% endhighlight %}
 
 Alternatively: 
-![THL02-01](../img/THL002/THL02-01.JPG)
+![THL002-01](../img/THL002/THL002-01.JPG)
 
 We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artefacts later)
 
@@ -157,3 +157,16 @@ Detection Artefacts:
 - Artifact 3: EventCode 600
 - Artifact 4: 
 
+# Changes to your Sysmon Config
+We will add a tag for the new event that has a pretty tight condition: it will only collect WMI events when they are created. This way, the FP ratio is reduced to a minimum, but as a tradeoff you need to be really paying attention and treat Alarms pertaining to these events as critical *always*. 
+{% highlight xml %}
+<!--SYSMON EVENT ID 19,20,21 : WMIEvent-->
+<WmiEvent onmatch="include">
+	<Operation condition="is">Created</Operation>
+</WmiEvent>
+{% endhighlight %}
+
+
+Other References: 
+- https://msdn.microsoft.com/en-us/library/aa392282(v=vs.85).aspx This explains how to create an NTEventLogEventConsumer class and how to setup one of its properties (insertionstrings) to a string. It also does this via MOF and compiling the MOF. The MOF then is embedded in OBJECTS.DATA. WMIPers is not parsing the "\_EventConsumer" for these events very well, must look into that. The interesting thing though is that you could store anything in those "strings", why not a payload?
+- https://msdn.microsoft.com/en-us/library/aa393016(v=vs.85).aspx Ability to register EventConsumers and EventFilters can be restricted by setting the EventAccess attribute of the EventFilter instance. 
