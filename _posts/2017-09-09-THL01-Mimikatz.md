@@ -221,6 +221,5 @@ Add the following to your sysmon config file to be able to detect this type of l
 {% endhighlight %}
 
 ## Updates
-13/09/2017 | added details about test OS & powershell expression used for in-memory execution. Added Detection Artifact III
-
+13/09/2017 | added details about test OS & powershell expression used for in-memory execution. Added Detection Artifact III</br>
 18/09/2017 | added sysmon config snip
