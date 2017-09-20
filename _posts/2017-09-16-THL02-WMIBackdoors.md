@@ -140,8 +140,17 @@ PSProvider   : Microsoft.PowerShell.Core\Registry
 Alternatively: 
 ![THL002-01](../img/THL002/THL002-01.JPG)
 
-We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artefacts later)
+We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artefacts later).
 
+## Observables
+Immediately after creating this WMI persistence (range from 18/09/2017 23:00:00.000 to 19/09/2017 23:44:30.000  ), we run a query to see what types of events we are getting: 
+`Query: powershell NOT splunk | stats count by EventCode, _time | sort _time`
+![THL002-02](../img/THL002/THL002-02.JPG)
+
+Let's take a closer look this time replacing the EventCodes for their descriptions
+![THL002-03](../img/THL002/THL002-03.JPG)
+
+I'm no doctor, but this is starting to look like a pulse! 
 =======================================================================================================
 
 
