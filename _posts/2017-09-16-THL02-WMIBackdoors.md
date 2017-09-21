@@ -4,7 +4,7 @@ title: Tales of a Threat Hunter 2
 subtitle: Following the trace of WMI Backdoors & other nastyness
 tags: [threat hunting, hunting, wmi, windows management instrumentation, backdoor, persistene, siem, ioc, splunk, elk, darkquasar, volatility]
 comments: true
-published: true
+published: false
 ---
 * TOC
 {:toc}
