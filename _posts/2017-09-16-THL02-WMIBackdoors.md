@@ -181,11 +181,16 @@ This is just a snip (full csv [here](../Files/Wmi_iex.csv))
 ![THL002-06](../img/THL002/THL002-06.JPG)
 
 We start observing some other interesting events poping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see 5861 (Source: Microsoft-Windows-WMI-Activity/Operational)[^2], 400 (Source: Windows Powershell / Message: Engine state is changed from None to Available)[^3] and 403 (Source: Windows Powershell / Message: Engine state is changed from Available to Stopped)[^4]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
-The interesting thing about all these events is that they all reveal 
+The interesting thing about all these events is that they all reveal the powershell code used as payload: `powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))`
+
+Most interesting of them all is Event 5861, which is givin us a lot of information about the persistence, namely the Binding itself, so it's providing us with the \_\_EventFilter and CommandLineEventConsumer instances: 
+123#@!
+
 
 -------------------------------------------------------------------------------------------------------
 [^1]: Since Win 8 and Server 2012: http://windowsitpro.com/security/understanding-and-enabling-command-line-auditing
-[^2]: EventCode 5861 sample contents:
+
+[^2]: EventCode 5861 sample contents: 
 ```
 09/19/2017 11:44:10 PM
 LogName=Microsoft-Windows-WMI-Activity/Operational
@@ -218,6 +223,7 @@ instance of CommandLineEventConsumer
 	Name = "ExecuteEvilPowerShell";
 };
 ```
+
 [^3]: EventCode 400 sample contents:
 ```
 09/19/2017 11:44:22 PM
@@ -287,6 +293,7 @@ Details:
 	CommandPath=
 	CommandLine=
 ```
+
 =======================================================================================================
 
 
