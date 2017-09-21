@@ -215,11 +215,16 @@ Add the following to your sysmon config file to be able to detect this type of l
 	<SourceImage condition="end with">GoogleUpdate.exe</SourceImage>
 	<SourceImage condition="end with">LTSVC.exe</SourceImage>
 	<SourceImage condition="end with">taskmgr.exe</SourceImage>
-	<SourceImage condition="end with">VBoxService.exe</SourceImage>
+	<SourceImage condition="end with">VBoxService.exe</SourceImage> # Virtual Box
 	<SourceImage condition="end with">vmtoolsd.exe</SourceImage>
+	<SourceImage condition="end with">taskmgr.exe</SourceImage>
+	<SourceImage condition="end with">\Citrix\System32\wfshell.exe</SourceImage> #Citrix process in C:\Program Files (x86)\Citrix\System32\wfshell.exe
+	<SourceImage condition="is">C:\Windows\System32\lsm.exe</SourceImage> # System process under C:\Windows\System32\lsm.exe
+	<SourceImage condition="end with">Microsoft.Identity.AadConnect.Health.AadSync.Host.exe</SourceImage> # Microsoft Azure AD Connect Health Sync Agent
+	<SourceImage condition="begin with">C:\Program Files (x86)\Symantec\Symantec Endpoint Protection</SourceImage> # Symantec
 </ProcessAccess>
 {% endhighlight %}
 
 ## Updates
-13/09/2017 | added details about test OS & powershell expression used for in-memory execution. Added Detection Artifact III</br>
-18/09/2017 | added sysmon config snip
+- 13/09/2017 | added details about test OS & powershell expression used for in-memory execution. Added Detection Artifact III.
+- 18/09/2017 | added sysmon config snip
