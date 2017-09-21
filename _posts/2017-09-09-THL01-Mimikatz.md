@@ -204,7 +204,7 @@ Tested with standalone Mimikatz from a Windows Server 2016 and this time, Access
 ```Markdown
 SEQUENCE: 
 1. EventCode=1 | where (match(ParentImage, "cmd.exe") AND match(IntegrityLevel, "high"))
-2. EventCode=10 | where (match(Access_Mask, "0x1010") AND !match(SourceImage, "svchost\.exe") AND match(TargetImage, "lsass\.exe"))
+2. EventCode=10 | where (match(GrantedAccess, "0x1010") AND !match(SourceImage, "svchost\.exe") AND match(TargetImage, "lsass\.exe"))
 ```
 
 
