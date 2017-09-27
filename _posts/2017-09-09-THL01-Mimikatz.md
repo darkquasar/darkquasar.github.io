@@ -193,7 +193,7 @@ EventCode=4656 | where (Object_Name LIKE "%lsass.exe" AND Access_Mask=="0x143A")
 constitute great candidates for an alert.
 
 ## Detection Artifact III
-Tested with the Empire version of Invoke-Mimikatz and realised that Access_Mask changes from "0x143A" to "0x1410". This time however, when running this other version the Access_Mask generates more FP so we need to couple it with another AND gate that looks for processes finishing with "shell.exe" (*powershell.exe*). The caveat is that it will be easier to bypass 'cause an attacker can always change the name of the powershell executable or load powershell without powershell using a few dlls. If we couple this new detection with the other observed windows events though, a more robust signature may emerge. 
+Tested with the Empire version of Invoke-Mimikatz and realised that Access_Mask changes from "0x143A" to "0x1410". This time however, when running this other version the Access_Mask generates more FP so we need to couple it with another AND gate that looks for processes finishing with "shell.exe" (*powershell.exe*). The caveat is that it will be easier to bypass 'cause an attacker can always change the name of the powershell executable or [load powershell without powershell!](https://github.com/p3nt4/PowerShdll/tree/master/dll) using a few dlls. If we couple this new detection with the other observed windows events though, a more robust signature may emerge. 
 
 ```Markdown
 EventCode=4656 | where ((Object_Name LIKE "%lsass.exe" AND Access_Mask=="0x143A") OR (Process_Name LIKE "%shell.exe" AND Object_Name LIKE "%lsass.exe" AND Access_Mask=="0x1410")
