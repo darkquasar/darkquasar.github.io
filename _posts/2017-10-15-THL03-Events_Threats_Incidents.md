@@ -20,9 +20,9 @@ So what are these guys? It is common to mistake incidents for events or threats,
 
 ### Event
 In the digital world, an event is an occurence in time with three important properties: 
-> (a) it originates in a digital system; 
-> (b) it is a collection of metadata about other events that occurr at the same or different levels; 
-> (c) it constitutes a logical entity in itself. 
+> - (a) it originates in a digital system; 
+ - (b) it is a collection of metadata about other events that occurr at the same or different levels; 
+ - (c) it constitutes a logical entity in itself. 
 
 What? Yeah, I know... take a guy we all know: Windows Event 4624 "An Account was Successfully Logged On", this guy classifies as an Event, why? because according to:
 
