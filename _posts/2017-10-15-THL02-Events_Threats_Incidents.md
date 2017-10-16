@@ -4,8 +4,9 @@ title: Cybersecurity Philosophy
 subtitle: Event, Incident & IOC: Operational Concepts to have with your morning coffee
 tags: [incident, threat, event, alarm, ioc, attack, darkquassar, incident management, soc, siem, security, monitoring, operations]
 comments: true
-published: false
+published: true
 ---
+
 * TOC
 {:toc}
 
@@ -28,7 +29,7 @@ So what are these guys? It is common to mistake incidents for events or threats,
 
 ### Event
 
-> "The life of the individual gives way to an impersonal and yet singular life that releases a pure event freed from the accidents of internal and external life, that is, from the subjectivity and objectivity of what happens: a “Homo tantum” with whom everyone empathizes and who attains a sort of beatitude. It is a haecceity no longer of individuation but of singularization: a life of pure immanence, neutral, beyond good and evil, for it was only the subject that incarnated it in the midst of things that made it good or bad. The life of such individuality fades away in favor of the singular life immanent to a man who no longer has a name, though he can be mistaken for no other. A singular essence, a life…" (Gilles Deleuze, Pure Immanence: Essays on A Life)
+> "A life contains only virtuals. It is made up of virtualities, events, singularities. What we call virtual is not something that lacks reality but something that is engaged in a process of actualization following the plane that gives it its particular reality... The plane of immanence is itself actualized in an object and a subject to which it attributes itself... but the plane of immanence is itself virtual" (Gilles Deleuze, Pure Immanence: Essays on A Life)
 
 In the digital world, an event is an occurence in time with three important properties: 
 > - (a) it originates in a digital system; 
@@ -49,6 +50,8 @@ Events are not "good" or "bad" per se, they are just by-products of other things
 > TL;DR (*lol*;) We have often heard about "alert fatigue", and as you will see, this fatigue is very real and can happen as a result of badly managed event flows or the lack of a structure for the meaningful extraction of actionable data. And before you say it: you are right, it's people that make a difference here, not technology. 
 
 ### Indicator of Compromise (IOC)
+> "What is a realtion? It is what makes us pass from a given impression or idea to the idea of something that is not presently given... Casuality requires that I go from something that is given to me to the idea of something that has never been given to me, that isn't even giveable in experience" (Gilles Deleuze, "Hume", Pure Immanence: Essays on A Life)
+
 Collecting millions of events per second doesn't make much sense unless we actually **do something** with them. There are essentially three main ways of extracting meaningful information out of this flow of events. Unfortunately not many know how to do this and take an approach of *sending everything everywhere* which exponentially contributes to noise generation and alert fatigue. Succintly: 
 
 1. Risk assessment and policy definitions. By doing this, you define which areas of your network carry the highest value in terms of sensitive data. You also define which entry vectors could pose risks to such data and which techniques can be leveraged to achieve this purpose. Consequently, you then use this information to define which logs you require in order to create a web of detection around designated system areas (for example user logons). This method is basically a top-down approach where you beginn with a high overview assessment of your systems and work your way down to the TTPs (*Tactics, Techniques and Procedures*)[https://attack.mitre.org/wiki/Main_Page] level. 
@@ -67,6 +70,7 @@ If you wonder: wouldn't the best option be to take a combination approach of (1)
 So far, we've talked about events and IOCs, and we understand that their purpose is to provide visibility on the continuous alterations in the homeostasis of computing systems, such that activity patterns deemed threatening can be located, contained and any damage remediated. However, for **something** to happen at all after we successfully detect such damaging patterns, we need to define a new layer of systemic activity whose purpose is essentially *practical*. And so we flow naturally into incidents. 
 
 ### Incident
+> "There are no facts, only interpretations. And this is also an interpretation" (Friedrich Nietzsche, Notebooks [Summer 1886 – Fall 1887])
 
 > “The percept is the landscape before man, in the absence of man.” (Gilles Deleuze, What is Philosophy?)
 
