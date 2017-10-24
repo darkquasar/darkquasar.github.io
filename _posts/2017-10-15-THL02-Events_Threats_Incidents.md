@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Cybersec Philosophy 
+title: SOC Operational Concepts 
 subtitle: Event, Incident & IOC - Operational Concepts to have with your morning coffee
 tags: [incident, threat, event, alarm, ioc, attack, darkquassar, incident management, soc, siem, security, monitoring, operations]
 comments: true
