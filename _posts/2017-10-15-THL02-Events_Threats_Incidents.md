@@ -38,15 +38,17 @@ I know you may be thinking *"what the hell is this guy talking about?", "why am 
 > "A life contains only virtuals. It is made up of virtualities, events, singularities. What we call virtual is not something that lacks reality but something that is engaged in a process of actualization following the plane that gives it its particular reality... The plane of immanence is itself actualized in an object and a subject to which it attributes itself... but the plane of immanence is itself virtual" (Gilles Deleuze, Pure Immanence: Essays on A Life)
 
 In the digital world, an event is an occurrence in time with three important properties: 
-> - (a) it originates in a digital system; 
-> - (b) it is a collection of metadata about other events that occur at the same or different levels; 
-> - (c) it constitutes a logical entity in itself. 
+1. it originates in a **digital system**
+
+2. it is a **collection of metadata about other events** that occur at the same or different levels; 
+
+3. it constitutes a **logical entity in itself**. 
 
 What? Yeah, I know... take a guy we all know: Windows Event 4624 "An Account was Successfully Logged On", this guy classifies as an Event, why? because according to:
 
-- **(a)** it was originated within a digital system
-- **(b)** it is only the tip of the iceberg, it provides a collection of attributes that describe what happened in the background. Someone logged on, and successfully, but for that to happen, a call to a logon protocol must have been made (say Kerberos), credentials needed to be provided, encrypted and forwarded, network devices must have exchanged information in a few of the OSI layers, processors must have processed huge amounts of opcodes and many other systemic coordinations must have taken place for such a simple thing as "logging on" to happen. Windows Event 4624 is just an after-the-fact product of such activity (events).
-- **(c)** the Windows Event 4624 is a logical unit that stands in front of you by itself, it has a structure, it is stored in a certain way within EVTX files, it consists of a series of fields and values that can be recalled by different querying methods: Event Viewer, Powershell, .NET, etc. 
+- **(1)** it was originated within a digital system
+- **(2)** it is only the tip of the iceberg, it provides a collection of attributes that describe what happened in the background. Someone logged on, and successfully, but for that to happen, a call to a logon protocol must have been made (say Kerberos), credentials needed to be provided, encrypted and forwarded, network devices must have exchanged information in a few of the OSI layers, processors must have processed huge amounts of opcodes and many other systemic coordinations must have taken place for such a simple thing as "logging on" to happen. Windows Event 4624 is just an after-the-fact product of such activity (events).
+- **(3)** the Windows Event 4624 is a logical unit that stands in front of you by itself, it has a structure, it is stored in a certain way within EVTX files, it consists of a series of fields and values that can be recalled by different querying methods: Event Viewer, Powershell, .NET, etc. 
 
 So when we talk about "events" in our cybersphere, we do it in the sense described earlier. 
 Events can be generated, collected and processed in many layers. On one layer we have an application generating an event, then a Windows service collecting it at a host level, then an agent like NXLog or WinLogBeat fetching that data, parsing it as syslog and submitting it to a SIEM solution that in turn re-arranges the syslog so that a presentation and application layer can display them in an orderly manner to the user. 
@@ -90,9 +92,9 @@ We are all familiar with incidents, we open them, handle them, lead them to reso
 
 The problem is though, incidents in cybersecurity are more about the **potential** for damage than **actual** damage being done. We can define an Incident as an event, or correlation thereof, that threatens to or causes direct damage to the Confidentiality, Integrity or Availability of information. An Incident must also comply with three characteristics: 
 
-- (a) it is originated as the result of an event, or correlation thereof, whose information complies with a set of conditions that indicate activity which can -or *has* already- damage the CIA triad of our systems. 
-- (b) it constitutes a logical unit in itself, it is not *just another event* or an *extension* of another entity.
-- (c) it's inherently comprised of two elements: (1) a data structure and (2) a series of actions that require human intervention. Unlike a mere event, that only has (1), an incident is a collection of data that not only points to and describes a situation, but also needs to go through multiple *transforms* in order to achieve its purpose. 
+1. **it is originated as the result of an event, or correlation thereof**, whose information complies with a set of conditions that indicate activity which can -or *has* already- damage the CIA triad of our systems. 
+2. **it constitutes a logical unit in itself**, it is not *just another event* or an *extension* of another entity.
+3. it's inherently comprised of two elements: (1) **a data structure and** (2) **a series of actions that require human intervention**. Unlike a mere event, that only has (1), an incident is a collection of data that not only points to and describes a situation, but also needs to go through multiple *transforms* in order to achieve its purpose. 
 
 So as you can see, not every event is an incident but every incident *is*, by virtue of condition (c)(1) an event. An incident is an event that talks about other events (this is what an event is anyways), but demands actions to be taken that decide the outcome of the information contained within it. 
 
