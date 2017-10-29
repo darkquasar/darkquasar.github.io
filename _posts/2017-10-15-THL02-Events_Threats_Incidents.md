@@ -92,8 +92,10 @@ We are all familiar with incidents, we open them, handle them, lead them to reso
 
 The problem is though, incidents in cybersecurity are more about the **potential** for damage than **actual** damage being done. We can define an Incident as an event, or correlation thereof, that threatens to or causes direct damage to the Confidentiality, Integrity or Availability of information. An Incident must also comply with three characteristics: 
 
-1. **it is originated as the result of an event, or correlation thereof**, whose information complies with a set of conditions that indicate activity which can -or *has* already- damage the CIA triad of our systems. 
+1. **it is originated as the result of an event, or correlation thereof**, whose information complies with a set of conditions that indicate activity which can -or *has* already- damage the CIA triad of our systems.
+
 2. **it constitutes a logical unit in itself**, it is not *just another event* or an *extension* of another entity.
+
 3. it's inherently comprised of two elements: (1) **a data structure and** (2) **a series of actions that require human intervention**. Unlike a mere event, that only has (1), an incident is a collection of data that not only points to and describes a situation, but also needs to go through multiple *transforms* in order to achieve its purpose. 
 
 So as you can see, not every event is an incident but every incident *is*, by virtue of condition (c)(1) an event. An incident is an event that talks about other events (this is what an event is anyways), but demands actions to be taken that decide the outcome of the information contained within it. 
