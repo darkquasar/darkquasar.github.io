@@ -19,7 +19,7 @@ There are two essential controls:
 * Disable Automated Link Update from Office apps
 
 ### Detective
-* Use YARA rule
+* Use this [YARA](https://raw.githubusercontent.com/darkquasar/InfoSec_Tools/master/YARA_Rules/DDE_OfficeExploit.yar) rule
 * Create a new rule using your EDR solution that draws on the patterns for the YARA rule
 
 ### References
