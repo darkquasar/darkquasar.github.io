@@ -3,7 +3,7 @@ layout: page
 title: Threat Protection Stack
 subtitle: A compilation of detective & mitigative controls for modern threats
 tags: [security control, siem, ips, ioc, correlation rule, detection, mitigation, threat, darkquasar]
-comments: true
+comments: false
 ---
 
 * TOC
