@@ -14,7 +14,7 @@ This is my collection of detective and mitigating security controls as it result
 
 | Topic                                                                                                                                               | Criticality | ID   | TTP Categorization                                                                                                                                                                                                                        | References                                                                                                                        | 
 |-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------| 
-| [DDE Microsoft Office weaponization](https://www.eideon.com/Threat_Protection_Stack/#protect-against-dde-microsoft-office-weaponization-techniques) | High        | Easy | **Category**: Defense Evation <br><br> **Sub-Category**: Weaponized Document. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068)                                                    | https://www.ghacks.net/2017/10/23/disable-office-ddeauto-to-mitigate-attacks/                                                     | 
+| [DDE Microsoft Office weaponization](https://www.eideon.com/Threat_Protection_Stack/#protect-against-dde-microsoft-office-weaponization-techniques) | High        | Easy | **Category**: Defense Evation <br><br> **Sub-Category**: Weaponized Document. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068)                                                    | https://www.ghacks.net/2017/10/23/disable-office-ddeauto-to-mitigate-attacks                                                     | 
 | [Prevent lateral movement I](https://www.eideon.com/Threat_Protection_Stack/#prevent-credential-harvesting-and-lateral-movement-in-AD-Environment)  | Critical    | Hard | **Category**: Lateral Movement, Credential Access <br><br> **Sub-Category**: Pass the Hash, Pass the Ticket, Credential Dumping. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068) | https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material | 
 
 <br>
@@ -31,16 +31,16 @@ There are two essential controls:
 * Create a new rule using your EDR solution that draws on the patterns for the YARA rule
 
 ### References
-* To mitigate DDE by disabling Automated Link Updates: [here](https://www.ghacks.net/2017/10/23/disable-office-ddeauto-to-mitigate-attacks)
+* To mitigate DDE by disabling Automated Link Updates: https://www.ghacks.net/2017/10/23/disable-office-ddeauto-to-mitigate-attacks
 * DDE Protocol: https://msdn.microsoft.com/en-us/library/windows/desktop/ms648774%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
-* Yara Rules: https://blog.nviso.be/2017/10/12/yara-dde-rules-dde-command-execution-observed-in-the-wild/
+* Yara Rules: https://blog.nviso.be/2017/10/12/yara-dde-rules-dde-command-execution-observed-in-the-wild
 * McAfee Advisory: https://kc.mcafee.com/resources/sites/MCAFEE/content/live/PRODUCT_DOCUMENTATION/27000/PD27325/en_US/McAfee_Labs_Threat_Advisory-W97MMacroLess.pdf
 
 ## Prevent credential harvesting and lateral movement in AD Environment
 Security Controls: Mitigative, Detective. 
 
 ### Mitigative
-* Apply Active Directory administrative tier model 
+* Apply Active Directory administrative tier model on your environment
 
 ### Detective
 * WIP
