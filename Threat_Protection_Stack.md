@@ -14,8 +14,8 @@ This is my collection of detective and mitigating security controls as it result
 
 ## Legend
 > **Topic**: represents the short description of the threat that requires a security control in order to reduce risk of exposure in your network. 
-> **Criticality**: how critical (urgency/severity) the security control that mitigates the threat is for any organization.
-> **IDS**: Implementation Difficulty Score, a simple measure of the effort involved into implementing proper security controls for this threat. 
+> **Criticality**: how critical (urgency/severity) the security control that mitigates the threat is for any organization. The scores are: low, medium, high, critical. 
+> **IDS**: Implementation Difficulty Score, a simple measure of the effort involved into implementing proper security controls for this threat. The scores hare: easy, medium, hard, very hard.
 > **TTP Cagetorization**: A broad schema to classify the threat type. 
 
 ## Threat Protection Stack Table v0.1
@@ -23,7 +23,7 @@ This is my collection of detective and mitigating security controls as it result
 | Topic                                                                                                                                               | Criticality | IDS   | TTP Categorization                                                                                                                                                                                                                        | References                                                                                                                        | 
 |-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------|------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------| 
 | [DDE Microsoft Office weaponization](https://www.eideon.com/Threat_Protection_Stack/#protect-against-dde-microsoft-office-weaponization-techniques) | High        | Easy | **Category**: Defense Evation <br><br> **Sub-Category**: Weaponized Document. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068)                                                    | https://www.ghacks.net/2017/10/23/disable-office-ddeauto-to-mitigate-attacks                                                     | 
-| [Prevent lateral movement I](https://www.eideon.com/Threat_Protection_Stack/#prevent-credential-harvesting-and-lateral-movement-in-AD-Environment)  | Critical    | Hard | **Category**: Lateral Movement, Credential Access <br><br> **Sub-Category**: Pass the Hash, Pass the Ticket, Credential Dumping. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068) | https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material | 
+| [Prevent lateral movement I](https://www.eideon.com/Threat_Protection_Stack/#prevent-credential-harvesting-and-lateral-movement-in-AD-Environment)  | Critical    | Very Hard | **Category**: Lateral Movement, Credential Access <br><br> **Sub-Category**: Pass the Hash, Pass the Ticket, Credential Dumping. <br><br> **MITRE**: Exploitation of Vulnerability [T1068](https://attack.mitre.org/wiki/Technique/T1068) | https://docs.microsoft.com/en-us/windows-server/identity/securing-privileged-access/securing-privileged-access-reference-material | 
 
 <br>
 <br>
