@@ -18,10 +18,11 @@ This is my collection of detection logics for current threats as it results from
 This IOC is meant to capture covert instances of cmd or powershell spawned by Microsoft Office applications as a result of exploit activity. The delivery method can be multiple: email with attachments, link in emails, Word documents, Power Point presentations, Excel spreadsheets, etc. 
 
 **Logic**
+<br>
 ```
 Path of Parent Process *contains* "office"
 Process Name *contains* "powershell" or "cmd"
 Path of Parent Process *not equals* "C:\Program Files\Microsoft Office 15\ClientX64\officeclicktorun.exe" or "C:\Program Files\Microsoft Office Servers\15.0\Synchronization Service\Bin\miiserver.exe" or "C:\Program Files\Common Files\Microsoft Shared\OfficeSoftwareProtectionPlatform\OSPPSVC.EXE"
-
+```
 **False Positives**
 Medium FP ratio
