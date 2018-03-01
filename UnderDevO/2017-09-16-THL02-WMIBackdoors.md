@@ -35,7 +35,8 @@ First, rather than re-inventing the wheel, I will link here below the sources th
 # How does a WMI persistent object look like?
 Let's use two scripts that allow us to easily create a malicious persistence without having to do it step by step (have a look at the PS files to understand all the bits and pieces involved), namely: 
 - [PowerLurk](https://github.com/Sw4mpf0x/PowerLurk/blob/master/PowerLurk.ps1) by Sw4mp\_f0x
-- [WMI Persistence Template](https://gist.github.com/mattifestation/e55843eef6c263608206) by Matt G.
+- [WMI Persistence Template Gist](https://gist.github.com/mattifestation/e55843eef6c263608206) by Matt G.
+- Alternatively, you can also use an adaptation of Matt's work by **n0pe-sled** [WMI-Persistence.ps1](https://github.com/n0pe-sled/WMI-Persistence/blob/master/WMI-Persistence.ps1)
 
 ## WMI Persistence Template by Matt G. 
 We tweaked some of the parameters in the script to make sure the timer event launches every minute and that no cleanup is performed at the end. After launching it, we can inspect the newly created Event Consumers/Filters/Bindings as follows: 
@@ -103,5 +104,46 @@ DeliveryQoS             :
 **Filter                  : __EventFilter.Name="TimerTrigger"**
 ```
 
-As we can observe, this persistence is based off a Timer *intrinsic* Event type. 
+As we can observe, this persistence is based off a Timer *intrinsic* Event type. Using 
+```Powershell
+Get-WmiObject -Class __IntervalTimerInstruction
+```
+would further reveal information on the particular timer.
+
+## WMI Persistence via PowerLurk by Sw4mpf0x 
+We can reproduce the same Timer Triggered Event as above with more ease with this great script which allows for a lot of flexibility. 
+```Powershell
+Register-MaliciousWMIEvent -EventName MaliciousWMIEvent -LocalScriptBlock {Invoke-Expression -Command "cmd /c calc.exe"} -Trigger Interval -IntervalPeriod 60 -TimerId MaliciousTimer
+```
+this will simply start calc every 60 seconds and we can see the timer event
+```Powershell
+__GENUS               : 2
+__CLASS               : __IntervalTimerInstruction
+__SUPERCLASS          : __TimerInstruction
+__DYNASTY             : __SystemClass
+__RELPATH             : __IntervalTimerInstruction.TimerId="MaliciousTimer"
+__PROPERTY_COUNT      : 3
+__DERIVATION          : {__TimerInstruction, __EventGenerator, __IndicationRelated, __SystemClass}
+__SERVER              : W10B1
+__NAMESPACE           : ROOT\cimv2
+__PATH                : **\\W10B1\ROOT\cimv2:__IntervalTimerInstruction.TimerId="MaliciousTimer"**
+IntervalBetweenEvents : 60000
+SkipIfPassed          : False
+TimerId               : MaliciousTimer
+PSComputerName        : W10B1
+```
+Let's go ahead and remove it though:
+```Powershell
+Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding | Remove-WmiObject -Verbose
+Get-WMIObject -Namespace root\Subscription -Class __EventFilter | Remove-WmiObject -Verbose
+Get-WMIObject -Namespace root\Subscription -Class __EventConsumer | Remove-WmiObject -Verbose
+Get-WmiObject -Class __IntervalTimerInstruction | Remove-WmiObject -Verbose
+```
+
+We can do many more things, but this post is mainly about how to detect such sneaky persistence mechanisms, so let's go ahead and grab our majestic *free* install of Splunk Enterprise with a 60 day trial and let's make use of our best friend Sysmon the Great. 
+
+# WMI Persistence Detection
+For the purposes of this test, I've used a "log all" approach with Sysmon, you can find a sample config file [here](https://github.com/darkquasar/THL/blob/master/Templates/SysmonConfig-LogAll.xml)(*Threat Hunting Ecosystem as a Code* is my next project, don't look at it yet, it's ugly!)
+
+So let's go ahead and create a new TimerEvent and see what our logs come up with: 
 
