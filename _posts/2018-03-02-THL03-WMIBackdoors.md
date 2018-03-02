@@ -132,8 +132,6 @@ We can observe the BASE64 ciphered payload (hold on to this, as it will become o
 Now let's throw in that juicy **iex** keyword to the mix and see what it comes up with: 
 `Query: WmiPrvse OR powershell AND "iex" (NOT *google* NOT splunk NOT TargetImage=*powershell* NOT TargetImage=*wmiprvse* NOT TargetImage=*chrome* NOT TargetImage=*vmware* NOT EventCode=600) | reverse | table _time, EventCode, Message`
 
-This is just a snip (full csv [here](../Files/Wmi_iex.csv))
-
 ![THL002-06](../img/THL002/THL002-06.JPG)
 
 We start observing some other interesting events popping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see 5861 (Source: Microsoft-Windows-WMI-Activity/Operational), 400 (Source: Windows Powershell / Message: Engine state is changed from None to Available)[^2] and 403 (Source: Windows Powershell / Message: Engine state is changed from Available to Stopped)[^3]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
@@ -188,10 +186,10 @@ LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NO
 ![THL002-01P](../img/THL002/THL002-01.PNG)
 
 2. Second, becase I am running Powershell v5, Script Block Auditing is enabled by default, hence, the malicious script was also captured: 
-![THL002-01P](../img/THL002/THL002-02.PNG)
+![THL002-02P](../img/THL002/THL002-02.PNG)
 
 3. We also notice via another Event Id 5860 that some application with the Process Id 2024 issued a query to the WMI provider: 
-![THL002-01P](../img/THL002/THL002-03.PNG)
+![THL002-03P](../img/THL002/THL002-03.PNG)
 
 Who is this guy?  
 
@@ -217,7 +215,7 @@ objFile.Close
 
 Register-MaliciousWmiEvent -EventName CalcMalicious -PermanentScript $script -Trigger ProcessStart -ProcessName notepad.exe -ScriptingEngine VBScript
 {% endhighlight %}
-![THL002-01P](../img/THL002/THL002-04.PNG)
+![THL002-04P](../img/THL002/THL002-04.PNG)
 
 As we can observe, this pretty handy Windows Event Id **5861** provides all the information pertaining to the FilterToConsumerBinding, the EventConsumer and EventFilter
 
