@@ -145,5 +145,29 @@ We can do many more things, but this post is mainly about how to detect such sne
 # WMI Persistence Detection
 For the purposes of this test, I've used a "log all" approach with Sysmon, you can find a sample config file [here](https://github.com/darkquasar/THL/blob/master/Templates/SysmonConfig-LogAll.xml)(*Threat Hunting Ecosystem as a Code* is my next project, don't look at it yet, it's ugly!)
 
-So let's go ahead and create a new TimerEvent and see what our logs come up with: 
+So let's go ahead and create a new TimerEvent and see what our logs come up with. We shall use the following search: 
+```
+LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NOT "sysmon"
+```
+
+1. First thing we notice is that Windows already comes with a default "WMI-Event Detector" which is **Event Id 5860** in the *Microsoft-Windows-WMI-Activity/Operational* Log
+THL02-01
+
+2. Second, becase I am running Powershell v5, Script Block Auditing is enabled by default, hence, the malicious script was also captured: 
+THL02-02
+
+3. We also notice via another Event Id 5860 that some application with the Process Id 2024 issued a query to the WMI provider: 
+THL02-03
+
+Who is this guy?  
+
+```Powershell
+PS C:\WINDOWS\system32> Get-Process -Id 2024
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName                                                         
+-------  ------    -----      -----     ------     --  -- -----------                                                         
+    425      20    22676      21804     174.56   2024   0 Sysmon64      
+```
+
+TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
 
