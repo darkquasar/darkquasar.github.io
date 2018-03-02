@@ -183,13 +183,13 @@ LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NO
 {% endhighlight %}
 
 1. First thing we notice is that Windows already comes with a default "WMI-Event Detector" which is **Event Id 5860** in the *Microsoft-Windows-WMI-Activity/Operational* Log
-![THL002-01P](../img/THL002/THL002-01.PNG)
+![THL002-01P](../img/THL002/THL02-01.PNG)
 
 2. Second, becase I am running Powershell v5, Script Block Auditing is enabled by default, hence, the malicious script was also captured: 
-![THL002-02P](../img/THL002/THL002-02.PNG)
+![THL002-02P](../img/THL002/THL02-02.PNG)
 
 3. We also notice via another Event Id 5860 that some application with the Process Id 2024 issued a query to the WMI provider: 
-![THL002-03P](../img/THL002/THL002-03.PNG)
+![THL002-03P](../img/THL002/THL02-03.PNG)
 
 Who is this guy?  
 
@@ -215,7 +215,7 @@ objFile.Close
 
 Register-MaliciousWmiEvent -EventName CalcMalicious -PermanentScript $script -Trigger ProcessStart -ProcessName notepad.exe -ScriptingEngine VBScript
 {% endhighlight %}
-![THL002-04P](../img/THL002/THL002-04.PNG)
+![THL002-04P](../img/THL002/THL02-04.PNG)
 
 As we can observe, this pretty handy Windows Event Id **5861** provides all the information pertaining to the FilterToConsumerBinding, the EventConsumer and EventFilter
 
