@@ -336,9 +336,9 @@ We will add a tag for the new event that has a pretty tight condition: it will o
 {% endhighlight %}
 
 ## Some references: 
-- Malware using WMI Persistence: (WMIGhost)[https://secrary.com/ReversingMalware/WMIGhost/] / Actors: (APT29POSHSPY)[https://www.fireeye.com/blog/threat-research/2017/03/dissecting_one_ofap.html]
-- (Yeap, cryptominers WMI'ing the sh!@# out of Browsers)[http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/]
-- This dude man! (mattifestation)[https://twitter.com/mattifestation/status/899646620148539397]
+- Malware using WMI Persistence: [WMIGhost](https://secrary.com/ReversingMalware/WMIGhost/) / Actors: [APT29POSHSPY](https://www.fireeye.com/blog/threat-research/2017/03/dissecting_one_ofap.html)
+- [Yeap, cryptominers WMI'ing the sh!@# out of Browsers](http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/)
+- This dude man! [mattifestation](https://twitter.com/mattifestation/status/899646620148539397)
 - List of modules involved in each WMI event https://msdn.microsoft.com/en-us/library/aa940177(v=winembedded.5).aspx
 - https://msdn.microsoft.com/en-us/library/aa392282(v=vs.85).aspx This explains how to create an NTEventLogEventConsumer class and how to setup one of its properties (insertionstrings) to a string. It also does this via MOF and compiling the MOF. The MOF then is embedded in OBJECTS.DATA. WMIPers is not parsing the "\_EventConsumer" for these events very well, must look into that. The interesting thing though is that you could store anything in those "strings", why not a payload?
 - https://msdn.microsoft.com/en-us/library/aa393016(v=vs.85).aspx Ability to register EventConsumers and EventFilters can be restricted by setting the EventAccess attribute of the EventFilter instance. 
@@ -348,7 +348,7 @@ arrivederci my friends, wine and fettuccine awaits!
 -------------------------------------------------------------------------------------------------------
 [^1]: Since Win 8 and Server 2012: http://windowsitpro.com/security/understanding-and-enabling-command-line-auditing
 [^2]: EventCode 400 sample contents:
-
+#### EventCode 400 sample contents:
 {% highlight powershell%}
 09/19/2017 11:44:22 PM
 LogName=Windows PowerShell
@@ -384,6 +384,7 @@ Details:
 {% endhighlight %}
 
 [^3]: EventCode 403 sample contents:
+#### EventCode 403 sample contents
 {% highlight powershell%}
 09/19/2017 11:44:23 PM
 LogName=Windows PowerShell
