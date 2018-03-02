@@ -39,7 +39,7 @@ Get-WmiObject -Namespace root\subscription -Class __EventFilter
 {% endhighlight %}
 
 Result: 
-```Powershell
+{% highlight powershell%}
 __GENUS          : 2
 __CLASS          : __EventFilter
 __SUPERCLASS     : __IndicationRelated
@@ -57,15 +57,16 @@ Name             : TimerTrigger
 **Query            : SELECT * FROM __TimerEvent WHERE TimerID = 'PayloadTrigger'**
 QueryLanguage    : WQL
 PSComputerName   : W10B1
-```
+{% endhighlight %}
 
 **EventConsumer**
-```Powershell
+{% highlight powershell%}
 Get-WmiObject -Namespace root\subscription -Class __EventConsumer
-```
+{% endhighlight %}
+
 Result: 
 [snip]
-```Powershell
+{% highlight powershell%}
 __GENUS               : 2
 __CLASS               : CommandLineEventConsumer
 __SUPERCLASS          : __EventConsumer
@@ -77,16 +78,15 @@ __SERVER              : W10B1
 __NAMESPACE           : ROOT\subscription
 __PATH                : \\W10B1\ROOT\subscription:CommandLineEventConsumer.Name="ExecuteEvilPowerShell"
 **CommandLineTemplate   : powershell.exe -NoP -C "iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))"**
-```
-[snip]
+{% endhighlight %}
 
 **FilterToConsumerBinding**
-```Powershell
+{% highlight powershell%}
 Get-WmiObject -Namespace root\subscription -Class __FilterToConsumerBinding
-```
+{% endhighlight %}
 Result: 
 [snip]
-```Powershell
+{% highlight powershell%}
 __NAMESPACE             : ROOT\subscription
 **__PATH                  : \\W10B1\ROOT\subscription:__FilterToConsumerBinding.Consumer="CommandLineEventConsumer.Name=\"ExecuteEvilPowerShell\"",Filter="__EventFilter.Name=\"TimerTrigger\""**
 **Consumer                : CommandLineEventConsumer.Name="ExecuteEvilPowerShell"**
@@ -94,7 +94,7 @@ CreatorSID              : {1, 5, 0, 0...}
 DeliverSynchronously    : False
 DeliveryQoS             : 
 **Filter                  : __EventFilter.Name="TimerTrigger"**
-```
+{% endhighlight %}
 
 As we can observe, this persistence is based off a Timer *intrinsic* Event type. If you launched it and head to C:\ you will see the *payload\_result.txt* file as per the script: 
 
@@ -144,11 +144,11 @@ Most interesting of them all is Event 5861, which is givin us a lot of informati
 
 ## WMI Persistence via PowerLurk by Sw4mpf0x 
 We can reproduce the same Timer Triggered Event as above with more ease with this great script which allows for a lot of flexibility. 
-```Powershell
+{% highlight powershell%}
 Register-MaliciousWMIEvent -EventName MaliciousWMIEvent -LocalScriptBlock {Invoke-Expression -Command "cmd /c calc.exe"} -Trigger Interval -IntervalPeriod 60 -TimerId MaliciousTimer
-```
+{% endhighlight %}
 this will simply start calc every 60 seconds and we can see the timer event
-```Powershell
+{% highlight powershell%}
 __GENUS               : 2
 __CLASS               : __IntervalTimerInstruction
 __SUPERCLASS          : __TimerInstruction
@@ -163,14 +163,14 @@ IntervalBetweenEvents : 60000
 SkipIfPassed          : False
 TimerId               : MaliciousTimer
 PSComputerName        : W10B1
-```
+{% endhighlight %}
 Let's go ahead and remove it though:
-```Powershell
+{% highlight powershell%}
 Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding | Remove-WmiObject -Verbose
 Get-WMIObject -Namespace root\Subscription -Class __EventFilter | Remove-WmiObject -Verbose
 Get-WMIObject -Namespace root\Subscription -Class __EventConsumer | Remove-WmiObject -Verbose
 Get-WmiObject -Class __IntervalTimerInstruction | Remove-WmiObject -Verbose
-```
+{% endhighlight %}
 
 We can do many more things, but this post is mainly about how to detect such sneaky persistence mechanisms, so let's go ahead and grab our majestic *free* install of Splunk Enterprise with a 60 day trial and let's make use of our best friend Sysmon the Great. 
 
@@ -178,9 +178,9 @@ We can do many more things, but this post is mainly about how to detect such sne
 For the purposes of this test, I've used a "log all" approach with Sysmon, you can find a sample config file [here](https://github.com/darkquasar/THL/blob/master/Templates/SysmonConfig-LogAll.xml)(*Threat Hunting Ecosystem as a Code* is my next project, don't look at it yet, it's ugly!)
 
 So let's go ahead and create a new TimerEvent and see what our logs come up with. We shall use the following search: 
-```
+{% highlight powershell%}
 LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NOT "sysmon"
-```
+{% endhighlight %}
 
 1. First thing we notice is that Windows already comes with a default "WMI-Event Detector" which is **Event Id 5860** in the *Microsoft-Windows-WMI-Activity/Operational* Log
 ![THL002-01P](../img/THL002/THL002-01.PNG)
@@ -193,18 +193,18 @@ LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NO
 
 Who is this guy?  
 
-```Powershell
+{% highlight powershell%}
 PS C:\WINDOWS\system32> Get-Process -Id 2024
 
 Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName                                                         
 -------  ------    -----      -----     ------     --  -- -----------                                                         
     425      20    22676      21804     174.56   2024   0 Sysmon64      
-```
+{% endhighlight %}
 
 TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is registering itself here as a subscriber for intrinsic events. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
 
 What would happen if we create a script event consumer? 
-```Powershell
+{% highlight powershell%}
 $script = @’
 Set objFSO=CreateObject("Scripting.FileSystemObject")
 outFile="c:\test\log.txt"
@@ -214,13 +214,13 @@ objFile.Close
 ‘@
 
 Register-MaliciousWmiEvent -EventName CalcMalicious -PermanentScript $script -Trigger ProcessStart -ProcessName notepad.exe -ScriptingEngine VBScript
-```
+{% endhighlight %}
 ![THL002-01P](../img/THL002/THL002-04.PNG)
 
 As we can observe, this pretty handy Windows Event Id **5861** provides all the information pertaining to the FilterToConsumerBinding, the EventConsumer and EventFilter
 
 We also observe Windows Event Id **5859** showing the EventFilter which is effectively registered in the NotificationQueue: 
-```Powershell
+{% highlight powershell%}
 LogName=Microsoft-Windows-WMI-Activity/Operational
 SourceName=Microsoft-Windows-WMI-Activity
 EventCode=5859
@@ -235,10 +235,10 @@ OpCode=Info
 RecordNumber=321
 Keywords=None
 Message=Namespace = //./root/CIMV2; NotificationQuery = SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName='notepad.exe'; OwnerName = S-1-5-21-2876542525-3899777576-1000537697-1001; HostProcessID = 972;  Provider= WMI Kernel Trace Event Provider, queryID = 0; PossibleCause = Permanent
-```
+{% endhighlight %}
 
 And one other small but important piece of information is the presence of Event Id **5857** which is telling us who the provider is (an executable) whose task is to carry out the actions determined in the EventConsumer class: 
-```Powershell
+{% highlight powershell%}
 LogName=Microsoft-Windows-WMI-Activity/Operational
 SourceName=Microsoft-Windows-WMI-Activity
 EventCode=5857
@@ -253,15 +253,15 @@ OpCode=Info
 RecordNumber=322
 Keywords=None
 Message=ActiveScriptEventConsumer provider started with result code 0x0. HostProcess = wmiprvse.exe; ProcessID = 972; ProviderPath = %SystemRoot%\system32\wbem\scrcons.exe
-```
+{% endhighlight %}
 
 Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script. Ridding the Google brave horses I was able to obtain good answers from the Internet Elders: https://msdn.microsoft.com/en-us/library/aa940177(v=winembedded.5).aspx Here it says that these are the handlers for common event consumers: 
 
-```
+{% highlight powershell%}
     Scrcons.exe. ActiveScriptEventConsumer
     Smtpcons.dll. SMTPEventConsumer
     Wbemcons.dll. CommandLineEventConsumer, NTEventLogEventConsumer, LogFileEventConsumer
-```
+{% endhighlight %}
 
 So essentially, even if you are **NOT** monitoring for either Sysmon Events 19, 20 & 21 or Windows native Events in the WMI/Operational space Ids 5857, 5859, 5860 & 5861, you can **still** detect the presence of potentially malicious WMI persistence by leveraging the event consumer handlers listed above. Let's ask Sysmon for *Scrcons.exe*
 THL-02-05
@@ -273,7 +273,7 @@ THL-02-06
 If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be dissapointed.
 
 This time though, Sysmon seems to have noticed that a malicious event subscription was created and here we have it: 
-```Powershell
+{% highlight powershell%}
 Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";id=20} | Select-Object -ExpandProperty Message
 
 WmiEventConsumer activity detected:
@@ -286,13 +286,13 @@ Type: Script
 Destination:  "Set objFSO=CreateObject(\"Scripting.FileSystemObject\")\noutFile=\"c:\\test\\log.txt\"\nSet objFile = objFSO.Cre
 ateTextFile(outFile,True)\nobjFile.Write \"%TargetInstance.ProcessName% started at PID %TargetInstance.ProcessId%\" & vbCrLf\no
 bjFile.Close"
-```
+{% endhighlight %}
 If you are using Sysmon events to monitor for WMI event subscriptions, you only need to capture the results of Event Id 19 as it will display the *event consumer* which is were the juicy information is that allows us to discriminate benign from malicious. 
 
 What happens if we instead create a CommandLine Event Subscription instead of a Script based one? The command would look like this with PowerLurk: 
-```Powershell
+{% highlight powershell%}
 Register-MaliciousWmiEvent -EventName LogCalc1 -PermanentCommand “cmd.exe /c msg Artanis This is Persistence!” -Trigger ProcessStart -ProcessName calculator.exe
-```
+{% endhighlight %}
 
 This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of being a child of *svchost.exe* the parent will be *WmiPrvse.exe*. In all my experimental hunts I can assure you that the precense of *wbemcons.dll* as a child of *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
 
@@ -348,7 +348,8 @@ arrivederci my friends, wine and fettuccine awaits!
 -------------------------------------------------------------------------------------------------------
 [^1]: Since Win 8 and Server 2012: http://windowsitpro.com/security/understanding-and-enabling-command-line-auditing
 [^2]: EventCode 400 sample contents:
-```
+
+{% highlight powershell%}
 09/19/2017 11:44:22 PM
 LogName=Windows PowerShell
 SourceName=PowerShell
@@ -380,10 +381,10 @@ Details:
 	ScriptName=
 	CommandPath=
 	CommandLine=
-```
+{% endhighlight %}
 
 [^3]: EventCode 403 sample contents:
-```
+{% highlight powershell%}
 09/19/2017 11:44:23 PM
 LogName=Windows PowerShell
 SourceName=PowerShell
@@ -415,4 +416,4 @@ Details:
 	ScriptName=
 	CommandPath=
 	CommandLine=
-```
+{% endhighlight %}
