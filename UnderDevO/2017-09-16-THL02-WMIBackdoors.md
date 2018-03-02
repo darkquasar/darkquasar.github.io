@@ -224,4 +224,43 @@ Keywords=None
 Message=ActiveScriptEventConsumer provider started with result code 0x0. HostProcess = wmiprvse.exe; ProcessID = 972; ProviderPath = %SystemRoot%\system32\wbem\scrcons.exe
 ```
 
-Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script
+Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script. Ridding the Google brave horses I was able to obtain good answers from the Internet Elders: https://msdn.microsoft.com/en-us/library/aa940177(v=winembedded.5).aspx Here it says that these are the handlers for common event consumers: 
+
+```
+    Scrcons.exe. ActiveScriptEventConsumer
+    Smtpcons.dll. SMTPEventConsumer
+    Wbemcons.dll. CommandLineEventConsumer, NTEventLogEventConsumer, LogFileEventConsumer
+```
+
+So essentially, even if you are **NOT** monitoring for either Sysmon Events 19, 20 & 21 or Windows native Events in the WMI/Operational space Ids 5857, 5859, 5860 & 5861, you can **still** detect the presence of potentially malicious WMI persistence by leveraging the event consumer handlers listed above. Let's ask Sysmon for *Scrcons.exe*
+THL-02-05
+
+Now what a surprise! you would be expeting that *WmiPrvse.exe* would start *scrcons.exe*, instead it's this regular non-profit bloke *svchost.exe*. Sysmon is even providing us with the name `Description: WMI Standard Event Consumer - scripting` 
+Looking for further clues of *scrcons.exe* returns a Sysmon Event Id 11 (File Created) event where our little friend created a file. 
+THL-02-06
+
+If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be dissapointed.
+
+This time though, Sysmon seems to have noticed that a malicious event subscription was created and here we have it: 
+```Powershell
+Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";id=20} | Select-Object -ExpandProperty Message
+
+WmiEventConsumer activity detected:
+EventType: WmiConsumerEvent
+UtcTime: 2018-03-02 14:17:53.442
+Operation: Created
+User: W10B1\Artanis
+Name:  "CalcMalicious"
+Type: Script
+Destination:  "Set objFSO=CreateObject(\"Scripting.FileSystemObject\")\noutFile=\"c:\\test\\log.txt\"\nSet objFile = objFSO.Cre
+ateTextFile(outFile,True)\nobjFile.Write \"%TargetInstance.ProcessName% started at PID %TargetInstance.ProcessId%\" & vbCrLf\no
+bjFile.Close"
+```
+If you are using Sysmon events to monitor for WMI event subscriptions, you only need to capture the results of Event Id 19 as it will display the *event consumer* which is were the juicy information is that allows us to discriminate benign from malicious. 
+
+What happens if we instead create a CommandLine Event Subscription instead of a Script based one? The command would look like this with PowerLurk: 
+```Powershell
+Register-MaliciousWmiEvent -EventName LogCalc1 -PermanentCommand “cmd.exe /c msg Artanis This is Persistence!” -Trigger ProcessStart -ProcessName calculator.exe
+```
+
+This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of being a child of *svchost.exe* the parent will be *WmiPrvse.exe*. In all my experimental hunts I can assure you that the precense of *wbemcons.dll* as a child of *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
