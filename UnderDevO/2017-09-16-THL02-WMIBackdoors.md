@@ -169,5 +169,59 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
     425      20    22676      21804     174.56   2024   0 Sysmon64      
 ```
 
-TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
+TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is registering itself here as a subscriber for intrinsic events. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
 
+What would happen if we create a script event consumer? 
+```Powershell
+$script = @’
+Set objFSO=CreateObject("Scripting.FileSystemObject")
+outFile="c:\test\log.txt"
+Set objFile = objFSO.CreateTextFile(outFile,True)
+objFile.Write "%TargetInstance.ProcessName% started at PID %TargetInstance.ProcessId%" & vbCrLf
+objFile.Close
+‘@
+
+Register-MaliciousWmiEvent -EventName CalcMalicious -PermanentScript $script -Trigger ProcessStart -ProcessName notepad.exe -ScriptingEngine VBScript
+```
+
+THL-02-04
+
+As we can observe, this pretty handy Windows Event Id **5861** provides all the information pertaining to the FilterToConsumerBinding, the EventConsumer and EventFilter
+
+We also observe Windows Event Id **5859** showing the EventFilter which is effectively registered in the NotificationQueue: 
+```Powershell
+LogName=Microsoft-Windows-WMI-Activity/Operational
+SourceName=Microsoft-Windows-WMI-Activity
+EventCode=5859
+EventType=0
+Type=Information
+ComputerName=W10B1
+User=NOT_TRANSLATED
+Sid=S-1-5-18
+SidType=0
+TaskCategory=The operation completed successfully.
+OpCode=Info
+RecordNumber=321
+Keywords=None
+Message=Namespace = //./root/CIMV2; NotificationQuery = SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName='notepad.exe'; OwnerName = S-1-5-21-2876542525-3899777576-1000537697-1001; HostProcessID = 972;  Provider= WMI Kernel Trace Event Provider, queryID = 0; PossibleCause = Permanent
+```
+
+And one other small but important piece of information is the presence of Event Id **5857** which is telling us who the provider is (an executable) whose task is to carry out the actions determined in the EventConsumer class: 
+```Powershell
+LogName=Microsoft-Windows-WMI-Activity/Operational
+SourceName=Microsoft-Windows-WMI-Activity
+EventCode=5857
+EventType=0
+Type=Information
+ComputerName=W10B1
+User=NOT_TRANSLATED
+Sid=S-1-5-18
+SidType=0
+TaskCategory=The operation completed successfully.
+OpCode=Info
+RecordNumber=322
+Keywords=None
+Message=ActiveScriptEventConsumer provider started with result code 0x0. HostProcess = wmiprvse.exe; ProcessID = 972; ProviderPath = %SystemRoot%\system32\wbem\scrcons.exe
+```
+
+Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script
