@@ -13,7 +13,7 @@ published: true
 
 WMI is Microsoft's implementation of WBEM (Web Based Enterprise Management) which is based on [CIM](http://www.dmtf.org/standards/cim) and allows for the remote management of multiple system components in Windows environments. WMI is used on a daily basis by sysadmins across large domains due to its flexibility and scalability. Easy to deploy, scripts that leverage WMI can be seen everywhere. Unfortunately, as with everything that is widely deployed, has "remote" capabilities and runs on "windows": the dark force is strong around it [(just for fun: MS17-010)](https://technet.microsoft.com/en-us/library/security/ms17-010.aspx).
  
-It is known that WMI can be abused in many ways to either gather information, make changes and create persistence mechanisms. An excellent article by Matt Graeber [(@mattifestation)](https://twitter.com/mattifestation?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor) called [Abusing Windows Management Instrumentation (WMI) to Build a Persistent, Asyncronous, and Fileless Backdoor](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf) was an eye opener for many of us in the cybersec world. We knew this was possible, but forgot how flexible it was. The main strength of WMI persistence is its stealthyness and effectiveness. When a command is executed by WMI as a result of "evil" the only thing you will see is **WmiPrvse.exe** as the process. Distinguishing a valid system action from an invalid one is very hard under these circumstances. In other words, WMI persistence defeats nonrepudiation!
+It is known that WMI can be abused in many ways to either gather information, make changes and create persistence mechanisms. An excellent article by Matt Graeber [(@mattifestation)](https://twitter.com/mattifestation?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor) called [Abusing Windows Management Instrumentation (WMI) to Build a Persistent, Asyncronous, and Fileless Backdoor](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf) was an eye opener for many of us in the cybersec world. We knew this was possible, but forgot how flexible it was. The main strength of WMI persistence is its stealthiness and effectiveness. When a command is executed by WMI as a result of "evil" the only thing you will see is **WmiPrvse.exe** as the process. Distinguishing a valid system action from an invalid one is very hard under these circumstances. In other words, WMI persistence defeats non-repudiation!
 
 What I will cover here are different methods for detecting WMI persistence that you could leverage within your network to hunt for this treat.
 
@@ -127,20 +127,20 @@ PSProvider   : Microsoft.PowerShell.Core\Registry
 Alternatively: 
 ![THL002-01](../img/THL002/THL002-01.JPG)
 
-We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artefacts later).
+We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artifacts later).
 
-Now let's time throw in that juicy **iex** keyword to the mix and see what it comes up with: 
+Now let's throw in that juicy **iex** keyword to the mix and see what it comes up with: 
 `Query: WmiPrvse OR powershell AND "iex" (NOT *google* NOT splunk NOT TargetImage=*powershell* NOT TargetImage=*wmiprvse* NOT TargetImage=*chrome* NOT TargetImage=*vmware* NOT EventCode=600) | reverse | table _time, EventCode, Message`
 
 This is just a snip (full csv [here](../Files/Wmi_iex.csv))
 
 ![THL002-06](../img/THL002/THL002-06.JPG)
 
-We start observing some other interesting events poping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see 5861 (Source: Microsoft-Windows-WMI-Activity/Operational), 400 (Source: Windows Powershell / Message: Engine state is changed from None to Available)[^2] and 403 (Source: Windows Powershell / Message: Engine state is changed from Available to Stopped)[^3]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
+We start observing some other interesting events popping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see 5861 (Source: Microsoft-Windows-WMI-Activity/Operational), 400 (Source: Windows Powershell / Message: Engine state is changed from None to Available)[^2] and 403 (Source: Windows Powershell / Message: Engine state is changed from Available to Stopped)[^3]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
 
 The interesting thing about all these events is that they all reveal the powershell code used as payload: `powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))`
 
-Most interesting of them all is Event 5861, which is givin us a lot of information about the persistence, namely the Binding itself.
+Most interesting of them all is Event 5861, which is giving us a lot of information about the persistence, namely the Binding itself.
 
 ## WMI Persistence via PowerLurk by Sw4mpf0x 
 We can reproduce the same Timer Triggered Event as above with more ease with this great script which allows for a lot of flexibility. 
@@ -164,7 +164,9 @@ SkipIfPassed          : False
 TimerId               : MaliciousTimer
 PSComputerName        : W10B1
 {% endhighlight %}
+
 Let's go ahead and remove it though:
+
 {% highlight powershell%}
 Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding | Remove-WmiObject -Verbose
 Get-WMIObject -Namespace root\Subscription -Class __EventFilter | Remove-WmiObject -Verbose
@@ -270,7 +272,7 @@ Now what a surprise! you would be expeting that *WmiPrvse.exe* would start *scrc
 Looking for further clues of *scrcons.exe* returns a Sysmon Event Id 11 (File Created) event where our little friend created a file. 
 THL-02-06
 
-If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be dissapointed.
+If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be disappointed.
 
 This time though, Sysmon seems to have noticed that a malicious event subscription was created and here we have it: 
 {% highlight powershell%}
@@ -294,7 +296,7 @@ What happens if we instead create a CommandLine Event Subscription instead of a 
 Register-MaliciousWmiEvent -EventName LogCalc1 -PermanentCommand “cmd.exe /c msg Artanis This is Persistence!” -Trigger ProcessStart -ProcessName calculator.exe
 {% endhighlight %}
 
-This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of being a child of *svchost.exe* the parent will be *WmiPrvse.exe*. In all my experimental hunts I can assure you that the precense of *wbemcons.dll* as a child of *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
+This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of being a child of *svchost.exe* the parent will be *WmiPrvse.exe*. In all my experimental hunts I can assure you that the presence of *wbemcons.dll* as a child of *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
 
 I will leave it as an exercise to the reader to investigate which events are generated by creating a CommandLine Event Consumer. 
 
@@ -312,7 +314,7 @@ It turns out that the information pertaining WMI event subscriptions can be loca
 So even if you are (well... luckily after reading this post "were") not collecting any WMI telemetry data in your environment, you can still go out there and hunt for these threats by collecting all the OBJECTS.DATA files in your hosts. The scripts listed above allow for easy parsing of a folder full of these files so the heavy lifting will be on the *collecting* side of things ;)
 
 # Detection Logics & Lessons Learned
-You may think that WMI fileless persistence and malware execution mechanisms are a very low risk threat thus spending business cycles into creating a detection for this drops way down the list of priorities. It is, however, an extremely easy to detect tactic and if your priority list is not packed with threat scenarios like this one then you are not putting toghether a proper list! We all know looking at detailed TTPs is a tedious process, but only by adopting a systemic approach you will be able to extend your detection & prevention surface. It's an ants work, mixed with that of a dragon. 
+You may think that WMI fileless persistence and malware execution mechanisms are a very low risk threat thus spending business cycles into creating a detection for this drops way down the list of priorities. It is, however, an extremely easy to detect tactic and if your priority list is not packed with threat scenarios like this one then you are not putting together a proper list! We all know looking at detailed TTPs is a tedious process, but only by adopting a systemic approach you will be able to extend your detection & prevention surface. It's an ants work, mixed with that of a dragon. 
 
 ## So, to summarize: 
 
@@ -327,7 +329,7 @@ You may think that WMI fileless persistence and malware execution mechanisms are
 Hopefully in my next post I will resume the Mimikatz one and then I will jump into Meterpreter detections ;)
 
 ## Changes to your Sysmon Config
-We will add a tag for the new event that has a pretty tight condition: it will only collect WMI events when they are created. This way, the FP ratio is reduced to a minimum, but as a tradeoff you need to be really paying attention and treat Alarms pertaining to these events as critical *always*. 
+We will add a tag for the new event that has a pretty tight condition: it will only collect WMI events when they are created. This way, the FP ratio is reduced to a minimum, but as a trade off you need to be really paying attention and treat Alarms pertaining to these events as critical *always*. 
 {% highlight xml %}
 <!--SYSMON EVENT ID 19,20,21 : WMIEvent-->
 <WmiEvent onmatch="include">
