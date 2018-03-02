@@ -314,7 +314,7 @@ So even if you are (well... luckily after reading this post "were") not collecti
 # Detection Logics & Lessons Learned
 You may think that WMI fileless persistence and malware execution mechanisms are a very low risk threat thus spending business cycles into creating a detection for this drops way down the list of priorities. It is, however, an extremely easy to detect tactic and if your priority list is not packed with threat scenarios like this one then you are not putting together a proper list! We all know looking at detailed TTPs is a tedious process, but only by adopting a systemic approach you will be able to extend your detection & prevention surface. It's an ants work, mixed with that of a dragon. 
 
-## So, to summarize: 
+## So, to summarize 
 
 | Monitor                                                                                                                                                                                                                 | Detect                                                        | Suited for                                                                                                                                                                                   |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -335,7 +335,7 @@ We will add a tag for the new event that has a pretty tight condition: it will o
 </WmiEvent>
 {% endhighlight %}
 
-## Some references: 
+## Some references 
 - Malware using WMI Persistence: [WMIGhost](https://secrary.com/ReversingMalware/WMIGhost/) / Actors: [APT29POSHSPY](https://www.fireeye.com/blog/threat-research/2017/03/dissecting_one_ofap.html)
 - [Yeap, cryptominers WMI'ing the sh!@# out of Browsers](http://blog.trendmicro.com/trendlabs-security-intelligence/cryptocurrency-miner-uses-wmi-eternalblue-spread-filelessly/)
 - This dude man! [mattifestation](https://twitter.com/mattifestation/status/899646620148539397)
@@ -348,7 +348,7 @@ arrivederci my friends, wine and fettuccine awaits!
 -------------------------------------------------------------------------------------------------------
 [^1]: Since Win 8 and Server 2012: http://windowsitpro.com/security/understanding-and-enabling-command-line-auditing
 [^2]: EventCode 400 sample contents:
-#### EventCode 400 sample contents:
+#### EventCode 400 sample contents
 {% highlight powershell%}
 09/19/2017 11:44:22 PM
 LogName=Windows PowerShell
