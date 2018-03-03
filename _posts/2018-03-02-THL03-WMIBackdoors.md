@@ -129,7 +129,7 @@ Alternatively:
 
 We can observe the BASE64 ciphered payload (hold on to this, as it will become one of our detection artifacts later).
 
-Now let's throw in that juicy **iex** keyword to the mix and see what it comes up with: 
+Now let's throw in that juicy **iex** keyword to the Splunk mix and see what it comes up with: 
 `Query: WmiPrvse OR powershell AND "iex" (NOT *google* NOT splunk NOT TargetImage=*powershell* NOT TargetImage=*wmiprvse* NOT TargetImage=*chrome* NOT TargetImage=*vmware* NOT EventCode=600) | reverse | table _time, EventCode, Message`
 
 ![THL002-06](../img/THL002/THL002-06.JPG)
@@ -201,7 +201,7 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
     425      20    22676      21804     174.56   2024   0 Sysmon64      
 {% endhighlight %}
 
-TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is registering itself here as a subscriber for intrinsic events. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
+TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is *registering itself here as a subscriber for intrinsic events*. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
 
 What would happen if we create a script event consumer? 
 {% highlight powershell%}
@@ -255,7 +255,7 @@ Keywords=None
 Message=ActiveScriptEventConsumer provider started with result code 0x0. HostProcess = wmiprvse.exe; ProcessID = 972; ProviderPath = %SystemRoot%\system32\wbem\scrcons.exe
 {% endhighlight %}
 
-Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script. Ridding the Google brave horses I was able to obtain good answers from the Internet Elders: https://msdn.microsoft.com/en-us/library/aa940177(v=winembedded.5).aspx Here it says that these are the handlers for common event consumers: 
+Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.exe**. What the event is telling us is the executable in charge of running our script. Riding the Google brave horses I was able to obtain good answers from the Internet Elders: https://msdn.microsoft.com/en-us/library/aa940177(v=winembedded.5).aspx Here it says that these are the handlers for common event consumers: 
 
 {% highlight powershell%}
     Scrcons.exe. ActiveScriptEventConsumer
@@ -272,7 +272,7 @@ Looking for further clues of *scrcons.exe* returns a Sysmon Event Id 11 (File Cr
 
 ![THL002-01](../img/THL002/THL002-06.JPG)
 
-If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be disappointed.
+If we were expecting to see this file, written to disk by wscript.exe we will be disappointed.
 
 This time though, Sysmon seems to have noticed that a malicious event subscription was created and here we have it: 
 {% highlight powershell%}
