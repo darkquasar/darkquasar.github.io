@@ -264,11 +264,13 @@ Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.e
 {% endhighlight %}
 
 So essentially, even if you are **NOT** monitoring for either Sysmon Events 19, 20 & 21 or Windows native Events in the WMI/Operational space Ids 5857, 5859, 5860 & 5861, you can **still** detect the presence of potentially malicious WMI persistence by leveraging the event consumer handlers listed above. Let's ask Sysmon for *Scrcons.exe*
-THL-02-05
+
+![THL002-01](../img/THL002/THL002-05.JPG)
 
 Now what a surprise! you would be expeting that *WmiPrvse.exe* would start *scrcons.exe*, instead it's this regular non-profit bloke *svchost.exe*. Sysmon is even providing us with the name `Description: WMI Standard Event Consumer - scripting` 
 Looking for further clues of *scrcons.exe* returns a Sysmon Event Id 11 (File Created) event where our little friend created a file. 
-THL-02-06
+
+![THL002-01](../img/THL002/THL002-06.JPG)
 
 If we were expecting to see this file, created as a result of the VBScript that we ran with the event consumer, written to disk by wscript.exe we will be disappointed.
 
