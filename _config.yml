@@ -40,7 +40,7 @@ avatar: "/img/OneLoop_2.png"
 # Change all these values or delete the ones you don't want.
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
-  name: Diego Perez
+  name: Martin Perez
   email: "darkquasar7@gmail.com"
   facebook: yourname  # eg. daattali
   github: darkquasar    # eg. daattali
