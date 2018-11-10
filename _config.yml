@@ -17,7 +17,7 @@ baseurl: ""
 title: eideon
 
 # Short description of your site
-description: Investigations on the transient fluctuations of reality in the cybersphere
+description: Investigations into the transient fluctuations of reality in the cybersphere
 
 # --- Navigation bar options --- #
 
@@ -40,21 +40,21 @@ avatar: "/img/OneLoop_2.png"
 # Change all these values or delete the ones you don't want.
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
-  name: Martin Perez
+  name: Diego Perez
   email: "darkquasar7@gmail.com"
-  facebook: yourname  # eg. daattali
+#  facebook: yourname  # eg. daattali
   github: darkquasar    # eg. daattali
   twitter: darkquassar   # eg. daattali
-  reddit: yourname    # eg. daattali
-  google-plus: +yourname   # eg. +DeanAttali or 109424658772469020925
-  # linkedin: diegope  # eg. daattali
-  xing: yourname      # eg. daattali
-  stackoverflow: yourlink  # eg. "3943160/daattali"
-  snapchat: yourname  # eg. daattali
-  instagram: yourname # eg. daattali
-  youtube: yourlink   # eg. user/daattali or channel/daattali
-  spotify: yourname   # eg. daattali
-  telephone: yourphone   # eg. +14159998888
+#  reddit: yourname    # eg. daattali
+#  google-plus: +yourname   # eg. +DeanAttali or 109424658772469020925
+#  linkedin: diegope  # eg. daattali
+#  xing: yourname      # eg. daattali
+#  stackoverflow: yourlink  # eg. "3943160/daattali"
+#  snapchat: yourname  # eg. daattali
+#  instagram: yourname # eg. daattali
+#  youtube: yourlink   # eg. user/daattali or channel/daattali
+#  spotify: yourname   # eg. daattali
+#  telephone: yourphone   # eg. +14159998888
 
 # Select which links to show in the footer
 footer-links-active:
