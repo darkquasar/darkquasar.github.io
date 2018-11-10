@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Tales of a Threat Hunter 3 
-subtitle: JSTACK-AWESOMEKB - Your Personal KB with 2FA  
+subtitle: JSTACK-AWESOMEKB - Your Personal KB with 2FA
+image: ../img/THL004/12-mykb.png
+share-img: ../img/THL004/12-mykb.png
 tags: [threat hunting, hunting, knowledge base, authelia, docker, kb, cybersecurity]
 comments: true
 published: true
