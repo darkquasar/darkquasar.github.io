@@ -14,15 +14,10 @@ published: true
 
 ## Intro: An Antidote for Infoxication
 
-Test2
-
-{% include note.html content="This is my note. All the content I type here is treated as a single paragraph." %}
-
-Test
 
 >  **DEDICATION**: This article is dedicated to my fellow companions at the Global SOC, *specilly to Drunken Admiral, Hulk Huggies and Kung-Fu Panda (you know who you are)* **;)**
 
->  **NOTE**: If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)
+{% include note.html content="If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)" %}
 
   ![my awesome kb](../img/THL004/12-mykb.png)
 
