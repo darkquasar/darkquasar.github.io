@@ -53,7 +53,7 @@ Enter **JSTACK-AWESOMEKB**. In this post, I'm going to walk you through the step
 
 ## Deploy your AwesomeKB
 
-**The Jaguar Stack** (*jstack* a **Threat Hunting and IR** [THIR] framework/platform) is a small project I'm working on which hasn't seen the light yet, as the KB is meant to be a module of it, I'm releasing it standalone for the moment. The KB is comprised of the following elements: 
+**The Jaguar Stack** (*jstack* a **Threat Hunting and IR** platform) is a small project I'm working on which hasn't seen the light yet, as the KB is meant to be a module of it, I'm releasing it standalone for the moment. The KB is comprised of the following elements: 
 
 1. Docker for isolation, security, simplicity
 2. Sphinx to build the documentation from .rst or .md files as well as full-text search
