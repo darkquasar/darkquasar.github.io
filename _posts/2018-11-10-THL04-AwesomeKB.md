@@ -238,7 +238,7 @@ We have configured our nginx frontend portal to decline any connections made to 
 
 We have the stack up and running now, you can head to [https://awesomekb.whatever-amazonaws.com]() and you shall be presented with Authelia's login screen: 
 
-![04-authelia-logon](../img/THL004/04-authelia01.png)
+->![04-authelia-logon](../img/THL004/04-authelia01.png)<-
 
 It looks great, however, you won't be able to login yet, why? Because we need to at least create one user in our LDAP server so that he/she/them/it/you (personal pronouns in times of gender fluidity are a tricky thing to get right) can login. 
 
