@@ -217,7 +217,7 @@ It's output would be similar to this:
 
 If you wonder, *why wouldn't I be able to just type in `https://awesomekb.ec2-8.8.8.8.ap-soutwest-3.compute.amazonaws.com` or `https://8.8.8.8` and connect anyways?*, well the answer is in here: 
 
-{% highlight bash%}
+{% highlight nginx%}
 
   server {
     listen 443 ssl default_server;
