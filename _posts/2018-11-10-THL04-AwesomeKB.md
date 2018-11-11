@@ -14,6 +14,10 @@ published: true
 
 ## Intro: An Antidote for Infoxication
 
+Test2
+
+{% include note.html content="This is my note. All the content I type here is treated as a single paragraph." %}
+
 Test
 
 >  **DEDICATION**: This article is dedicated to my fellow companions at the Global SOC, *specilly to Drunken Admiral, Hulk Huggies and Kung-Fu Panda (you know who you are)* **;)**
