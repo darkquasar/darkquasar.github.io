@@ -18,6 +18,7 @@ published: true
 
 {% include note.html content="If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)" %}
 
+  {: style="text-align:center"}
   ![my awesome kb](../img/THL004/12-mykb.png)
 
 Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own plabooks and hunting ideas is a must to keep track of the ever changing threat landscape.
@@ -216,7 +217,7 @@ It's output would be similar to this:
 
 If you wonder, *why wouldn't I be able to just type in `https://awesomekb.ec2-8.8.8.8.ap-soutwest-3.compute.amazonaws.com` or `https://8.8.8.8` and connect anyways?*, well the answer is in here: 
 
-{% highlight json%}
+{% highlight bash%}
 
   server {
     listen 443 ssl default_server;
@@ -247,24 +248,29 @@ It looks great, however, you won't be able to login yet, why? Because we need to
 
 Let's open another tab and head to "https://ldapadmin.whatever-amazonaws.com", you will be redirected to the frontend PHP admin interface for the backend ldap. **This is secured via simple http login** (*remember we created the .htpasswd file before?*) so type in the creds for this user and logon!
 
+{: style="text-align:center"}
 ![05-ldapadmin](../img/THL004/05-ldapadmin.png)
 
 Once there, you can either create your own LDAP structure (add users and groups, set permissions) or you can just import the default [base.ldif](https://github.com/darkquasar/jstack-awesomekb/blob/master/docker/compose/ldap/base.ldif) file that comes with the repo. To do this, login to your LDAP instance using **cn=admin,dc=jstack,dc=com** as the user and **password** as the pass (assuming you left the defaults in place in the [docker-compose.yml](https://github.com/darkquasar/jstack-awesomekb/blob/master/docker/docker-compose.yml) file). Once logged on, hit `import` in the upper left corner, copy the contents of base.ldif and paste them in the field. Click on "proceed" to import the structure. 
 
+{: style="text-align:center"}
 ![06-ldapadmin](../img/THL004/06-ldapadmin2.png)
 
 It may throw some errors, but don't worry, the essential group and user will be created: 
 
+{: style="text-align:center"}
 ![07-ldapadmin](../img/THL004/07-ldapadmin3.png)
 
 #### Finally Logging in!
 
 So, once at this point, let's head to the logon screen once more, type in the username (`jaguar01`) and password (`password`) and Authelia will take you to the *2nd factor logon screen*: 
 
+{: style="text-align:center"}
 ![08-authelia2fa](../img/THL004/08-authelia2fa.png)
 
 Authelia will confirm that it has sent an email to the email address belonging to the user (as per their LDAP record). 
 
+{: style="text-align:center"}
 ![09-authelia-email](../img/THL004/09-authelia-email.png)
 
 We configured Authelia so that *MailCatcher* can mimic a real world scenario where Authelia would send an email to the end user, that config is here: 
@@ -299,6 +305,7 @@ You can also tell Authelia to use any other mailing service that [nodemailer](ht
 
 So in the previous step, select **google authenticator** as the 2nd factor token. It will automatically send an email to *MailCatcher*. Let's head there [https://mailcatcher.whatever-amazonaws.com](): 
 
+{: style="text-align:center"}
 ![10-authelia-email2](../img/THL004/10-authelia-email2.png)
 
 Once you click on "continue" you will be redirected to the page with the QR code for your phone to pick up the Google Authenticator account. 
@@ -371,6 +378,7 @@ Make your KB 2+1FA (2 times password based + 1 time token based, it is not 3FA s
   
 If you are using Cloudflare like me, you can use [Cloudflare Access](https://www.cloudflare.com/products/cloudflare-access/) (or any other service that does something similar). Which essentially will allow you to authenticate up to 5 users for free using common identity providers (Github, Google, etc.). This way, if you have 2FA enabled for any of those providers, you will have **2FA via Cloudflare on top of 2FA via Authelia**
 
+{: style="text-align:center"}
 ![11-cloudflare-access](../img/THL004/11-cloudflare-access.png)
 
 ### Can we increase security even more?
