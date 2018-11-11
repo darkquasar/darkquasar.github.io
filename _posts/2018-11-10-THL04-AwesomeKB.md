@@ -65,7 +65,7 @@ Enter **JSTACK-AWESOMEKB**. In this post, I'm going to walk you through the step
 
 So without further ado, let's get to it shall we? 
 
-### Create an AWS Account
+### 1. Create an AWS Account
 
 If you don't already have one, please do so just because it's pretty cool. 
 
@@ -89,24 +89,24 @@ If you don't already have one, please do so just because it's pretty cool.
 
 5. Great! by now you should be connected to the EC2 instance via SSH. Let's move on to the next phase.
 
-### Install Pre-Requisites
+### 2. Install Pre-Requisites
 
 In order for the KB to work, we need to install a few things like `docker` and `docker-compose`. All these steps are automated in the [jstack-awesomekb](https://github.com/darkquasar/jstack-awesomekb) repo's [deploy.sh](https://github.com/darkquasar/jstack-awesomekb/blob/master/deploy.sh) script, however, I'm going to follow the steps here so you can have a better picture. 
 
-1.  Let's install Docker (if you want to know more check [this](https://medium.com/@cjus/installing-docker-ce-on-an-aws-ec2-instance-running-ubuntu-16-04-f42fe7e80869) post and also [this](https://docs.docker.com/compose/install/#install-compose) one). This is what we need to run: 
+Let's install Docker (if you want to know more check [this](https://medium.com/@cjus/installing-docker-ce-on-an-aws-ec2-instance-running-ubuntu-16-04-f42fe7e80869) post and also [this](https://docs.docker.com/compose/install/#install-compose) one). This is what we need to run: 
 
-    ```bash
-    sudo apt-get update \
-    && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - \
-    && sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-    && sudo apt-get update \
-    && sudo apt-get install -y docker-ce apache2-utils \
-    && sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
-    && sudo chmod +x /usr/local/bin/docker-compose \
-    && sudo usermod -aG docker ${USER} \
-    && echo "Let's create a simple user so that we can access MailCatcher later in the demo environment" \
-    && sudo htpasswd -bcB docker/compose/nginx/portal/.htpasswd jaguarlord MyAwesomePassword
-    ```
+```bash
+sudo apt-get update \
+&& sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - \
+&& sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+&& sudo apt-get update \
+&& sudo apt-get install -y docker-ce apache2-utils \
+&& sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+&& sudo chmod +x /usr/local/bin/docker-compose \
+&& sudo usermod -aG docker ${USER} \
+&& echo "Let's create a simple user so that we can access MailCatcher later in the demo environment" \
+&& sudo htpasswd -bcB docker/compose/nginx/portal/.htpasswd jaguarlord MyAwesomePassword
+```
     
 What we are doing here is: 
 
@@ -128,7 +128,7 @@ At this point, you will have to close your current SSH session and connect back 
 
 > You can automate this process by cloning the repo from the start and using `./jstack-awesomekb/deploy.sh install-prerequisites`
 
-### Deploying JSTACK-AWESOMEKB
+### 3. Deploying JSTACK-AWESOMEKB
 
 Great! if you made it here, the rest is easy. 
 1.  Let's begin by cloning the **awesomekb** repo: 
@@ -188,7 +188,7 @@ In order to achieve this, we will use a docker container for sphinx, in this cas
 
 The idea behind using Sphinx is that it is a highly versatile solution, with a prolific developers' community. Learning to write in .rst is not that different from Markdown and it's far more powerful. Sphinx will allow you to document things like your code effortlesly by extracting *docstrings* within them. You can read about this and many other features in their [official site](http://www.sphinx-doc.org)
 
-### Running the KB Stack!
+### 4. Running the KB Stack!
 
 Finally here, change directory to **jstack-awesomekb/docker** then run `docker-compose up --build`. It will essentially build your stack so that's available to be accessed from the outside. 
 
@@ -235,7 +235,7 @@ We have configured our nginx frontend portal to decline any connections made to 
 
 >  **What if I have my own domain.com?** well that's great, keep reading as I provide some guidance on that too further below.
 
-### Accessing your AwesomeKB
+### 5. Accessing your AwesomeKB
 
 We have the stack up and running now, you can head to [https://awesomekb.whatever-amazonaws.com]() and you shall be presented with Authelia's login screen: 
 
@@ -301,7 +301,8 @@ notifier:
 
 You can also tell Authelia to use any other mailing service that [nodemailer](https://nodemailer.com/smtp/well-known/) is capable of using. For example, I created a dummy gmail account to use as the sender. 
 
-> **NOTE**: Bear in mind that, should you use gmail, you will have to configure it to accept logon requests from [less-secure](https://support.google.com/cloudidentity/answer/6260879?hl=en) apps.
+{% include note.html content="Bear in mind that, should you use gmail, you will have to configure it to accept logon requests from [less-secure](https://support.google.com/cloudidentity/answer/6260879?hl=en) apps." %}
+
 
 So in the previous step, select **google authenticator** as the 2nd factor token. It will automatically send an email to *MailCatcher*. Let's head there [https://mailcatcher.whatever-amazonaws.com](): 
 
@@ -341,7 +342,7 @@ In my case, I used **2** for the moment, since I don't have enought time (*what 
   * * * * * /home/dude/jstack-awesomekb/deploy.sh git-pull-cron dude/mykb awesomekb.jstack.com # where "dude/mykb" is the git repository
   ```
 
-  The first parameter is the name of your repo (**note:** your repo must contain a **docs** directory where your documentation structure is stored), the second is the name of the backend virtual server you want to output the produced documentation into (it will get dropped in *[current_repo_dir]/docker/compose/nginx/backend/html/[name_of_virtual_server]*). Remember that the name of your virtual server (in this example *awesomekb.jstack.com*) needs to match up with what's written in all the nginx configuration files for the portal and backend nginx servers. 
+  The first parameter is the name of your repo (**note:** your repo must contain a **docs** directory where your documentation structure is stored), the second is the name of the backend virtual server you want to output the produced documentation into (it will get dropped in *current_repo_dir/docker/compose/nginx/backend/html/name_of_virtual_server*). Remember that the name of your virtual server (in this example [awesomekb.jstack.com]()) needs to match up with what's written in all the nginx configuration files for the portal and backend nginx servers. 
   
 Done! now Cron will run the command every minute which will check your git repo and pull any commits (this way you only pull the *diffs* between commits). 
 
@@ -359,10 +360,23 @@ There are a few security concerns that we need to address. First, you may not co
 
 ### Can we increase security?
 
-Totally, you could deploy [fail2ban](https://www.linode.com/docs/security/using-fail2ban-for-security/) to configure jails for your host and thus prevent **bruteforce** attacks by banning suspicious IPs. A clever guy in the Authelia repo already published a [guide](https://github.com/clems4ever/authelia/issues/178) on how to do this with Authelia. Since we are logging logs from our containers into a host-based persistent volume, we should point the logs in `jail.local` to the authelia log files in our volume (also change `backend = systemd` to `backend = polling`, so it will poll those log files instead of relying on systemd, since we are using docker).
+Totally, here are two ideas: 
 
->  **Note**: I was able to set this all up and I could see how *fail2ban* would populate `iptables` with the blocked IPs. SSH bruteforce was effectively blocked, however, for some reason, HTTP access kept being accepted, regardless of iptables explicictly blocking the ip for all protocols. I did some `tcpdump` debugging and couldn't find any issues. I don't exactly know why this is the case (I sense it has something to do with AWS), if you get it working on your side, please ping me, post a comment or open an issue/PR in the github repo. 
-  
+#### Use Fail2Ban
+
+You could deploy [fail2ban](https://www.linode.com/docs/security/using-fail2ban-for-security/) to configure jails for your host and thus prevent **bruteforce** attacks by banning suspicious IPs. A clever guy in the Authelia repo already published a [guide](https://github.com/clems4ever/authelia/issues/178) on how to do this with Authelia. Since we are logging logs from our containers into a host-based persistent volume, we should point the logs in `jail.local` to the authelia log files in our volume (also change `backend = systemd` to `backend = polling`, so it will poll those log files instead of relying on systemd, since we are using docker).
+
+{% include note.html content="I was able to set this all up and I could see how *fail2ban* would populate `iptables` with the blocked IPs. SSH bruteforce was effectively blocked, however, for some reason, HTTP access kept being accepted, regardless of iptables explicictly blocking the ip for all protocols. I did some `tcpdump` debugging and couldn't find any issues. I don't exactly know why this is the case (I sense it has something to do with AWS), if you get it working on your side, please ping me, post a comment or open an issue/PR in the github repo." %}
+
+#### Use Cloudflare SSL Proxy
+
+Cloudflare will give you, **for free** (an account only needed), three massive benefits: 
+
+1. Traffic proxying and caching as well as protection from DDoS 
+2. Free signed certificates to pass on to your **nginx portal** (instead of using your self-signed ones, prompting browsers to *trust self-singed certs* all the time)
+3. Ability to only accept traffic coming from Cloudflare proxies. This way, you can configure the security groups in your AWS instance to **only accept traffic from [these]() IPs**. Anyone bypassing Cloudflare as a CDN/proxy to your site will simply not be able to connect.
+
+{% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that ban direct access to the server unless the virtual server is specified explicictly" %}
 
 ### Can we increase security even more? 
 
