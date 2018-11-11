@@ -13,7 +13,7 @@ published: true
 {:toc}
 
 ## Intro: An Antidote for Infoxication
-
+n
 
 >  **DEDICATION**: This article is dedicated to my fellow companions at the Global SOC, *specilly to Drunken Admiral, Hulk Huggies and Kung-Fu Panda (you know who you are)* **;)**
 
