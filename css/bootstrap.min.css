@@ -1,7 +1,7 @@
 /*! * Bootstrap v3.3.2 (http://getbootstrap.com) * Copyright 2011-2015 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html{
-    font-family:sans-serif;
+    font-family:"Karla",sans-serif;
     -webkit-text-size-adjust:100%;
     -ms-text-size-adjust:100%
 }
@@ -4227,8 +4227,7 @@ Start: My addition
 .alert-info {
     background-color: #f0f7fb;
     border-left: solid 4px #3498db;
-    line-height: 18px;
-    mc-auto-number-format: '{b}Note: {/b}';
+    line-height: 27px;
     overflow: hidden;
     padding: 12px;
 }
