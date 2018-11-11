@@ -4173,7 +4173,8 @@ a.thumbnail.active,a.thumbnail:focus,a.thumbnail:hover{
     padding:15px;
     margin-bottom:20px;
     border:1px solid transparent;
-    border-radius:4px
+    border-radius:4px;
+    background:#e7f2fa
 }
 .note code, .alert code, .warning code, div#toc code, h2 code, h3 code, h4 code {
     color: inherit;
