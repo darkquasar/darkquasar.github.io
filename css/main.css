@@ -3,14 +3,14 @@
 /* --- General --- */
 
 body {
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Karla', 'Times New Roman', serif;
   font-size: 18px;
   color: #404040;
   position: relative;
   background: #FFF;
 }
 p {
-  line-height: 1.5;
+  line-height: 32px;
   margin: 30px 0;
 }
 p a {
