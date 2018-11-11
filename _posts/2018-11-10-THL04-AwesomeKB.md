@@ -14,7 +14,7 @@ published: true
 
 ## Intro: An Antidote for Infoxication
 
->  **DEDICATION**: This article is dedicated to my fellow companions at the Global SOC, *specilly to Drunken Admiral, Hulk Huggies and Kung-Fu Panda (you know who you are)* **;)**
+>  **DEDICATION**: This article is dedicated to my fellow companions at the Global SOC, *specilly to Drunken Admiral, Hulk Huggies and Kung-Fu Panda (you know who you are)*
 
 {% include note.html content="If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)" %}
 
