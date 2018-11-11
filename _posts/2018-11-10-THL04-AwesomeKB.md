@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tales of a Threat Hunter 3 
-subtitle: JSTACK-AWESOMEKB - Your Personal KB with 2FA
+subtitle: AwesomeKB: Your Personal KB on the Cloud with 2FA for Free
 bigimg: ../img/THL004/12-mykb.png
 share-img: ../img/THL004/12-mykb.png
 tags: [threat hunting, hunting, knowledge base, authelia, docker, kb, cybersecurity]
@@ -22,7 +22,7 @@ published: true
 
 Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own plabooks and hunting ideas is a must to keep track of the ever changing threat landscape.
 
- {% include note.html content="This is my note. All the content I type here is treated as a single paragraph. <br/><br/> Now I'm typing on a  new line." %}
+ {% include note.html content="This is my note. All the content I type here is treated as a single paragraph." %}
 
 I always tell my students they should have their personal Knowledge Base(s) and treat it with the highest respect. Why? well, you know our profession is one of continuous new developments and information pours from all over: twitter, podcasts, blogs, colleagues, courses, etc. To be successful as a cybersec pro, you need a way to avoid [infoxication](https://en.wikipedia.org/wiki/Information_overload). 
 
