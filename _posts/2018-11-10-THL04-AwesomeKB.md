@@ -69,7 +69,7 @@ So without further ado, let's get to it shall we?
 
 If you don't already have one, please do so just because it's pretty cool. 
 
-### Launch EC2 Instance
+### 2. Launch EC2 Instance
 
 1.  Launch a `t2.micro` Ubuntu Server 18 instance
 
@@ -89,7 +89,7 @@ If you don't already have one, please do so just because it's pretty cool.
 
 5. Great! by now you should be connected to the EC2 instance via SSH. Let's move on to the next phase.
 
-### 2. Install Pre-Requisites
+### 3. Install Pre-Requisites
 
 In order for the KB to work, we need to install a few things like `docker` and `docker-compose`. All these steps are automated in the [jstack-awesomekb](https://github.com/darkquasar/jstack-awesomekb) repo's [deploy.sh](https://github.com/darkquasar/jstack-awesomekb/blob/master/deploy.sh) script, however, I'm going to follow the steps here so you can have a better picture. 
 
@@ -128,7 +128,7 @@ At this point, you will have to close your current SSH session and connect back 
 
 > You can automate this process by cloning the repo from the start and using `./jstack-awesomekb/deploy.sh install-prerequisites`
 
-### 3. Deploying JSTACK-AWESOMEKB
+### 4. Deploying JSTACK-AWESOMEKB
 
 Great! if you made it here, the rest is easy. 
 1.  Let's begin by cloning the **awesomekb** repo: 
@@ -188,7 +188,7 @@ In order to achieve this, we will use a docker container for sphinx, in this cas
 
 The idea behind using Sphinx is that it is a highly versatile solution, with a prolific developers' community. Learning to write in .rst is not that different from Markdown and it's far more powerful. Sphinx will allow you to document things like your code effortlesly by extracting *docstrings* within them. You can read about this and many other features in their [official site](http://www.sphinx-doc.org)
 
-### 4. Running the KB Stack!
+### 5. Running the KB Stack!
 
 Finally here, change directory to **jstack-awesomekb/docker** then run `docker-compose up --build`. It will essentially build your stack so that's available to be accessed from the outside. 
 
@@ -235,7 +235,7 @@ We have configured our nginx frontend portal to decline any connections made to 
 
 >  **What if I have my own domain.com?** well that's great, keep reading as I provide some guidance on that too further below.
 
-### 5. Accessing your AwesomeKB
+### 6. Accessing your AwesomeKB
 
 We have the stack up and running now, you can head to [https://awesomekb.whatever-amazonaws.com]() and you shall be presented with Authelia's login screen: 
 
