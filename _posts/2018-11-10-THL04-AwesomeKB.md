@@ -218,9 +218,6 @@ If you wonder, *why wouldn't I be able to just type in `https://awesomekb.ec2-8.
 
 {% highlight json%}
 
-  # Default Server, it will swallow any requests not matching any of the specific 
-  # server below. This way, we avoid direct access to the server via 
-  # direct Public IP or Cloud DNS (like an Amazon AWS public DNS name)
   server {
     listen 443 ssl default_server;
     server_name _;
