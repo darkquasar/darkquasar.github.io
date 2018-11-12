@@ -374,7 +374,7 @@ Cloudflare will give you, **for free** (an account only needed), three massive b
 
 1. Traffic proxying and caching as well as protection from DDoS 
 2. Free signed certificates to pass on to your **nginx portal** (instead of using your self-signed ones, prompting browsers to *trust self-singed certs* all the time)
-3. Ability to only accept traffic coming from Cloudflare proxies. This way, you can configure the security groups in your AWS instance to **only accept traffic from [these]() IPs**. Anyone bypassing Cloudflare as a CDN/proxy to your site will simply not be able to connect.
+3. Ability to only accept traffic coming from Cloudflare proxies. This way, you can configure the security groups in your AWS instance to **only accept traffic from [Cloudflare IPs](https://www.cloudflare.com/ips/)**. Anyone bypassing Cloudflare as a CDN/proxy to your site will simply not be able to connect.
 
 {% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that ban direct access to the server unless the virtual server is specified explicictly" %}
 
