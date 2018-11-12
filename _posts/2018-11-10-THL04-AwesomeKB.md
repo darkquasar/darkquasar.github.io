@@ -22,6 +22,8 @@ Threat Hunting is as much an operational task as it is one of research and devel
 
 I always tell my students they should start developing their personal Knowledge Base(s) and treat them with the highest respect. Why? well, you know our profession is one of continuous new developments and information pours from all over: twitter, podcasts, blogs, colleagues, courses, etc. To be successful as a cybersec pro, you need a way to avoid [infoxication](https://en.wikipedia.org/wiki/Information_overload). 
 
+### I need a KB bro!
+
 {: style="text-align:center"}
 ![kb-is-here](../img/THL004/meme-kb-is-here.jpg)
 
@@ -273,7 +275,7 @@ It may throw some errors, but don't worry, the essential group and user will be 
 #### Finally Logging in!
 
 {: style="text-align:center"}
-![meme-finished](../img/THL004/meme-finished.png)
+![meme-finished](../img/THL004/meme-finished.jpg)
 
 So, once at this point, let's head to the logon screen once more, type in the username (`jaguar01`) and password (`password`) and Authelia will take you to the *2nd factor logon screen*: 
 
