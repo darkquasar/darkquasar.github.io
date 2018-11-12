@@ -180,7 +180,7 @@ publicdns=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
 #### Generating the Documentation with Sphinx
 We are almost there, what we need to do now is to make sure there is *some* documentation available in HTML format inside `jstack-awesomekb/docker/compose/nginx/backend/html/awesomekb` so that the backend nginx server can provide us with that site. 
 
-{% include note.html content="you can change the default "awesomekb" directory but then you will have to also update the backend awesomekb.conf file" %}
+{% include note.html content="you can change the default \"awesomekb\" directory but then you will have to also update the backend awesomekb.conf file" %}
   
 In order to achieve this, we will use a docker container for sphinx, in this case `darkquasar/inca-sphinx:1.0.0`. The `jstack-awesomekb/docs` folder comes pre-populated with a small portion (1%) of my own KB. We will use that as an example for the moment. 
 
