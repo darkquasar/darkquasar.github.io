@@ -313,7 +313,7 @@ Once you click on "continue" you will be redirected to the page with the QR code
 
 **Done!**
 
-If you now head to [https://awesomekb.whatever-amazonaws.com]() you will be able to use 2FA to login to your A-M-A-Z-I-N-G KB!
+If you now head to [https://awesomekb.whatever-amazonaws.com]() you will be able to use 2FA to login to your **A-M-A-Z-I-N-G KB!**
 
 ## But, is it really FREE?
 
@@ -376,7 +376,7 @@ Cloudflare will give you, **for free** (an account only needed), three massive b
 2. Free signed certificates to pass on to your **nginx portal** (instead of using your self-signed ones, prompting browsers to *trust self-singed certs* all the time)
 3. Ability to only accept traffic coming from Cloudflare proxies. This way, you can configure the security groups in your AWS instance to **only accept traffic from [Cloudflare IPs](https://www.cloudflare.com/ips/)**. Anyone bypassing Cloudflare as a CDN/proxy to your site will simply not be able to connect.
 
-{% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that ban direct access to the server unless the virtual server is specified explicictly" %}
+{% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that bans direct access to the server unless the virtual server is explicictly specified" %}
 
 ### Can we increase security even more? 
 
