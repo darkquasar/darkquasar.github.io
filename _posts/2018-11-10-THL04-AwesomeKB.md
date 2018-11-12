@@ -180,11 +180,11 @@ publicdns=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
 #### Generating the Documentation with Sphinx
 We are almost there, what we need to do now is to make sure there is *some* documentation available in HTML format inside `jstack-awesomekb/docker/compose/nginx/backend/html/awesomekb` so that the backend nginx server can provide us with that site. 
 
->  **Note:** you can change the default "awesomekb" directory but then you will have to also update the backend awesomekb.conf file.
+{% include note.html content="you can change the default "awesomekb" directory but then you will have to also update the backend awesomekb.conf file" %}
   
 In order to achieve this, we will use a docker container for sphinx, in this case `darkquasar/inca-sphinx:1.0.0`. The `jstack-awesomekb/docs` folder comes pre-populated with a small portion (1%) of my own KB. We will use that as an example for the moment. 
 
->  you can use whatever you want to achieve the same results like your own sphinx container. darkquasar/inca-sphinx:1.0.0 comes with "m2r" plugin which converts any Markdown documents to their reStructuredText equivalents before sphinx converts them, in turn, to html. It also comes by default with the `readthedocs` theme. You can find the Dockerfile used to build inca-sphinx as **inca-sphinx-dockerfile**
+{% include note.html content="you can use whatever you want to achieve the same results like your own sphinx container. darkquasar/inca-sphinx:1.0.0 comes with "m2r" plugin which converts any Markdown documents to their reStructuredText equivalents before sphinx converts them, in turn, to html. It also comes by default with the `readthedocs` theme. You can find the Dockerfile used to build inca-sphinx as **inca-sphinx-dockerfile**" %}
 
 The idea behind using Sphinx is that it is a highly versatile solution, with a prolific developers' community. Learning to write in .rst is not that different from Markdown and it's far more powerful. Sphinx will allow you to document things like your code effortlesly by extracting *docstrings* within them. You can read about this and many other features in their [official site](http://www.sphinx-doc.org)
 
