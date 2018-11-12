@@ -415,11 +415,12 @@ There is always more you can do my friend!. For example, have a look at [https:/
 
 ## Can we make this AwesomeKB even more Awesome? 
 
-Now that you ask, there are three things on the pipe, which, if I find time to add -and they fit within an EC2 t2.micro instance without degrading access performance- I will: 
+Now that you ask, there are a few things on the pipe, which, if I find time to add -and they fit within an EC2 t2.micro instance without degrading access performance- I will: 
 
-1. Add [GoAccess](https://goaccess.io/get-started) Log Analyzer. This will allow us to visualize stats about any visits to your KB from a nice web-based gui.
-2. Add a ReadTheDocs server, so that connecting to your private GitHub repo hosting your **amazing documentation** and updating your docs would be a breeze. 
-3. If deploying ReadTheDocs is an overkill, then adding a commandline option to the **darkquasar/inca-sphinx** so that it listens for Github webhooks and re-builds the documentation that way. 
+1. Add [GoAccess](https://goaccess.io/get-started) **Log Analyzer**. This will allow us to visualize stats about any visits to your KB from a nice web-based gui.
+2. Add a **ReadTheDocs server**, so that connecting to your private GitHub repo hosting your **amazing documentation** and updating your docs would be a breeze. 
+3. If deploying ReadTheDocs is an overkill, then adding a commandline option to the **darkquasar/inca-sphinx** so that it listens for Github webhooks and re-builds the documentation that way.
+4. Add a *self-service* facility bestowing users with the ability to **create an account** and be granted access based on some pre-defined criteria (like their emails)
 
 Have any other ideas? Please feel free to send me a PR or propose new things. 
 
