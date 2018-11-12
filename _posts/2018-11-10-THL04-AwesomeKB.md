@@ -18,36 +18,40 @@ published: true
 
 {% include note.html content="If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)" %}
 
-  {: style="text-align:center"}
-  ![my awesome kb](../img/THL004/12-mykb.png)
+Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own plabooks and hunting ideas is a **must** to keep track of the ever changing threat landscape.
 
-Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own plabooks and hunting ideas is a must to keep track of the ever changing threat landscape.
+I always tell my students they should start developing their personal Knowledge Base(s) and treat them with the highest respect. Why? well, you know our profession is one of continuous new developments and information pours from all over: twitter, podcasts, blogs, colleagues, courses, etc. To be successful as a cybersec pro, you need a way to avoid [infoxication](https://en.wikipedia.org/wiki/Information_overload). 
 
-I always tell my students they should have their personal Knowledge Base(s) and treat it with the highest respect. Why? well, you know our profession is one of continuous new developments and information pours from all over: twitter, podcasts, blogs, colleagues, courses, etc. To be successful as a cybersec pro, you need a way to avoid [infoxication](https://en.wikipedia.org/wiki/Information_overload). 
+{: style="text-align:center"}
+![kb-is-here](../img/THL004/meme-kb-is-here.jpg)
 
-> **Information overload is real** ("alert fatigue" in SOCs is a subtype of it). The reason we should care about it is that **poorly managed information consumption leads to reduced decision making skills**. As leaders, security analysts, responders, threat hunters, red teamers, managers *we are in the frontlines, dealing with threats that come in multiple ways*. **Sharpness of mind** during decision-making workflows is sometimes the difference between achieving our objective or letting the adversaries achieve theirs. 
+> **Information overload is real** ("alert fatigue" in SOCs is a subtype of it). The reason we should care about it is that **poorly managed information consumption leads to reduced decision making skills**. As leaders, security analysts, responders, threat hunters, *we are in the frontlines, dealing with threats that come in multiple ways*. **Sharpness of mind** during decision-making workflows is sometimes the difference between achieving our objective or letting the adversaries achieve theirs. 
 
-When mentoring other security analysts, I can never stress enough the importance of having your own KB. Think of it as *a space where you have control of how the information gets in and gets laid out*, an external HDD for your mind. However, your KB is more than just that, statically stored information on a HDD is not the best analogy. 
+When mentoring other security analysts, I can never stress enough the importance of having your own KB. Think of it as *a space where you have control of how the information gets in and gets laid out*: an external HDD for your mind. However, your KB is more than just that, statically stored information on a HDD is not the best analogy. 
 
-> **A KB is the place were you tell a story the way you understand it**. By elucidating the connections between the different bits and pieces of data you absorb on a daily basis, you will create [information](https://www.guru99.com/difference-information-data.html): linked data with a context, a purpose and its own semantic field. From simple links about cool tools or blog posts, to complex explanations of a particular topic, *a KB is a must if you want to be at the top of your game*. Nevertheless, finding a nice, simple, cost friendly (ideally **free**) and available way of achieving this is not an easy task.
+> **A KB is the place were you tell a story the way you understand it**. By elucidating the connections between the different bits and pieces of data you absorb on a daily basis, you will create [information](https://www.guru99.com/difference-information-data.html): **linked data with a context, a purpose and its own semantic field**. From simple links about cool tools or blog posts, to complex explanations of a particular topic, *a KB is a must if you want to be at the top of your game*. Nevertheless, finding a nice, simple, cost friendly (ideally **free**) and available way of achieving this is not an easy task.
 
-In the face of this problem, I've kept multiple types of KBs along the years: word documents, simple .txt, OneNote, privately hosted wikis, etc. The problem with these solutions is that they are either **not scalable** (simple documents), **not available** from everywhere (locally hosted), **not elegant** (wikis) or **cumbersome and not automatable** (OneNote). I needed a solution that complied with the following requirements: 
+In the face of this problem, I've kept multiple types of KBs along the years: word documents, simple .txt, OneNote, privately hosted wikis, etc. The problem with these solutions is that they are either **not scalable** (simple documents), **not available** from everywhere (locally hosted), **not elegant** (wikis), **cumbersome** (OneNote), **not automation-friendly** (all of them), **not code friendly** (some of them). I needed a solution that complied with the following requirements: 
 
-- Markdown AND reStructuredText friendly
-- Programatic, that is, allowing automation of some or all of the processes involved in producing documentation
-- Code friendly (GitHub, GitLab)
-- Graph friendly (*I would like to be able to embed/display* [plotly-style](https://plot.ly/python/histograms/) *graphs created with my Jupyter Notebooks*)
-- Secure: 2FA 
-- Flexible Access Control and Identity Management: what if I want to give someone access to a *subsection* of my KB?
-- Available 24x7x365
-- Full Text Search
-- Version Control
-- FREE! Yes, *as in what William Wallace wanted for Scotland*
-- Low footprint (ideally running on less than 512MB RAM)
+- **Markdown AND reStructuredText** friendly
+- **Programatic**, that is, allowing automation of some or all of the processes involved in producing documentation
+- **Code friendly** (GitHub, GitLab)
+- **Graph friendly** (*I would like to be able to embed/display* [plotly-style](https://plot.ly/python/histograms/) *graphs created with my Jupyter Notebooks*)
+- **Secure**: 2FA 
+- **Flexible Access Control and Identity Management**: what if I want to give someone access to a *subsection* of my KB?
+- **Available 24x7x365**
+- Full **Text Search**
+- **Version Control**
+- **FREE!** Yes, *as in what William Wallace wanted for Scotland*
+- **Low footprint** (ideally running on less than 512MB RAM)
 
-The first time I saw a solution that was elegant (beautiful and simple) and free was thanks to **darkoperator**'s ([Carlos Perez](https://twitter.com/carlos_perez)) post [here](https://www.darkoperator.com/blog/2017/12/10/nmba1hrmndda8m3eo7ipoh7bxvphz4). He had an excellent idea: *why not just organize your KB as Markdown documents hosted in a Gitlab/Github repo?* You have the advantage they can be rendered as HTML, Gitlab gives you free private repos by default, **and** they enjoy the flexibility of .md (conversion to other formats like pdf, etc.). Needless to say: I went this way, and it meant a huge improvement. However, *there were a few issues*: keeping updated TOC becames a nightmare as the KB grows, HTML rendering by these platforms can be very slow for docos with lots of images and text, lack of design flexibilities, etc. Also, using something like `Github Pages` to address the "lack of design freedom" means my documentation would be publicly available, which defeats the access control requirement. 
+The first time I saw a solution that was elegant (beautiful and simple) and free was thanks to **darkoperator**'s ([Carlos Perez](https://twitter.com/carlos_perez)) post [here](https://www.darkoperator.com/blog/2017/12/10/nmba1hrmndda8m3eo7ipoh7bxvphz4). He had an excellent idea: *why not just organize your KB as Markdown documents hosted in a Gitlab/Github repo?* You have the advantage they can be rendered as HTML, Gitlab gives you free private repos by default, **and** they enjoy the flexibility of .md (conversion to other formats like pdf, etc.). Needless to say: I went this way, and it meant a huge improvement. However, *there were a few issues*: keeping updated TOC becames a nightmare as the KB grows, HTML rendering by these platforms can be very slow for big docos, no granular access control, lack of design flexibilities, etc. Also, using something like `Github Pages` to address the "lack of design freedom" means my documentation would be publicly available, which defeats the access control requirement. 
 
 So after much (unsuccessful) googling around for a solution that would achieve my goals I decided to compose one myself. That was early 2018 lol, it wasn't until recently that I actually **had the time** to develop this. 
+
+{: style="text-align:center"}
+![meme-yoda-time](../img/THL004/meme-yoda-time-that.jpg)
+
 
 Enter **JSTACK-AWESOMEKB**. In this post, I'm going to walk you through the steps required to setup your own **AwesomeKB**. 
 
@@ -130,7 +134,12 @@ At this point, you will have to close your current SSH session and connect back 
 
 ### 4. Deploying JSTACK-AWESOMEKB
 
+{: style="text-align:center"}
+![meme-easy](../img/THL004/meme-it-is-easy.jpg)
+
 Great! if you made it here, the rest is easy. 
+
+
 1.  Let's begin by cloning the **awesomekb** repo: 
 
     ```bash
@@ -262,6 +271,9 @@ It may throw some errors, but don't worry, the essential group and user will be 
 ![07-ldapadmin](../img/THL004/07-ldapadmin3.png)
 
 #### Finally Logging in!
+
+{: style="text-align:center"}
+![meme-finished](../img/THL004/meme-finished.png)
 
 So, once at this point, let's head to the logon screen once more, type in the username (`jaguar01`) and password (`password`) and Authelia will take you to the *2nd factor logon screen*: 
 
