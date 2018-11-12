@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tales of a Threat Hunter 3 
-subtitle: AwesomeKB - Your Free, Personal KB on the Cloud with 2FA and Beautiful Themes
+subtitle: AwesomeKB - Your Free, 24x7, Private, Cloud-Based, 2FA-Protected KB!
 bigimg: ../img/THL004/13-mykb-banner.png
 share-img: ../img/THL004/12-mykb.png
 tags: [threat hunting, hunting, knowledge base, authelia, docker, kb, cybersecurity]
