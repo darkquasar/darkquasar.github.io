@@ -95,7 +95,28 @@ If you don't already have one, please do so just because it's pretty cool.
 
 5. Great! by now you should be connected to the EC2 instance via SSH. Let's move on to the next phase.
 
-### 3. Install Pre-Requisites
+### 3.A Deploy the Easy Way
+
+If you want to skip the step by step guide (required for you to truly grasp the kb stack functionality but not if you want to quickly test) you can easily have your KB up and running by following these two steps: 
+
+1. Clone the repo:
+
+    ```bash
+    git clone https://darkquasar@github.com/darkquasar/jstack-awesomekb
+    ```
+
+2. Deploy it all: 
+
+    ```bash
+    cd jstack-awesomekb
+    sudo ./deploy.sh deploy-all
+    ```
+    
+**This will get your KB up and running!**
+
+Now you need to go to point (6) [here](#6.-accessing-your-awesomekb) to follow the steps for first login. 
+
+### 3.B Install Pre-Requisites
 
 In order for the KB to work, we need to install a few things like `docker` and `docker-compose`. All these steps are automated in the [jstack-awesomekb](https://github.com/darkquasar/jstack-awesomekb) repo's [deploy.sh](https://github.com/darkquasar/jstack-awesomekb/blob/master/deploy.sh) script, however, I'm going to follow the steps here so you can have a better picture. 
 
