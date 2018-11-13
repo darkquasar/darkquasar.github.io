@@ -114,7 +114,7 @@ If you want to skip the step by step guide (required for you to truly grasp the 
     
 **This will get your KB up and running!**
 
-Now you need to go to point (6) [here](#6.-accessing-your-awesomekb) to follow the steps for first login. 
+Now you need to go to point (6) [here](#6-accessing-your-awesomekb) to follow the steps for first login. 
 
 ### 3.B Install Pre-Requisites
 
@@ -450,5 +450,6 @@ Have any other ideas? Please feel free to send me a PR or propose new things.
 All I've done is cobbling up some things together in an attempt of doing some **SecDevOps** work. Credit goes in all honesty to: 
 
 - Authelia developer, Clément Michaud (dude I don't have your twitter, otherwise I would link it) who not only created the app but also already had a docker-compose with the initial features configured.
+- Carlos Perez (darkoperator) who inspired me to pursue the *automation* way for KBs. 
 - Docker and Sphinx community
 - stackoverflow.com (oh yeah!)
