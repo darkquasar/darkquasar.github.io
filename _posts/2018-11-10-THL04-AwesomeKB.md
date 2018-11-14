@@ -9,6 +9,8 @@ comments: true
 published: true
 ---
 
+{% include note.html content="Check the working demo at [demo.awesomekbs.com](https://demo.awesomekbs.com) and login with U: jaguar01 | P: hunter" %}
+
 * TOC
 {:toc}
 
