@@ -135,9 +135,11 @@ Now let's throw in that juicy **iex** keyword to the Splunk mix and see what it 
 
 ![THL002-06](../img/THL002/THL002-06.JPG)
 
-We start observing some other interesting events popping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see 5861 (Source: Microsoft-Windows-WMI-Activity/Operational), 400 (Source: Windows Powershell / Message: Engine state is changed from None to Available)[^2] and 403 (Source: Windows Powershell / Message: Engine state is changed from Available to Stopped)[^3]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
+We start observing some other interesting events popping up here. Disregarding Sysmon EventCode 20 (belongs to the new 6.10 version) which will be dissected later, we can see **5861** (Source: *Microsoft-Windows-WMI-Activity/Operational*), **400** (Source: *Windows Powershell* / Message: **Engine state is changed from None to Available**)[^2] and 403 (Source: *Windows Powershell* / Message: **Engine state is changed from Available to Stopped**)[^3]. All of them are standard Windows Events, I haven't "enabled" anything in particular here. I'm just farming what the OS already gives you by default. 
 
-The interesting thing about all these events is that they all reveal the powershell code used as payload: `powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))`
+{% include bigquote.html content="The interesting thing about all these events is that they all reveal the powershell code used as payload: `powershell.exe -NoP -C iex ([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String((Get-ItemProperty -Path HKLM:\SOFTWARE\PayloadKey -Name PayloadValue).PayloadValue)))`" %}
+
+
 
 Most interesting of them all is Event 5861, which is giving us a lot of information about the persistence, namely the Binding itself.
 
@@ -176,9 +178,10 @@ Get-WmiObject -Class __IntervalTimerInstruction | Remove-WmiObject -Verbose
 We can do many more things, but this post is mainly about how to detect such sneaky persistence mechanisms, so let's go ahead and grab our majestic *free* install of Splunk Enterprise with a 60 day trial and let's make use of our best friend Sysmon the Great. 
 
 # WMI Persistence Detection
-For the purposes of this test, I've used a "log all" approach with Sysmon, you can find a sample config file [here](https://github.com/darkquasar/THL/blob/master/Templates/SysmonConfig-LogAll.xml)(*Threat Hunting Ecosystem as a Code* is my next project, don't look at it yet, it's ugly!)
+For the purposes of this test, I've used a "log all" approach with Sysmon, you can find a sample config file [here](https://github.com/darkquasar/THL/blob/master/Templates/SysmonConfig-LogAll.xml) (*Threat Hunting Ecosystem as a Code* is my next project, don't look at it yet, it's ugly!)
 
-So let's go ahead and create a new TimerEvent and see what our logs come up with. We shall use the following search: 
+So let's go ahead and create a new TimerEvent and see what our logs come up with. We shall use the following search:
+
 {% highlight powershell%}
 LogName=Microsoft-Windows-WMI-Activity/Operational AND NOT EventCode=5858 AND NOT "sysmon"
 {% endhighlight %}
@@ -203,9 +206,10 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
     425      20    22676      21804     174.56   2024   0 Sysmon64      
 {% endhighlight %}
 
-TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is *registering itself here as a subscriber for intrinsic events*. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)
+{% include bigquote.html content="TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is *registering itself here as a subscriber for intrinsic events*. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)" %}
 
-The only problem we noticed here is that, for Timer-based WMI Events, **sysmon wasn't generating any logs**. So *you need to monitor Windows Event Id 5859/5861 if you want to catch those*.
+{% include bigquote.html content="The only problem we noticed here is that, for Timer-based WMI Events, **sysmon wasn't generating any logs**. So *you need to monitor Windows Event Id 5859/5861 if you want to catch those*." %}
+
 
 What would happen if we create a script event consumer? 
 {% highlight powershell%}
