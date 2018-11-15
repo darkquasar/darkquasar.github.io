@@ -713,62 +713,42 @@ table tr td :last-child {
 /* --- Custom Style by darkquassar */
 
 /* --- Nice Big Blockquotes */
-@font-face {
-  font-family: 'Bitter';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Bitter Regular'), local('Bitter-Regular'), url(https://fonts.gstatic.com/s/bitter/v13/rax8HiqOu8IVPmn7f4xs.ttf) format('truetype');
-}
-* {
-  box-sizing: border-box;
-}
 .bigquote {
-  position: relative;
-  display: inline-block;
-  background: #eee;
-  padding: 40px 30px 30px 60px;
-  border-radius: 10px;
-  font-family: 'Bitter', serif;
-  color: #333;
-  text-align: left;
-  box-shadow: 1px 1px 1px #999, 2px 2px 1px #999, 3px 3px 1px #999;
-  transition-duration: 0.3s;
+ color:#2f313d;
+ font-size:1.88889rem;
+ line-height:1.25;
+ margin:0 0 0.88235em;
+ position:relative;
+ text-align:center
 }
-.bigquote span.author {
-  position: relative;
-  display: block;
-  text-align: right;
-  margin-top: 5px;
-  color: #999;
+.bigquote:before,.bigquote:after {
+ background-color:#d20068;
+ content:"";
+ display:block;
+ height:3px;
+ margin-left:auto;
+ margin-right:auto
 }
-.bigquote span.author i {
-  position: relative;
-  background: #eee;
-  padding-left: 5px;
-  font-style: italic;
-  z-index: 5;
+.bigquote:before {
+ margin-bottom:30px;
+ width:60px
 }
-.bigquote span.author::before {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #ccc;
-  z-index: 1;
+.bigquote:after {
+ margin-top:40px;
+ width:30px
 }
-.bigquote:hover {
-  box-shadow: 1px 1px 5px #999, 2px 2px 6px #999, 3px 3px 7px #999;
+.bigquote p {
+ margin-bottom:0.44117em
 }
-.bigquote::before {
-  display: block;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  content: "\"";
-  font-family: 'Bitter', serif;
-  font-size: 120px;
-  color: #999;
+.bigquote p:last-child {
+ margin-bottom:0
+}
+.bigquote small,.bigquote cite {
+ display:block;
+ font-size:0.47058em;
+ font-style:normal;
+ font-weight:normal;
+ letter-spacing:3px;
+ margin-top:1.25em;
+ text-transform:uppercase
 }
