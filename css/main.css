@@ -722,7 +722,7 @@ table tr td :last-child {
 * {
   box-sizing: border-box;
 }
-bigquote {
+.bigquote {
   position: relative;
   display: inline-block;
   background: #eee;
@@ -734,21 +734,21 @@ bigquote {
   box-shadow: 1px 1px 1px #999, 2px 2px 1px #999, 3px 3px 1px #999;
   transition-duration: 0.3s;
 }
-bigquote span.author {
+.bigquote span.author {
   position: relative;
   display: block;
   text-align: right;
   margin-top: 5px;
   color: #999;
 }
-bigquote span.author i {
+.bigquote span.author i {
   position: relative;
   background: #eee;
   padding-left: 5px;
   font-style: italic;
   z-index: 5;
 }
-bigquote span.author::before {
+.bigquote span.author::before {
   display: block;
   content: "";
   position: absolute;
@@ -759,10 +759,10 @@ bigquote span.author::before {
   background: #ccc;
   z-index: 1;
 }
-bigquote:hover {
+.bigquote:hover {
   box-shadow: 1px 1px 5px #999, 2px 2px 6px #999, 3px 3px 7px #999;
 }
-bigquote::before {
+.bigquote::before {
   display: block;
   position: absolute;
   top: 10px;
