@@ -9,7 +9,7 @@ comments: true
 published: true
 ---
 
-{% include bigquote.html content="**Check the working demo** at [demo.awesomekbs.com](https://demo.awesomekbs.com) and login with U: jaguar01 | P: hunter" cite="@darkquassar" %}
+{% include bigquote.html content="**Check the working demo** at [demo.awesomekbs.com](https://demo.awesomekbs.com) and login with -> *user: jaguar01* - *pass: hunter*" cite="@darkquassar" %}
 
 
 * TOC
