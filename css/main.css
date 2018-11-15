@@ -715,7 +715,7 @@ table tr td :last-child {
 /* --- Nice Big Blockquotes --- */
 .bigquote {
  color:#2f313d;
- font-size:1.88889rem;
+ font-size:2.88889rem;
  line-height:1.25;
  margin:0 0 0.88235em;
  position:relative;
@@ -743,7 +743,7 @@ table tr td :last-child {
 .bigquote p:last-child {
  margin-bottom:0
 }
-.bigquote small,.bigquote cite {
+.bigquote small, .bigquote cite {
  display:block;
  font-size:0.47058em;
  font-style:normal;
