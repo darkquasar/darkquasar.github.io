@@ -206,12 +206,13 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
     425      20    22676      21804     174.56   2024   0 Sysmon64      
 {% endhighlight %}
 
-{% include bigquote.html content="TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is *registering itself here as a subscriber for intrinsic events*. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)" %}
+{% include note.html content="TL;DR. Well it seems that the new capability added by Sysmon to monitor WMI Events (SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]) is nothing else but a few queries issued to the WMI service which are then reported back to their own log space (Sysmon/Operational). Essentially sysmon is *registering itself here as a subscriber for intrinsic events*. This pretty much means Sysmon is duplicating on effort here, since Windows already comes with native events to detect WMI operations. It doesn't mean though that this feature is plain redundant, since our logging architecture could be simplified by just looking at Sysmon events rather than having to fork to Windows native events for WMI. Anyway, let's keep digging shall we ;)" %}
 
 {% include bigquote.html content="The only problem we noticed here is that, for Timer-based WMI Events, **sysmon wasn't generating any logs**. So *you need to monitor Windows Event Id 5859/5861 if you want to catch those*." %}
 
 
 What would happen if we create a script event consumer? 
+
 {% highlight powershell%}
 $script = @’
 Set objFSO=CreateObject("Scripting.FileSystemObject")
@@ -223,6 +224,7 @@ objFile.Close
 
 Register-MaliciousWmiEvent -EventName CalcMalicious -PermanentScript $script -Trigger ProcessStart -ProcessName notepad.exe -ScriptingEngine VBScript
 {% endhighlight %}
+
 ![THL002-04P](../img/THL002/THL02-04.PNG)
 
 As we can observe, this pretty handy Windows Event Id **5861** provides all the information pertaining to the FilterToConsumerBinding, the EventConsumer and EventFilter
@@ -271,7 +273,7 @@ Let's commit that to memory for a second: **%SystemRoot%\system32\wbem\scrcons.e
     Wbemcons.dll. CommandLineEventConsumer, NTEventLogEventConsumer, LogFileEventConsumer
 {% endhighlight %}
 
-So essentially, even if you are **NOT** monitoring for either Sysmon Events 19, 20 & 21 or Windows native Events in the WMI/Operational space Ids 5857, 5859, 5860 & 5861, you can **still** detect the presence of potentially malicious WMI persistence by leveraging the event consumer handlers listed above. Let's ask Sysmon for *Scrcons.exe*
+So essentially, even if you are **NOT** monitoring for either **Sysmon Events 19, 20 & 21** or Windows native Events in the **WMI/Operational** space Ids **5857, 5859, 5860 & 5861**, you can **still** detect the presence of potentially malicious WMI persistence by leveraging the event consumer handlers listed above. Let's ask Sysmon for *Scrcons.exe*
 
 ![THL002-05](../img/THL002/THL02-05.PNG)
 
@@ -280,9 +282,10 @@ Looking for further clues of *scrcons.exe* returns a Sysmon Event Id 11 (File Cr
 
 ![THL002-06](../img/THL002/THL02-06.PNG)
 
-If we were expecting to see this file, written to disk by wscript.exe we will be disappointed.
+{% include bigquote.html content="If we were expecting to see this file, written to disk by wscript.exe we will be disappointed" %}
 
 This time though, Sysmon seems to have noticed that a malicious event subscription was created and here we have it: 
+
 {% highlight powershell%}
 Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";id=20} | Select-Object -ExpandProperty Message
 
@@ -297,32 +300,39 @@ Destination:  "Set objFSO=CreateObject(\"Scripting.FileSystemObject\")\noutFile=
 ateTextFile(outFile,True)\nobjFile.Write \"%TargetInstance.ProcessName% started at PID %TargetInstance.ProcessId%\" & vbCrLf\no
 bjFile.Close"
 {% endhighlight %}
-If you are using Sysmon events to monitor for WMI event subscriptions, you only need to capture the results of Event Id 19 as it will display the *event consumer* which is were the juicy information is that allows us to discriminate benign from malicious. 
+
+If you are using Sysmon events to monitor for WMI event subscriptions, you only need to capture the results of **Event Id 19** as it will display the *event consumer* which is were the juicy information is that allows us to discriminate benign from malicious. 
 
 What happens if we instead create a CommandLine Event Subscription instead of a Script based one? The command would look like this with PowerLurk: 
+
 {% highlight powershell%}
 Register-MaliciousWmiEvent -EventName LogCalc1 -PermanentCommand “cmd.exe /c msg Artanis This is Persistence!” -Trigger ProcessStart -ProcessName calculator.exe
 {% endhighlight %}
 
-This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of a process being a child of another process we shall see *WmiPrvse.exe loading wbemcons.dll* . In all my experimental hunts I can assure you that the presence of *wbemcons.dll* being loaded as a module by *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
+This time, instead of *scrcons.exe* we shall see *wbemcons.dll* as the event handler, and instead of a process being a child of another process we shall see *WmiPrvse.exe loading wbemcons.dll*. In all my experimental hunts I can assure you that the presence of *wbemcons.dll* being loaded as a module by *WmiPrvse.exe* is **extremely rare**, so do pay attention to those if you are not monitoring WMI/Operational native Windows events. 
 
 I will leave it as an exercise to the reader to investigate which events are generated by creating a CommandLine Event Consumer. 
 
 ## What about DFIR? 
+
 It happens to be the case that any permanent event subscription gets written to a WMI database file called OBJECTS.DATA that can be located here: 
+
 - C:\Windows\System32\wbem\Repository\OBJECTS.DATA
 - C:\Windows\System32\wbem\Repository\FS\OBJECTS.DATA
 
-It turns out that the information pertaining WMI event subscriptions can be located there in plain text. The file has a binary format and its structure, AFAIK, is undocumented. However, there are a few out there that were brave enough to come up with some cool python scripts that make use of *The Sword of RegEx The Great and Meticulous* that allow for parsing of these files, namely: 
+It turns out that the information pertaining WMI event subscriptions can be located there in plain text. The file has a binary format and its structure, AFAIK, is undocumented. However, there are a few out there that were brave enough to come up with some cool python scripts that make use of `The Sword of RegEx The Great and Meticulous` that allow for parsing of these files, namely: 
 
 - https://github.com/darkquasar/WMI_Persistence (developed by me)
 - https://github.com/davidpany/WMI_Forensics (David Pany script)
 - https://github.com/fireeye/flare-wmi (a few scripts by FireEye analysts)
 
-So even if you are (well... luckily after reading this post "were") not collecting any WMI telemetry data in your environment, you can still go out there and hunt for these threats by collecting all the OBJECTS.DATA files in your hosts. The scripts listed above allow for easy parsing of a folder full of these files so the heavy lifting will be on the *collecting* side of things ;)
+So even if you are (*well... luckily after reading this post "were"*) not collecting any WMI telemetry data in your environment, you can still go out there and hunt for these threats by collecting all the **OBJECTS.DATA** files in your hosts. The scripts listed above allow for easy parsing of a folder full of these files so the heavy lifting will be on the *collecting* side of things ;)
 
 # Detection Logics & Lessons Learned
-You may think that WMI fileless persistence and malware execution mechanisms are a very low risk threat thus spending business cycles into creating a detection for this drops way down the list of priorities. It is, however, an extremely easy to detect tactic and if your priority list is not packed with threat scenarios like this one then you are not putting together a proper list! We all know looking at detailed TTPs is a tedious process, but only by adopting a systemic approach you will be able to extend your detection & prevention surface. It's an ants work, mixed with that of a dragon. 
+
+You may think that WMI fileless persistence and malware execution mechanisms are a very low risk threat thus spending business cycles into creating a detection for this drops way down the list of priorities. It is, however, **an extremely easy to detect tactic** and if your priority list is not packed with threat scenarios like this one then you are not putting together a proper list! 
+
+{% include bigquote.html content="We all know looking at detailed TTPs is a tedious process, but only by adopting a systemic approach you will be able to extend your detection & prevention surface. It's an ants work, mixed with that of a dragon" %}
 
 ## So, to summarize 
 
