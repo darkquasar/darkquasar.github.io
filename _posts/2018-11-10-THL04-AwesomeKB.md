@@ -21,7 +21,7 @@ published: true
 
 {% include note.html content="If you want to skip the TL;DR and get directly to the technical part, go to [Deploy your AwesomeKB](#deploy-your-awesomekb)" %}
 
-Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own plabooks and hunting ideas is a **must** to keep track of the ever changing threat landscape.
+Threat Hunting is as much an operational task as it is one of research and development . We are constantly investigating how threat vectors work and how to best detect them in our environments. As such, having an organized repository with our own playbooks and hunting ideas is a **must** to keep track of the ever changing threat landscape.
 
 I always tell my students they should start developing their personal Knowledge Base(s) and treat them with the highest respect. Why? well, you know our profession is one of continuous new developments and information pours from all over: twitter, podcasts, blogs, colleagues, courses, etc. To be successful as a cybersec pro, you need a way to avoid [infoxication](https://en.wikipedia.org/wiki/Information_overload). 
 
@@ -34,12 +34,12 @@ I always tell my students they should start developing their personal Knowledge 
 
 When mentoring other security analysts, I can never stress enough the importance of having your own KB. Think of it as *a space where you have control of how the information gets in and gets laid out*: an external HDD for your mind. However, your KB is more than just that, statically stored information on a HDD is not the best analogy. 
 
-> **A KB is the place were you tell a story the way you understand it**. By elucidating the connections between the different bits and pieces of data you absorb on a daily basis, you will create [information](https://www.guru99.com/difference-information-data.html): **linked data with a context, a purpose and its own semantic field**. From simple links about cool tools or blog posts, to complex explanations of a particular topic, *a KB is a must if you want to be at the top of your game*. Nevertheless, finding a nice, simple, cost friendly (ideally **free**) and available way of achieving this is not an easy task.
+> **A KB is the place where you tell a story the way you understand it**. By elucidating the connections between the different bits and pieces of data you absorb on a daily basis, you will create [information](https://www.guru99.com/difference-information-data.html): **linked data with a context, a purpose and its own semantic field**. From simple links about cool tools or blog posts, to complex explanations of a particular topic, *a KB is a must if you want to be at the top of your game*. Nevertheless, finding a nice, simple, cost friendly (ideally **free**) and available way of achieving this is not an easy task.
 
 In the face of this problem, I've kept multiple types of KBs along the years: word documents, simple .txt, OneNote, privately hosted wikis, etc. The problem with these solutions is that they are either **not scalable** (simple documents), **not available** from everywhere (locally hosted), **not elegant** (wikis), **cumbersome** (OneNote), **not free** ([private ReadTheDocs](https://readthedocs.com/pricing/)), **not automation-friendly** (all of them), **not code friendly** (some of them). I needed a solution that complied with the following requirements: 
 
 - **Markdown AND reStructuredText** friendly
-- **Programatic**, that is, allowing automation of some or all of the processes involved in producing documentation
+- **Programmatic**, that is, allowing automation of some or all of the processes involved in producing documentation
 - **Code friendly** (GitHub, GitLab)
 - **Graph friendly** (*I would like to be able to embed/display* [plotly-style](https://plot.ly/python/histograms/) *graphs created with my Jupyter Notebooks*)
 - **Secure**: 2FA 
@@ -50,7 +50,7 @@ In the face of this problem, I've kept multiple types of KBs along the years: wo
 - **FREE!** Yes, *as in what William Wallace wanted for Scotland*
 - **Low footprint** (ideally running on less than 512MB RAM)
 
-The first time I saw a solution that was elegant (beautiful and simple) and free was thanks to **darkoperator**'s ([Carlos Perez](https://twitter.com/carlos_perez)) post [here](https://www.darkoperator.com/blog/2017/12/10/nmba1hrmndda8m3eo7ipoh7bxvphz4). He had an excellent idea: *why not just organize your KB as Markdown documents hosted in a Gitlab/Github repo?* You have the advantage they can be rendered as HTML, Gitlab gives you free private repos by default, **and** they enjoy the flexibility of .md (conversion to other formats like pdf, etc.). Needless to say: I went this way, and it meant a huge improvement. However, *there were a few issues*: keeping updated TOC becames a nightmare as the KB grows, HTML rendering by these platforms can be very slow for big docos, no granular access control, lack of design flexibilities, etc. Also, using something like `Github Pages` to address the "lack of design freedom" means my documentation would be publicly available, which defeats the access control requirement. 
+The first time I saw a solution that was elegant (beautiful and simple) and free was thanks to **darkoperator**'s ([Carlos Perez](https://twitter.com/carlos_perez)) post [here](https://www.darkoperator.com/blog/2017/12/10/nmba1hrmndda8m3eo7ipoh7bxvphz4). He had an excellent idea: *why not just organize your KB as Markdown documents hosted in a Gitlab/Github repo?* You have the advantage they can be rendered as HTML, Gitlab gives you free private repos by default, **and** they enjoy the flexibility of .md (conversion to other formats like pdf, etc.). Needless to say: I went this way, and it meant a huge improvement. However, *there were a few issues*: keeping updated TOC becomes a nightmare as the KB grows, HTML rendering by these platforms can be very slow for big docos, no granular access control, lack of design flexibilities, etc. Also, using something like `Github Pages` to address the "lack of design freedom" means my documentation would be publicly available, which defeats the access control requirement. 
 
 So after much (unsuccessful) googling around for a solution that would achieve my goals I decided to compose one myself. That was early 2018 lol, it wasn't until recently that I actually **had the time** to develop this. 
 
@@ -222,7 +222,7 @@ In order to achieve this, we will use a docker container for sphinx, in this cas
 
 {% include note.html content="you can use whatever you want to achieve the same results like your own sphinx container. `darkquasar/inca-sphinx:1.0.0` comes with \"m2r\" plugin which converts any Markdown documents to their `reStructuredText` equivalents before sphinx converts them, in turn, to html. It also comes by default with the `readthedocs` theme. You can find the Dockerfile used to build inca-sphinx as **inca-sphinx-dockerfile**" %}
 
-The idea behind using Sphinx is that it is a highly versatile solution, with a prolific developers' community. Learning to write in .rst is not that different from Markdown and it's far more powerful. Sphinx will allow you to document things like your code effortlesly by extracting *docstrings* within them. You can read about this and many other features in their [official site](http://www.sphinx-doc.org)
+The idea behind using Sphinx is that it is a highly versatile solution, with a prolific developers' community. Learning to write in .rst is not that different from Markdown and it's far more powerful. Sphinx will allow you to document things like your code effortlessly by extracting *docstrings* within them. You can read about this and many other features in their [official site](http://www.sphinx-doc.org)
 
 ### 5. Running the KB Stack!
 
@@ -267,7 +267,7 @@ If you wonder, *why wouldn't I be able to just type in `https://awesomekb.ec2-8.
   
 {% endhighlight %}
 
-We have configured our nginx frontend portal to decline any connections made to a server other than the ones listed explicictly in the config (like [awesomekb.jstack.com]()). This server is called a *default server* and comes first in the list. The idea is to sinkhole any non-compliant attempts to access our webserver. **This way, there is only one entrance: via Authelia and 2FA**. 
+We have configured our nginx frontend portal to decline any connections made to a server other than the ones listed explicitly in the config (like [awesomekb.jstack.com]()). This server is called a *default server* and comes first in the list. The idea is to sinkhole any non-compliant attempts to access our webserver. **This way, there is only one entrance: via Authelia and 2FA**. 
 
 >  **What if I have my own domain.com?** well that's great, keep reading as I provide some guidance on that too further below.
 
@@ -368,7 +368,7 @@ What if you want to push changes to the documentation in your repos and have it 
 2. Create a Cron job
 3. Develop a script that can understand Github Webhooks
 
-In my case, I used **2** for the moment, since I don't have enought time (*what a limited resource!*) to develop the other options. So I will explain to you this one, because it's the easiest way of getting up and running. 
+In my case, I used **2** for the moment, since I don't have enough time (*what a limited resource!*) to develop the other options. So I will explain to you this one, because it's the easiest way of getting up and running. 
 
 1. Download `keychain` (`sudo apt-get install -y keychain`)
 2. Generate your SSH keys for the git service you connect to, in my case, Github: `ssh-keygen -t rsa -b 4096 -C "admin@jstack.com"` (accept defaults, it will store private and public key inside your `~/.ssh`) dir.
@@ -405,7 +405,7 @@ Totally, here are two ideas:
 
 You could deploy [fail2ban](https://www.linode.com/docs/security/using-fail2ban-for-security/) to configure jails for your host and thus prevent **bruteforce** attacks by banning suspicious IPs. A clever guy in the Authelia repo already published a [guide](https://github.com/clems4ever/authelia/issues/178) on how to do this with Authelia. Since we are logging logs from our containers into a host-based persistent volume, we should point the logs in `jail.local` to the authelia log files in our volume (also change `backend = systemd` to `backend = polling`, so it will poll those log files instead of relying on systemd, since we are using docker).
 
-{% include note.html content="I was able to set this all up and I could see how *fail2ban* would populate `iptables` with the blocked IPs. SSH bruteforce was effectively blocked, however, for some reason, HTTP access kept being accepted, regardless of iptables explicictly blocking the ip for all protocols. I did some `tcpdump` debugging and couldn't find any issues. I don't exactly know why this is the case (I sense it has something to do with AWS), if you get it working on your side, please ping me, post a comment or open an issue/PR in the github repo." %}
+{% include note.html content="I was able to set this all up and I could see how *fail2ban* would populate `iptables` with the blocked IPs. SSH bruteforce was effectively blocked, however, for some reason, HTTP access kept being accepted, regardless of iptables explicitly blocking the ip for all protocols. I did some `tcpdump` debugging and couldn't find any issues. I don't exactly know why this is the case (I sense it has something to do with AWS), if you get it working on your side, please ping me, post a comment or open an issue/PR in the github repo." %}
 
 #### Use Cloudflare SSL Proxy
 
@@ -415,7 +415,7 @@ Cloudflare will give you, **for free** (an account only needed), three massive b
 2. Free signed certificates to pass on to your **nginx portal** (instead of using your self-signed ones, prompting browsers to *trust self-singed certs* all the time)
 3. Ability to only accept traffic coming from Cloudflare proxies. This way, you can configure the security groups in your AWS instance to **only accept traffic from [Cloudflare IPs](https://www.cloudflare.com/ips/)**. Anyone bypassing Cloudflare as a CDN/proxy to your site will simply not be able to connect.
 
-{% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that bans direct access to the server unless the virtual server is explicictly specified" %}
+{% include note.html content="Point 3 above, adds to the security already embedded in the nginx configs that bans direct access to the server unless the virtual server is explicitly specified" %}
 
 ### Can we increase security even more? 
 
