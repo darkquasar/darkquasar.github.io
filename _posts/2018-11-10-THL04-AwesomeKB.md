@@ -55,7 +55,7 @@ The first time I saw a solution that was elegant (beautiful and simple) and free
 So after much (unsuccessful) googling around for a solution that would achieve my goals I decided to compose one myself. That was early 2018 lol, it wasn't until recently that I actually **had the time** to develop this. 
 
 {: style="text-align:center"}
-![meme-yoda-time](../img/THL004/meme-yoda-time-that.jpg)
+![meme-yoda-time](../img/THL004/meme-yoda-time-that.png)
 
 
 Enter **JSTACK-AWESOMEKB**. In this post, I'm going to walk you through the steps required to setup your own **AwesomeKB**. 
